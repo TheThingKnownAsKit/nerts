@@ -1,0 +1,25 @@
+{
+  "name": "nerts",
+  "version": "1.0.0",
+  "description": "Nerts game for RAIK-284H, Software Engineering IV",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheThingKnownAsKit/nerts.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TheThingKnownAsKit/nerts/issues"
+  },
+  "homepage": "https://github.com/TheThingKnownAsKit/nerts#readme",
+  "dependencies": {
+    "express": "^4.21.2",
+    "socket.io": "^4.8.1"
+  }
+}
