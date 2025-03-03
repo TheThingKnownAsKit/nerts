@@ -4,8 +4,19 @@ import Signup from "./pages/Signup.jsx";
 import Home from "./pages/Home.jsx";
 import Game from "./pages/Game.jsx";
 import './App.css'
+import { useEffect } from "react";
+import { io } from "socket.io-client";
+const socket = io("http://localhost:3000");
 
 function App() {
+
+  useEffect(() => {
+    socket.on("welcome", (message) => {
+      console.log("Server says:", message);
+      socket.emit("thanks", "Thanks for the welcome!");
+    });
+  }, []);
+
   return (
     <Router>
       <Routes>
