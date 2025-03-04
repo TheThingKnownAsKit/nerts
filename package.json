@@ -1,0 +1,26 @@
+{
+  "name": "nerts",
+  "version": "1.0.0",
+  "description": "1. Client",
+  "main": "index.js",
+  "scripts": {
+    "install-all": "npm install && npm install --prefix client && npm install --prefix server",
+    "start": "concurrently \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
+    "server": "cd server && npm run dev",
+    "client": "cd client && npm run dev"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/TheThingKnownAsKit/nerts.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/TheThingKnownAsKit/nerts/issues"
+  },
+  "homepage": "https://github.com/TheThingKnownAsKit/nerts#readme",
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

@@ -29,11 +29,19 @@ This will handle our back-end logic for websocket connections
 
 package-lock.json and package.json are automatically generated files that just manage the dependencies of the project
 
+# Installing Dependencies
+
+Running `npm run install-all` will install all dependencies in the project
+
 # Running Backend
 
-server.js is what actually starts everything, consider it the main
-To start the server: navigate to the top level folder that server.js is in and run `nodemon server.js`
+In the top-level directory, run `npm run server` to run only the back-end server
 
 # Running Frontend
 
-While the two parts are disconnected, to run the frontend navigate to the `client` folder and run `npm run dev`
+In the top-level directory, run `npm run client` to run only the front-end server
+
+# Running Servers Simultaneously
+
+If you need to run both in development, run `npm run start` to execute both server
+scripts simultaneously
