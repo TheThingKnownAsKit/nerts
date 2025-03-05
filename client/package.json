@@ -10,6 +10,8 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "dotenv": "^16.4.7",
+    "firebase": "^11.4.0",
     "nerts": "file:..",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",

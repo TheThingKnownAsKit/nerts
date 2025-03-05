@@ -3,6 +3,7 @@ import Landing from "./pages/Landing.jsx";
 import Signup from "./pages/Signup.jsx";
 import Home from "./pages/Home.jsx";
 import Game from "./pages/Game.jsx";
+import Login from "./pages/Login.jsx"
 import './App.css'
 import { useEffect } from "react";
 import { io } from "socket.io-client";
@@ -24,6 +25,7 @@ function App() {
         <Route path="/home" element={<Home />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/game" element={<Game />} />
+        <Route path="/login" element={<Login />} />
       </Routes>
     </Router>
   );
