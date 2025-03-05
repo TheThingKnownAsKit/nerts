@@ -1,0 +1,17 @@
+.user-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    margin-top: 8vw;
+}
+
+.user-image {
+    width: 12vw;
+    height: 12vw;
+}
+
+.user-name {
+    font-size: 4vw;
+    margin-left: 2vw;
+}

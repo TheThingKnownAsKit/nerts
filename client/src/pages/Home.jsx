@@ -1,5 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import Letters from "../components/Letters"
+import UserBox from '../components/UserBox';
 import './Home.css';
 
 // Sounds
@@ -22,9 +23,10 @@ function Home() {
 
     return (
         <div className="main centered">
+            <UserBox/>
             <Letters/>
             <SoundControl/>
-            <h1 onClick={() => navigate("/game")} onMouseEnter={playClick}>PLAY</h1>
+            <h1 onClick={() => navigate("/host")} onMouseEnter={playClick}>PLAY</h1>
             <h2 onClick={() => navigate("/rules")} onMouseEnter={playClick}>RULES</h2>
             <h2 onClick={() => navigate("/settings")} onMouseEnter={playClick}>SETTINGS</h2>
         </div>

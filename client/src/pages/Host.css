@@ -1,0 +1,40 @@
+.host {
+    margin-top: 15vw;
+    margin-bottom: 0.5vw;
+
+    font-size: 7vw;
+    font-weight: 100;
+}
+
+.join {
+    margin-bottom: 0px;
+
+    font-size: 6vw;
+    font-weight: 100;
+}
+
+.btn.play.no-select {
+    margin: 0px;
+}
+
+.input-container {
+    margin-top: 0.4vw;
+    display: flex;
+}
+
+.check-box {
+    height: 3vw;
+    width: 3vw;
+    background-color: rgba(255, 255, 255, 0.6);
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 0.5vw;
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.check-box:hover {
+    outline: 3px solid black;
+}

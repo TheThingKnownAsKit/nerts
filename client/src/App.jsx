@@ -6,6 +6,7 @@ import Game from "./pages/Game.jsx";
 import Host from "./pages/Host.jsx";
 import Settings from "./pages/Settings.jsx";
 import Rules from "./pages/Rules.jsx";
+import User from "./pages/User.jsx";
 import './App.css';
 import { useEffect } from "react";
 import { io } from "socket.io-client";
@@ -30,6 +31,7 @@ function App() {
         <Route path="/host" element={<Host />} />
         <Route path="/rules" element={<Rules />} />
         <Route path="/settings" element={<Settings />} />
+        <Route path="/user" element={<User />} />
       </Routes>
     </Router>
   );

@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import './SoundControl.css'
 
 import soundManager from '../logic/soundManager';
-import sound_on from '../assets/sound_on.png';
-import sound_off from '../assets/sound_off.png';
-import music_on from '../assets/music_on.png';
-import music_off from '../assets/music_off.png';
+import sound_on from '../assets/images/sound_on.png';
+import sound_off from '../assets/images/sound_off.png';
+import music_on from '../assets/images/music_on.png';
+import music_off from '../assets/images/music_off.png';
 import backgroundMusic from '../assets/sounds/background.mp3';
 import click from '../assets/sounds/click.mp3';
 

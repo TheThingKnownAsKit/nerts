@@ -12,10 +12,17 @@ body {
     margin: 0;
     min-width: 320px;
     min-height: 100vh;
-    background-image: url(./assets/background.png);
+    background-image: url(./assets/images/background.png);
 }
 
 .main {
     width: 100vw;
     height: 100vh;
+}
+
+.no-select {
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
 }
