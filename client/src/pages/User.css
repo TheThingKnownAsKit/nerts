@@ -3,7 +3,7 @@
     flex-direction: row;
     justify-content: space-between;
 
-    margin-top: 8vw;
+    padding-top: 8vw;
 }
 
 .user-image {
@@ -12,6 +12,43 @@
 }
 
 .user-name {
-    font-size: 4vw;
-    margin-left: 2vw;
+    font-size: 6vw;
+    font-weight: 100;
+    margin: 0 0 0 2vw;
+    padding-top: 4.5vw;
+}
+
+.user-edit {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+    margin-top: 1vw;
+}
+.change-user-image {
+    margin-top: 0px;
+    margin-right: 12.5vw;
+}
+
+.change-user-name {
+    margin-top: 0px;
+    margin-right: 3.5vw;
+}
+
+.stats {
+    display: flex;
+    flex-direction: column;
+    margin-top: 3vw;
+    align-items: left;
+    width: 35vw;
+}
+
+.stats h3 {
+    font-weight: 100;
+    font-size: 3vw;
+    margin: 0px;
+    padding: 0 0 1vw 0;
+
+    display: flex;
+    justify-content: space-between;
 }

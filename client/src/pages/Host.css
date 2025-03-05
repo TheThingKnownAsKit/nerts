@@ -1,5 +1,6 @@
 .host {
-    margin-top: 15vw;
+    padding-top: 15vw;
+    margin-top: 0px;
     margin-bottom: 0.5vw;
 
     font-size: 7vw;
@@ -18,7 +19,7 @@
 }
 
 .input-container {
-    margin-top: 0.4vw;
+    padding-top: 0.4vw;
     display: flex;
 }
 
