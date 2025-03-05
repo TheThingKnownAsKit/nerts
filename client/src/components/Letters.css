@@ -1,0 +1,26 @@
+.wiggle-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 10vw;
+    gap: 1vw;
+}
+
+.wiggle-letter {
+    height: 11vw;
+    width: auto;
+    animation: wiggle 2s infinite ease-in-out alternate;
+    user-select: none;
+}
+
+@keyframes wiggle {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}

@@ -1,8 +1,6 @@
 import { useNavigate } from "react-router-dom";
+import Letters from "../components/Letters";
 import './Landing.css';
-
-// Images
-import nertsLogo from "../assets/nerts.png";
 
 function Landing() {
     const navigate = useNavigate();
@@ -12,8 +10,8 @@ function Landing() {
     };
 
     return (
-        <div className="main">
-            <img src={nertsLogo} alt="Nerts logo" id="nerts-logo"/>
+        <div className="main centered">
+            <Letters/>
             <div id="login-signup">
                 <button onClick={handleLogin}>Login</button>
                 <button onClick={() => navigate("/signup")}>Signup</button>
