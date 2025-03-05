@@ -17,6 +17,8 @@ function Landing() {
             <div id="login-signup">
                 <button onClick={handleLogin}>Login</button>
                 <button onClick={() => navigate("/signup")}>Signup</button>
+                <button onClick={() => navigate('/settings')}>Settings</button>
+
             </div>
         </div>
     );

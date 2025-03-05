@@ -21,3 +21,89 @@ body {
     width: 100vw;
     height: 100vh;
 }
+
+/* src/Settings.css */
+
+/* Full-page background */
+.settings-page {
+    width: 100vw;
+    height: 100vh;
+    background-image: url(./assets/background.png);
+    background-color: #0a6830; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: sans-serif;
+  }
+  
+  /* Centered content box */
+  .settings-container {
+    background-color: rgba(0, 0, 0, 0.5); /* Dark overlay to see pattern behind it */
+    padding: 2rem;
+    border: 2px solid #aaa;
+    border-radius: 8px;
+    width: 500px;         /* Adjust as needed */
+    max-width: 90vw;      /* Responsive for smaller screens */
+    box-shadow: 0 0 10px rgba(0,0,0,0.3);
+  }
+  
+  /* Title */
+  .settings-title {
+    color: #fff;
+    text-align: center;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  /* Color swatches row */
+  .color-options {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+  }
+  
+  .color-swatch {
+    width: 30px;
+    height: 30px;
+    border: 2px solid #fff;
+    border-radius: 4px;
+    margin: 0 5px;
+    cursor: pointer;
+  }
+  
+  /* Each settings row (sound, music, deck hotkey, etc.) */
+  .settings-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #fff;
+    margin-bottom: 1rem;
+  }
+  
+  .settings-item label {
+    margin-right: 10px;
+    font-weight: 500;
+  }
+  
+  /* Back button container */
+  .back-button-container {
+    text-align: center;
+    margin-top: 2rem;
+  }
+  
+  /* Style for all buttons */
+  button {
+    background-color: #333;
+    color: #fff;
+    border: 1px solid #646cff;
+    border-radius: 6px;
+    padding: 0.6em 1.2em;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.25s;
+  }
+  
+  button:hover {
+    background-color: #555;
+  }
+  
