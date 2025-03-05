@@ -11,6 +11,8 @@
     width: auto;
     animation: wiggle 2s infinite ease-in-out alternate;
     user-select: none;
+    outline: none;
+    transition: outline 0.3s ease-in-out, filter 0.3s ease-in-out;
 }
 
 @keyframes wiggle {
@@ -23,4 +25,8 @@
     100% {
         transform: translateY(0px);
     }
+}
+
+.wiggle-letter.secret {
+    filter: invert(1);
 }
