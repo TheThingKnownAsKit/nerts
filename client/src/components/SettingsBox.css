@@ -82,3 +82,15 @@ button {
 button:hover {
     background-color: #555;
 }
+
+.slider {
+    width: 150px; 
+    margin-left: 1rem;
+  }
+  
+  .volume-label {
+    margin-left: 0.5rem;
+    font-size: 1rem;
+    color: #fff;
+  }
+  

@@ -1,21 +1,32 @@
 import React, { useState } from 'react';
 import './SettingsBox.css';
+import soundManager from '../logic/soundManager.js';
 
-const SettingsBox = () => {  
+const SettingsBox = () => {
   const [selectedColor, setSelectedColor] = useState(null);
-  const [soundEffects, setSoundEffects] = useState(true);
+  
+  const [soundEffectVolume, setSoundEffectVolume] = useState(50);
   const [music, setMusic] = useState(true);
   const [deckHotkey, setDeckHotkey] = useState(true);
   const [colorblind, setColorblind] = useState(true);
+
   const colors = ['#f2002b', '#f64021', '#f98016', '#ffff00', '#00cc66', '#496ddb', '#7209b7'];
-  
+
   const handleColorClick = (color) => {
     setSelectedColor(color);
   };
-  
+
+  const handleVolumeChange = (event) => {
+    const newVolume = Number(event.target.value);
+    setSoundEffectVolume(newVolume);
+    soundManager.setVolume(newVolume / 100);
+  };
+
   return (
     <div className="settings-box">
       <h3 className="title">SETTINGS</h3>
+      
+      {/* Color squares */}
       <div className="squares-container">
         {colors.map((color, index) => (
           <div
@@ -27,13 +38,21 @@ const SettingsBox = () => {
         ))}
       </div>
 
+      {/* Volume Slider*/}
       <div className="settings-item">
-        <label>Sound Effects:</label>
-        <button onClick={() => setSoundEffects(!soundEffects)}>
-          {soundEffects ? 'ON' : 'OFF'}
-        </button>
+        <label>Volume:</label>
+        <input
+          type="range"
+          min="0"
+          max="100"
+          value={soundEffectVolume}
+          onChange={handleVolumeChange}
+          className="slider"
+        />
+        <span className="volume-label">{soundEffectVolume}%</span>
       </div>
 
+      {/* Music ON/OFF */}
       <div className="settings-item">
         <label>Music:</label>
         <button onClick={() => setMusic(!music)}>
@@ -41,6 +60,7 @@ const SettingsBox = () => {
         </button>
       </div>
 
+      {/* Tab for Deck Hotkey ON/OFF */}
       <div className="settings-item">
         <label>Tab for Deck Hotkey:</label>
         <button onClick={() => setDeckHotkey(!deckHotkey)}>
@@ -48,6 +68,7 @@ const SettingsBox = () => {
         </button>
       </div>
 
+      {/* Colorblind Palette ON/OFF */}
       <div className="settings-item">
         <label>Colorblind Palette:</label>
         <button onClick={() => setColorblind(!colorblind)}>
