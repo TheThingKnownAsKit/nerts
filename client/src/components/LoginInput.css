@@ -1,4 +1,4 @@
-.custom-input {
+.login-input {
     border-radius: 1px;
     border: 1px solid transparent;
     font-size: 2vw;
@@ -8,8 +8,9 @@
     text-align: center;
     width: 8vw;
     box-sizing: border-box;
-}
-
-.custom-input:focus {
-    outline: 3px solid black; /* similar to the button hover effect */
-}
+  }
+  
+  .login-input:focus {
+    outline: 3px solid black;
+  }
+  

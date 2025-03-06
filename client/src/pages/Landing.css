@@ -22,6 +22,7 @@ button {
     flex-direction: column;
     margin-top: 2vw;
 }
+
 #login-signup button {
     margin-top: 0.5vw;
     width: 10vw;
@@ -32,4 +33,59 @@ button {
     background-size: cover;
     width: 50vw;
     margin-top: 5vw;
+}
+
+#login-signup input[type="text"],
+#login-signup input[type="password"] {
+    margin-top: 1vw;
+    width: 20vw;  
+    font-size: 1.5vw;
+    padding: 0.5em;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    text-align: left;  
+}
+
+.password-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.check-box {
+    height: 3vw;
+    width: 3vw;
+    background-color: rgba(255, 255, 255, 0.6);
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 1vw;
+    margin-top: 0.5vw; /* Moves the check mark down */
+    cursor: pointer;
+    font-size: 18px;
+}
+
+.check-box:hover {
+    outline: 3px solid black;
+}
+
+.signup-link {
+    margin-top: 1rem;
+    text-align: center;
+    color: #fff;
+    margin-bottom: 0.5rem;
+    font-size: 1.5vw;
+}
+
+.signup-link button {
+    width: 10vw;
+}
+
+.form-title {
+    font-size: 2vw;
+    color: #fff;
+    margin-bottom: 1vw;
+    text-align: center;
+    border: none; 
 }

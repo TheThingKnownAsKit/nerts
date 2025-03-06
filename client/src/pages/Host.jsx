@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 
 import BackButton from '../components/BackButton'
 import PlayButton from '../components/PlayButton'
-import CustomTextInput from '../components/CustomTextInput'
+import CustomTextInput from '../components/CustomTextInput.jsx'
 
 import './Host.css'
 

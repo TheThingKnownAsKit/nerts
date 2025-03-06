@@ -1,23 +1,60 @@
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Letters from "../components/Letters";
-import './Landing.css';
+import LoginInput from "../components/LoginInput"; 
+import soundManager from "../logic/soundManager.js";
+import click from "../assets/sounds/click.mp3";
+import "./Landing.css";
 
 function Landing() {
-    const navigate = useNavigate();
+  const navigate = useNavigate();
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
-    const handleLogin = () => {
-        navigate("/home");
-    };
+  const playClick = () => {
+    soundManager.loadSound("click", click);
+    soundManager.playSound("click");
+  };
 
-    return (
-        <div className="main centered">
-            <Letters/>
-            <div id="login-signup">
-                <button onClick={handleLogin}>Login</button>
-                <button onClick={() => navigate("/signup")}>Signup</button>
+  const handleLogin = (e) => {
+    e.preventDefault();
+    if (username && password) {
+      navigate("/home");
+    } else {
+      alert("Please fill out both username and password.");
+    }
+  };
+
+  return (
+    <div className="main centered">
+      <Letters />
+      <div id="login-signup">
+        <form onSubmit={handleLogin} className="login-form">
+          <LoginInput
+            type="text"
+            placeholder="Username"
+            value={username}
+            onChange={setUsername}
+          />
+          <div className="password-row">
+            <LoginInput
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={setPassword}
+            />
+            <div className="check-box" onClick={handleLogin} onMouseEnter={playClick}>
+              ✔
             </div>
+          </div>
+        </form>
+        <div className="signup-link">
+          <p>Don't have an account?</p>
+          <button onClick={() => navigate("/signup")}>Sign Up</button>
         </div>
-    );
+      </div>
+    </div>
+  );
 }
 
 export default Landing;
