@@ -5,6 +5,7 @@ import LoginInput from "../components/LoginInput";
 import soundManager from "../logic/soundManager.js";
 import click from "../assets/sounds/click.mp3";
 import "./Landing.css";
+import SoundControl from "../components/SoundControl";
 
 function Landing() {
   const navigate = useNavigate();
@@ -53,8 +54,10 @@ function Landing() {
           <button onClick={() => navigate("/signup")}>Sign Up</button>
         </div>
       </div>
+      <SoundControl />
     </div>
   );
 }
 
 export default Landing;
+

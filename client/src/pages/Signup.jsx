@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import Letters from "../components/Letters";
 import LoginInput from "../components/LoginInput"; 
 import "./Signup.css";
+import SoundControl from "../components/SoundControl";
 
 function Signup() {
   const navigate = useNavigate();
@@ -53,6 +54,7 @@ function Signup() {
           </div>
         </form>
       </div>
+      <SoundControl />
     </div>
   );
 }
