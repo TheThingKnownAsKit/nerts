@@ -58,6 +58,7 @@ button {
 
 .spacer-1vw {
     height: 1vw;
+    width: 1vw;
 }
 
 .password-row {
@@ -83,17 +84,14 @@ button {
     color: #fff;
     margin-bottom: 0px;
     font-size: 1.5vw;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    margin-right: 4vw;
 }
 
 .signup-link p {
     margin-bottom: 1vw;
-    margin-right: 4vw;
-}
-
-.signup-link button {
-    width: 10vw;
-    margin-top: 0vw;
-    margin-right: 4vw;
 }
 
 .form-title {

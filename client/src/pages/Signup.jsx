@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Letters from "../components/Letters";
-import LoginInput from "../components/LoginInput";
 import "./Signup.css";
-import NextButton from "../components/NextButton";
+import CustomTextInput from "../components/CustomTextInput";
+import CustomButton from "../components/CustomButton";
 
 function Signup() {
   const navigate = useNavigate();
@@ -31,28 +31,40 @@ function Signup() {
         <h3 className="form-title">Sign Up</h3>
 
         <form onSubmit={handleSignup} className="signup-form">
-          <LoginInput
+          <CustomTextInput
             type="text"
             placeholder="Username"
             value={username}
-            onChange={setUsername}
+            onChange={(e) => setUsername(e.target.value)}
+            centered={false}
+            max={20}
           />
           <div className="spacer-1vw"></div>
-          <LoginInput
+          <CustomTextInput
             type="password"
             placeholder="Password"
             value={password}
-            onChange={setPassword}
+            onChange={(e) => setPassword(e.target.value)}
+            centered={false}
+            max={20}
           />
           <div className="spacer-1vw"></div>
-          <LoginInput
+          <CustomTextInput
             type="password"
             placeholder="Confirm Password"
             value={confirmPassword}
-            onChange={setConfirmPassword}
+            onChange={(e) => setConfirmPassword(e.target.value)}
+            centered={false}
+            max={20}
           />
           <div className="spacer-1vw"></div>
-          <NextButton onClick={handleSignup}/>
+          <div className="button-row">
+            <CustomButton back={true} absolute={false} text={"Back"} />
+            <div className="spacer-1vw"></div>
+            <div className="spacer-1vw"></div>
+            <div className="spacer-1vw"></div>
+            <CustomButton back={false} absolute={false} text={"Next"} onClick={handleSignup}/>
+          </div>
         </form>
       </div>
     </div>

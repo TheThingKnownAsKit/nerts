@@ -1,6 +1,6 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import BackButton from "../components/BackButton";
+import CustomButton from "../components/CustomButton";
 import "./Rules.css";
 
 function Rules() {
@@ -8,8 +8,8 @@ function Rules() {
 
   return (
     <div className="rules-container">
-      <BackButton />
-      <div className="rules-top-right">
+        <CustomButton back={true} absolute={true} text={"Back"} />
+        <div className="rules-top-right">
         <p>
           Clicking your deck will flip 3 new cards at a time. Keep moving cards
           until you run out or your Nerts pile is empty.

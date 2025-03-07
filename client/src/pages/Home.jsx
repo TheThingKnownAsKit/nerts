@@ -22,12 +22,27 @@ function Home() {
 
     return (
         <div className="main centered">
-            <UserBox/>
             <Letters/>
+            <h1 onClick={() => navigate("/host")} onMouseEnter={playClick}
+                tabIndex="0"
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        navigate("/host")
+                    }}}
+                    >PLAY</h1>
+            <h2 onClick={() => navigate("/rules")} onMouseEnter={playClick}
+                tabIndex="0"
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        navigate("/rules")                    }}}>RULES</h2>
+            <h2 onClick={() => navigate("/settings")} onMouseEnter={playClick}
+                tabIndex="0"
+                onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                        navigate("/settings")
+                    }}}>SETTINGS</h2>
+            <UserBox/>
             <SoundControl/>
-            <h1 onClick={() => navigate("/host")} onMouseEnter={playClick}>PLAY</h1>
-            <h2 onClick={() => navigate("/rules")} onMouseEnter={playClick}>RULES</h2>
-            <h2 onClick={() => navigate("/settings")} onMouseEnter={playClick}>SETTINGS</h2>
         </div>
     );
 }

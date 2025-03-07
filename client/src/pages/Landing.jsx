@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Letters from "../components/Letters";
-import LoginInput from "../components/LoginInput"; 
+import CustomTextInput from "../components/CustomTextInput"; 
+import CustomButton from '../components/CustomButton'
 import "./Landing.css";
 
 function Landing() {
@@ -18,37 +19,45 @@ function Landing() {
     }
   };
 
+  const toSignup = () => {
+    navigate("/signup");
+  }
+
   return (
     <div className="main centered">
       <Letters />
       <div id="login-signup">
         <h3 className="form-title-landing">Login</h3>
         <form onSubmit={handleLogin} className="login-form">
-          <LoginInput
+          <CustomTextInput
             type="text"
             placeholder="Username"
             value={username}
-            onChange={setUsername}
+            centered={false}
+            onChange={(e) => setUsername(e.target.value)}
+            max={20}
           />
 
           <div className="spacer-1vw"></div>
 
           <div className="password-row">
-            <LoginInput
+            <CustomTextInput
               type="password"
               placeholder="Password"
               value={password}
-              onChange={setPassword}
+              centered={false}
+              onChange={(e) => setPassword(e.target.value)}
+              max={20}
             />
-             <NextButton onClick={handleLogin}/>
+            <CustomButton back={false} absolute={false} text={"Next"} onClick={handleLogin}/>
           </div>
         </form>
         <div className="signup-link">
           <p>Don't have an account?</p>
-          <button onClick={() => navigate("/signup")}>Sign Up</button>
+          <CustomButton back={false} absolute={false} text={"Sign Up!"} onClick={toSignup}/>
+        </div>
         </div>
       </div>
-    </div>
   );
 }
 

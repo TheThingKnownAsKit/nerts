@@ -5,27 +5,25 @@ import "./CustomTextInput.css";
 import soundManager from '../logic/soundManager.js';
 import click from '../assets/sounds/click.mp3';
 
-const CustomTextInput = ({ value, onChange, placeholder }) => {
+const CustomTextInput = ({ value, onChange, placeholder, center, type = "text", max}) => {
   
   soundManager.loadSound('click', click);
   function playClick() {
       soundManager.playSound('click');
   }
 
-  const handleInputChange = (event) => {
-    // Allow only numbers and prevent invalid characters
-    const newValue = event.target.value.replace(/[^0-9]/g, "");
-    onChange(newValue);
+  function change(event) {
     playClick();
-  };
+    onChange(event);
+  }
 
   return (
     <input
-      type="text"
-      className="custom-input"
+      type={type}
+      className={`custom-input ${center ? "center" : ""}`}
       value={value}
-      onChange={handleInputChange}
-      maxLength={4}
+      onChange={change}
+      maxLength={max}
       placeholder={placeholder || "Enter number here"}
       onClick={playClick}
     />

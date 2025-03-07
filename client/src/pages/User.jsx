@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import BackButton from '../components/BackButton'
+import CustomButton from '../components/CustomButton'
 import profile from '../assets/images/user.png';
 
 import './User.css'
@@ -9,7 +9,7 @@ function User() {
 
     return (
         <div className='main centered'>
-            <BackButton/>
+            <CustomButton back={true} absolute={true} text={"Back"} />
 
             <div className="user-header">
                 <img className="user-image no-select" src={profile} alt="Profile picture"/>

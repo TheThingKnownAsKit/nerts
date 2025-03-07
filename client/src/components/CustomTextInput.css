@@ -5,10 +5,13 @@
     font-family: inherit;
     background-color: rgba(255, 255, 255, 0.6);
     color: black;
-    text-align: center;
+    text-align: left;
     width: 8vw;
     box-sizing: border-box;
     border-radius: 5px;
+}
+.custom-input.center {
+    text-align: center;
 }
 
 .custom-input:focus {

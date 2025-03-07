@@ -17,3 +17,9 @@
     margin-right: 4.2vw;
     margin-top: 0px;
 }
+
+.button-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
