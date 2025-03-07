@@ -1,0 +1,30 @@
+.rules-container {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  padding: 2rem;
+  box-sizing: border-box;
+  color: #fff;
+  font-size: 1.2rem;
+  line-height: 1.5;
+}
+
+.rules-top-right {
+  position: absolute;
+  top: 2rem;
+  right: 2rem;
+  text-align: right;
+  max-width: 40vw;
+}
+
+.rules-bottom-left {
+  position: absolute;
+  bottom: 2rem;
+  left: 2rem;
+  text-align: left;
+  max-width: 40vw;
+}
+
+.rules-container p {
+  margin-bottom: 1rem;
+}
