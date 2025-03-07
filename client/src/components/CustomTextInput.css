@@ -8,6 +8,7 @@
     text-align: center;
     width: 8vw;
     box-sizing: border-box;
+    border-radius: 5px;
 }
 
 .custom-input:focus {

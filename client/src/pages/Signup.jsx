@@ -27,9 +27,9 @@ function Signup() {
   return (
     <div className="main centered">
       <Letters />
-      <div id="login-signup">
-        <div id="nerts-logo"></div>
-        <h2 className="form-title">Sign Up</h2>
+      <div id="login-signup" className="su">
+        <h3 className="form-title">Sign Up</h3>
+
         <form onSubmit={handleSignup} className="signup-form">
           <LoginInput
             type="text"
@@ -37,18 +37,21 @@ function Signup() {
             value={username}
             onChange={setUsername}
           />
+          <div className="spacer-1vw"></div>
           <LoginInput
             type="password"
             placeholder="Password"
             value={password}
             onChange={setPassword}
           />
+          <div className="spacer-1vw"></div>
           <LoginInput
             type="password"
             placeholder="Confirm Password"
             value={confirmPassword}
             onChange={setConfirmPassword}
           />
+          <div className="spacer-1vw"></div>
           <div className="check-box" onClick={handleSignup}>
             ✔
           </div>

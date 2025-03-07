@@ -6,6 +6,7 @@ h1 {
     font-weight: 100;
 
     margin: 2vw 0px 0px 0px;
+    color: white;
 }
 h2 {
     user-select: none;
@@ -17,6 +18,7 @@ h2 {
 
     margin: 0.5vw 0px 1.5vw 0px;
     border-bottom: 2px solid white;
+    color: white;
 }
 
 h1:hover,

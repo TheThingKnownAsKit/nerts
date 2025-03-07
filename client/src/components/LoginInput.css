@@ -1,5 +1,5 @@
 .login-input {
-    border-radius: 1px;
+    border-radius: 5px;
     border: 1px solid transparent;
     font-size: 2vw;
     font-family: inherit;
@@ -8,9 +8,8 @@
     text-align: center;
     width: 8vw;
     box-sizing: border-box;
-  }
-  
-  .login-input:focus {
+}
+
+.login-input:focus {
     outline: 3px solid black;
-  }
-  
+}

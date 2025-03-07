@@ -15,12 +15,22 @@ button {
     color: white;
 }
 
+.form-title-landing {
+    font-size: 2vw;
+    color: #fff;
+    margin-bottom: 1vw;
+    margin-top: 0px;
+    text-align: center;
+    border: none; /* Removes any border that might be applied */
+    margin-right: 4vw;
+}
+
 #login-signup {
     display: flex;
-    padding: 0.5em;
     justify-content: center;
     flex-direction: column;
-    margin-top: 2vw;
+    margin-top: 3vw;
+    margin-left: 2vw;
 }
 
 #login-signup button {
@@ -37,49 +47,53 @@ button {
 
 #login-signup input[type="text"],
 #login-signup input[type="password"] {
-    margin-top: 1vw;
-    width: 20vw;  
+    width: 20vw;
     font-size: 1.5vw;
     padding: 0.5em;
     border: 1px solid #ccc;
     border-radius: 6px;
-    text-align: left;  
+    text-align: left;
+    margin: 0px;
+}
+
+.spacer-1vw {
+    height: 1vw;
 }
 
 .password-row {
     display: flex;
     align-items: center;
     justify-content: center;
+    margin: 0px;
+    padding: 0px;
 }
 
-.check-box {
-    height: 3vw;
-    width: 3vw;
-    background-color: rgba(255, 255, 255, 0.6);
-    color: black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+.check-box.login {
+    margin: 0px;
+    padding: 0px;
+    height: 3.2vw;
+    width: 3.2vw;
     margin-left: 1vw;
-    margin-top: 0.5vw; /* Moves the check mark down */
-    cursor: pointer;
-    font-size: 18px;
-}
-
-.check-box:hover {
-    outline: 3px solid black;
+    border-radius: 5px;
 }
 
 .signup-link {
-    margin-top: 1rem;
+    margin-top: 0vw;
     text-align: center;
     color: #fff;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0px;
     font-size: 1.5vw;
+}
+
+.signup-link p {
+    margin-bottom: 1vw;
+    margin-right: 4vw;
 }
 
 .signup-link button {
     width: 10vw;
+    margin-top: 0vw;
+    margin-right: 4vw;
 }
 
 .form-title {
@@ -87,5 +101,5 @@ button {
     color: #fff;
     margin-bottom: 1vw;
     text-align: center;
-    border: none; 
+    border: none;
 }

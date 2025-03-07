@@ -30,6 +30,7 @@ function Landing() {
     <div className="main centered">
       <Letters />
       <div id="login-signup">
+        <h3 className="form-title-landing">Login</h3>
         <form onSubmit={handleLogin} className="login-form">
           <LoginInput
             type="text"
@@ -37,6 +38,9 @@ function Landing() {
             value={username}
             onChange={setUsername}
           />
+          
+          <div className="spacer-1vw"></div>
+
           <div className="password-row">
             <LoginInput
               type="password"
@@ -44,7 +48,7 @@ function Landing() {
               value={password}
               onChange={setPassword}
             />
-            <div className="check-box" onClick={handleLogin} onMouseEnter={playClick}>
+            <div className="check-box login" onClick={handleLogin} onMouseEnter={playClick}>
               ✔
             </div>
           </div>
