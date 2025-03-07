@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Letters from "../components/Letters";
-import LoginInput from "../components/LoginInput"; 
+import LoginInput from "../components/LoginInput";
 import soundManager from "../logic/soundManager.js";
 import click from "../assets/sounds/click.mp3";
 import "./Landing.css";
-import SoundControl from "../components/SoundControl";
 
 function Landing() {
   const navigate = useNavigate();
@@ -38,7 +37,7 @@ function Landing() {
             value={username}
             onChange={setUsername}
           />
-          
+
           <div className="spacer-1vw"></div>
 
           <div className="password-row">
@@ -48,7 +47,11 @@ function Landing() {
               value={password}
               onChange={setPassword}
             />
-            <div className="check-box login" onClick={handleLogin} onMouseEnter={playClick}>
+            <div
+              className="check-box login"
+              onClick={handleLogin}
+              onMouseEnter={playClick}
+            >
               ✔
             </div>
           </div>
@@ -58,10 +61,8 @@ function Landing() {
           <button onClick={() => navigate("/signup")}>Sign Up</button>
         </div>
       </div>
-      <SoundControl />
     </div>
   );
 }
 
 export default Landing;
-
