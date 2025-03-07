@@ -1,9 +1,8 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Letters from "../components/Letters";
-import LoginInput from "../components/LoginInput"; 
+import LoginInput from "../components/LoginInput";
 import "./Signup.css";
-import SoundControl from "../components/SoundControl";
 import NextButton from "../components/NextButton";
 
 function Signup() {
@@ -56,7 +55,6 @@ function Signup() {
           <NextButton onClick={handleSignup}/>
         </form>
       </div>
-      <SoundControl />
     </div>
   );
 }
