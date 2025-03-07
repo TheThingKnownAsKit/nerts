@@ -1,0 +1,17 @@
+.next-button {
+    height: 3vw;
+    width: 4vw;
+    background-color: rgba(255, 255, 255, 0.6);
+    color: black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 0.5vw;
+    cursor: pointer;
+    font-size: 1.6vw;
+    border-radius: 5px;
+}
+
+.next-button:hover {
+    outline: 3px solid black;
+}

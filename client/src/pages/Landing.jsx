@@ -2,20 +2,15 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Letters from "../components/Letters";
 import LoginInput from "../components/LoginInput"; 
-import soundManager from "../logic/soundManager.js";
-import click from "../assets/sounds/click.mp3";
+
 import "./Landing.css";
 import SoundControl from "../components/SoundControl";
+import NextButton from "../components/NextButton.jsx";
 
 function Landing() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-
-  const playClick = () => {
-    soundManager.loadSound("click", click);
-    soundManager.playSound("click");
-  };
 
   const handleLogin = (e) => {
     e.preventDefault();
@@ -48,9 +43,7 @@ function Landing() {
               value={password}
               onChange={setPassword}
             />
-            <div className="check-box login" onClick={handleLogin} onMouseEnter={playClick}>
-              ✔
-            </div>
+             <NextButton onClick={handleLogin}/>
           </div>
         </form>
         <div className="signup-link">

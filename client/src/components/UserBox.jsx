@@ -20,7 +20,14 @@ const UserBox = () => {
     };
 
     return (
-        <div className="user-box" onMouseEnter={playClick}>
+        <div className="user-box"
+            onMouseEnter={playClick}
+            tabIndex="0"
+            onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    handleUserClick(e);
+                }
+            }}>
             <div className="icon" onClick={handleUserClick}>
                 <img src={profile} alt="User Profile"/>
             </div>

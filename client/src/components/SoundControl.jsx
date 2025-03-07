@@ -45,15 +45,36 @@ const SoundControl = () => {
 
   return (
     <div className="sound-control">
-      <div className="sound-toggle" onClick={handleSoundToggle} onMouseEnter={playClick}>
+      <div
+        className="sound-toggle"
+        onClick={handleSoundToggle}
+        onMouseEnter={playClick}
+        tabIndex="0"
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            handleSoundToggle();
+          }
+        }}
+      >
         <img src={isSoundOn ? sound_on : sound_off} alt="Sound toggle" />
       </div>
-
-      <div className="music-toggle" onClick={handleMusicToggle} onMouseEnter={playClick}>
+  
+      <div
+        className="music-toggle"
+        onClick={handleMusicToggle}
+        onMouseEnter={playClick}
+        tabIndex="0"
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') {
+            handleMusicToggle();
+          }
+        }}
+      >
         <img src={isMusicOn ? music_on : music_off} alt="Music toggle" />
       </div>
     </div>
   );
+  
 };
 
 export default SoundControl;

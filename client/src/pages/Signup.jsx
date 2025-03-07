@@ -4,6 +4,7 @@ import Letters from "../components/Letters";
 import LoginInput from "../components/LoginInput"; 
 import "./Signup.css";
 import SoundControl from "../components/SoundControl";
+import NextButton from "../components/NextButton";
 
 function Signup() {
   const navigate = useNavigate();
@@ -52,9 +53,7 @@ function Signup() {
             onChange={setConfirmPassword}
           />
           <div className="spacer-1vw"></div>
-          <div className="check-box" onClick={handleSignup}>
-            ✔
-          </div>
+          <NextButton onClick={handleSignup}/>
         </form>
       </div>
       <SoundControl />

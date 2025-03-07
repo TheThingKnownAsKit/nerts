@@ -22,20 +22,3 @@
     padding-top: 0.4vw;
     display: flex;
 }
-
-.check-box {
-    height: 3vw;
-    width: 3vw;
-    background-color: rgba(255, 255, 255, 0.6);
-    color: black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 0.5vw;
-    cursor: pointer;
-    font-size: 18px;
-}
-
-.check-box:hover {
-    outline: 3px solid black;
-}

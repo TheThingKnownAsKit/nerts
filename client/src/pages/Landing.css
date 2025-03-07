@@ -30,7 +30,7 @@ button {
     justify-content: center;
     flex-direction: column;
     margin-top: 3vw;
-    margin-left: 2vw;
+    margin-left: 1.5vw;
 }
 
 #login-signup button {
@@ -72,7 +72,7 @@ button {
     margin: 0px;
     padding: 0px;
     height: 3.2vw;
-    width: 3.2vw;
+    width: 4vw;
     margin-left: 1vw;
     border-radius: 5px;
 }
