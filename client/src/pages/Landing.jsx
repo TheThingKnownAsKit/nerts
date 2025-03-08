@@ -1,27 +1,40 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Letters from "../components/Letters";
-import CustomTextInput from "../components/CustomTextInput"; 
-import CustomButton from '../components/CustomButton'
+import CustomTextInput from "../components/CustomTextInput";
+import CustomButton from "../components/CustomButton";
 import "./Landing.css";
+import { auth } from "../firebase/config";
+import { signInWithEmailAndPassword } from "firebase/auth";
 
 function Landing() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    if (username && password) {
+
+    //TODO: This might need to change to actual username and email stuff
+    const email = username;
+
+    try {
+      const userCredential = await signInWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      console.log("User logged in:", userCredential.user);
       navigate("/home");
-    } else {
-      alert("Please fill out both username and password.");
+    } catch (error) {
+      // TODO: Different error messages on different login mistake cases
+      console.error("Error logging in:", error.message);
     }
   };
 
   const toSignup = () => {
     navigate("/signup");
-  }
+  };
 
   return (
     <div className="main centered">
@@ -35,7 +48,7 @@ function Landing() {
             value={username}
             centered={false}
             onChange={(e) => setUsername(e.target.value)}
-            max={20}
+            max={30} //TODO: We changed this just to get working
           />
 
           <div className="spacer-1vw"></div>
@@ -49,15 +62,25 @@ function Landing() {
               onChange={(e) => setPassword(e.target.value)}
               max={20}
             />
-            <CustomButton back={false} absolute={false} text={"Next"} onClick={handleLogin}/>
+            <CustomButton
+              back={false}
+              absolute={false}
+              text={"Next"}
+              onClick={handleLogin}
+            />
           </div>
         </form>
         <div className="signup-link">
           <p>Don't have an account?</p>
-          <CustomButton back={false} absolute={false} text={"Sign Up!"} onClick={toSignup}/>
-        </div>
+          <CustomButton
+            back={false}
+            absolute={false}
+            text={"Sign Up!"}
+            onClick={toSignup}
+          />
         </div>
       </div>
+    </div>
   );
 }
 

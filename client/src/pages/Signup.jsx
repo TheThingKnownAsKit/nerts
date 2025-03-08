@@ -4,6 +4,8 @@ import Letters from "../components/Letters";
 import "./Signup.css";
 import CustomTextInput from "../components/CustomTextInput";
 import CustomButton from "../components/CustomButton";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { auth } from "../firebase/config";
 
 function Signup() {
   const navigate = useNavigate();
@@ -11,17 +13,23 @@ function Signup() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  const handleSignup = (e) => {
+  const handleSignup = async (e) => {
     e.preventDefault();
-    if (!username || !password || !confirmPassword) {
-      alert("Please fill out all fields.");
-      return;
+
+    //TODO: This might need to change to actual username and email stuff
+    const email = username;
+
+    try {
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      console.log("User signed up:", userCredential.user);
+      navigate("/home");
+    } catch (error) {
+      console.error("Error signing up:", error.message);
     }
-    if (password !== confirmPassword) {
-      alert("Passwords do not match.");
-      return;
-    }
-    navigate("/home");
   };
 
   return (
@@ -63,7 +71,12 @@ function Signup() {
             <div className="spacer-1vw"></div>
             <div className="spacer-1vw"></div>
             <div className="spacer-1vw"></div>
-            <CustomButton back={false} absolute={false} text={"Next"} onClick={handleSignup}/>
+            <CustomButton
+              back={false}
+              absolute={false}
+              text={"Next"}
+              onClick={handleSignup}
+            />
           </div>
         </form>
       </div>
