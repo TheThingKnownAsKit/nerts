@@ -7,13 +7,12 @@ import Host from "./pages/Host.jsx";
 import Settings from "./pages/Settings.jsx";
 import Rules from "./pages/Rules.jsx";
 import User from "./pages/User.jsx";
-import './App.css';
+import "./App.css";
 import { useEffect } from "react";
 import { io } from "socket.io-client";
 const socket = io("http://localhost:3000");
 
 function App() {
-
   useEffect(() => {
     socket.on("welcome", (message) => {
       console.log("Server says:", message);
@@ -27,7 +26,7 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/home" element={<Home />} />
         <Route path="/signup" element={<Signup />} />
-        <Route path="/game" element={<Game />} />
+        <Route path="/game/:lobbyID" element={<Game />} />
         <Route path="/host" element={<Host />} />
         <Route path="/rules" element={<Rules />} />
         <Route path="/settings" element={<Settings />} />
@@ -37,4 +36,4 @@ function App() {
   );
 }
 
-export default App
+export default App;
