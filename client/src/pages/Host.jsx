@@ -3,12 +3,19 @@ import { useNavigate } from "react-router-dom";
 import { socket, createLobby, joinLobby } from "../logic/socket";
 import CustomTextInput from "../components/CustomTextInput.jsx";
 import CustomButton from "../components/CustomButton.jsx";
+import soundManager from "../logic/soundManager.js";
+import backgroundMusic from "../assets/sounds/background.mp3";
 
 import "./Host.css";
 
 function Host() {
   const navigate = useNavigate();
   const [lobbyID, setLobbyID] = useState("");
+
+  // Starts music back up if refreshed on this page
+  if (!soundManager.backgroundMusic && localStorage.getItem("isMusicOn") == "true") {
+    soundManager.playBackgroundMusic(backgroundMusic);
+  }
 
   // Handle changes for input
   const handleLobbyIDChange = (newLobbyID) => {

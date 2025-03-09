@@ -5,7 +5,7 @@ function PlayerArea({ corner, children }) {
     <div className={`player-area ${corner}`}>
       <div className="top-row">
         <div className="nerts-pile dashed-outline"></div>
-        <div className="play-pile dashed-outline">{children}</div>
+        <div className="work-pile dashed-outline">{children}</div>
       </div>
       <div className="bottom-row">
         <div className="stock-pile dashed-outline"></div>

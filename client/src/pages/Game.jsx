@@ -1,5 +1,6 @@
 import Card from "../components/Card.jsx";
 import PlayerArea from "../components/PlayerArea.jsx";
+import CommonArea from "../components/CommonArea.jsx";
 import { useParams } from "react-router-dom";
 
 function Game() {
@@ -8,6 +9,8 @@ function Game() {
   return (
     <>
       <h3>Game: {lobbyID}</h3>
+
+      <CommonArea/>
 
       <PlayerArea corner="tm">
         <Card rank={5} suit={"diamonds"} />
