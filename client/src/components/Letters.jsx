@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import "./Letters.css";
 
-import soundManager from '../logic/soundManager.js';
-import play from '../assets/sounds/play.mp3';
+import soundManager from "../logic/soundManager.js";
+import play from "../assets/sounds/play.mp3";
 
 const letters = ["N", "E", "R", "T", "S", "!"];
 
@@ -11,9 +11,9 @@ const Letters = () => {
     letters.reduce((acc, letter) => ({ ...acc, [letter]: 0 }), {})
   );
 
-  soundManager.loadSound('play', play);
+  soundManager.loadSound("play", play);
   function playPlay() {
-    soundManager.playSound('play');
+    soundManager.playSound("play");
   }
 
   const handleClick = (letter) => {
@@ -33,7 +33,7 @@ const Letters = () => {
           <img
             key={index}
             src={`/src/assets/images/letters/${letter}.png`}
-            className={`wiggle-letter ${isSecret ? 'secret' : ''}`}
+            className={`wiggle-letter ${isSecret ? "secret" : ""}`}
             draggable="false"
             onClick={() => handleClick(letter)}
             style={{ animationDelay: `${index * 0.2}s` }} // Offsets each letter

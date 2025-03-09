@@ -1,33 +1,33 @@
 .custom-button {
-    height: 3vw;
-    width: fit-content;
-    background-color: rgba(255, 255, 255, 0.6);
-    color: black;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-left: 0.5vw;
-    cursor: pointer;
-    font-size: 1.6vw;
-    border-radius: 5px;
-    position: relative;
-    padding-left: 1vw;
-    padding-right: 1vw;
-    outline: 3px solid transparent;
+  height: 3vw;
+  width: fit-content;
+  background-color: rgba(255, 255, 255, 0.6);
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 0.5vw;
+  cursor: pointer;
+  font-size: 1.6vw;
+  border-radius: 5px;
+  position: relative;
+  padding-left: 1vw;
+  padding-right: 1vw;
+  outline: 3px solid transparent;
 }
 
 .custom-button.absolute {
-    position: absolute;
-    left: 2vw;
-    top: 2vw;
+  position: absolute;
+  left: 2vw;
+  top: 2vw;
 }
 
 .custom-button:hover {
-    outline: 3px solid black;
+  outline: 3px solid black;
 }
 
 /* Add custom focus outline for accessibility */
 .custom-button:focus {
-    outline: 3px solid blue;
-    outline-offset: 2px;
+  outline: 3px solid blue;
+  outline-offset: 2px;
 }

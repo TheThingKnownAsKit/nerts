@@ -2,14 +2,20 @@ import React from "react";
 import "./CustomTextInput.css";
 
 // Sounds
-import soundManager from '../logic/soundManager.js';
-import click from '../assets/sounds/click.mp3';
+import soundManager from "../logic/soundManager.js";
+import click from "../assets/sounds/click.mp3";
 
-const CustomTextInput = ({ value, onChange, placeholder, center, type = "text", max}) => {
-  
-  soundManager.loadSound('click', click);
+const CustomTextInput = ({
+  value,
+  onChange,
+  placeholder,
+  center,
+  type = "text",
+  max,
+}) => {
+  soundManager.loadSound("click", click);
   function playClick() {
-      soundManager.playSound('click');
+    soundManager.playSound("click");
   }
 
   function change(event) {

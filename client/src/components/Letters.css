@@ -1,36 +1,37 @@
 .wiggle-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding-top: 14vw;
-    gap: 1vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-top: 14vw;
+  gap: 1vw;
 }
 
 .wiggle-letter {
-    height: 11vw;
-    width: auto;
-    animation: wiggle 2s infinite ease-in-out alternate;
-    user-select: none;
-    outline: none;
-    transition: outline 0.3s ease-in-out, filter 0.3s ease-in-out;
+  height: 11vw;
+  width: auto;
+  animation: wiggle 2s infinite ease-in-out alternate;
+  user-select: none;
+  outline: none;
+  transition: outline 0.3s ease-in-out, filter 0.3s ease-in-out;
 }
 
 @keyframes wiggle {
-    0% {
-        transform: translateY(0px);
-    }
-    50% {
-        transform: translateY(-10px);
-    }
-    100% {
-        transform: translateY(0px);
-    }
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
 }
 
 .wiggle-letter.secret {
-    filter: invert(1) saturate(2) contrast(1.5) brightness(1.2) hue-rotate(60deg);
+  filter: invert(1) saturate(2) contrast(1.5) brightness(1.2) hue-rotate(60deg);
 }
 
 .wiggle-letter.secret:hover {
-    filter: blur(3px) brightness(1.5) saturate(3) drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.5));
+  filter: blur(3px) brightness(1.5) saturate(3)
+    drop-shadow(5px 5px 10px rgba(0, 0, 0, 0.5));
 }

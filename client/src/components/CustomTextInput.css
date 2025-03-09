@@ -1,19 +1,19 @@
 .custom-input {
-    border-radius: 1px;
-    border: 1px solid transparent;
-    font-size: 2vw;
-    font-family: inherit;
-    background-color: rgba(255, 255, 255, 0.6);
-    color: black;
-    text-align: left;
-    width: 8vw;
-    box-sizing: border-box;
-    border-radius: 5px;
+  border-radius: 1px;
+  border: 1px solid transparent;
+  font-size: 2vw;
+  font-family: inherit;
+  background-color: rgba(255, 255, 255, 0.6);
+  color: black;
+  text-align: left;
+  width: 8vw;
+  box-sizing: border-box;
+  border-radius: 5px;
 }
 .custom-input.center {
-    text-align: center;
+  text-align: center;
 }
 
 .custom-input:focus {
-    outline: 3px solid black; /* similar to the button hover effect */
+  outline: 3px solid black; /* similar to the button hover effect */
 }

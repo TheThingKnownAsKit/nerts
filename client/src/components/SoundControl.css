@@ -1,22 +1,22 @@
 .sound-control {
-    position: absolute;
-    right: 2vw;
-    bottom: 1vw;
-    display: flex;
-    flex-direction: row;
-    user-select: none;
+  position: absolute;
+  right: 2vw;
+  bottom: 1vw;
+  display: flex;
+  flex-direction: row;
+  user-select: none;
 }
 
 .music-toggle img,
 .sound-toggle img {
-    width: 4vw;
-    height: 4vw;
-    margin: 0.5vw;
-    user-select: none;
-    -webkit-user-drag: none;
+  width: 4vw;
+  height: 4vw;
+  margin: 0.5vw;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 .music-toggle img:hover,
 .sound-toggle img:hover {
-    transform: scale(1.1);
+  transform: scale(1.1);
 }

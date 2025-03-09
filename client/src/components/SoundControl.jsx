@@ -1,21 +1,21 @@
-import React, { useState, useEffect } from 'react';
-import './SoundControl.css'
+import React, { useState, useEffect } from "react";
+import "./SoundControl.css";
 
-import soundManager from '../logic/soundManager';
-import sound_on from '../assets/images/sound_on.png';
-import sound_off from '../assets/images/sound_off.png';
-import music_on from '../assets/images/music_on.png';
-import music_off from '../assets/images/music_off.png';
-import backgroundMusic from '../assets/sounds/background.mp3';
-import click from '../assets/sounds/click.mp3';
+import soundManager from "../logic/soundManager";
+import sound_on from "../assets/images/sound_on.png";
+import sound_off from "../assets/images/sound_off.png";
+import music_on from "../assets/images/music_on.png";
+import music_off from "../assets/images/music_off.png";
+import backgroundMusic from "../assets/sounds/background.mp3";
+import click from "../assets/sounds/click.mp3";
 
 const SoundControl = () => {
-  const [isSoundOn, setIsSoundOn] = useState(true);  // Default to sound on
-  const [isMusicOn, setIsMusicOn] = useState(true);  // Default to music on
+  const [isSoundOn, setIsSoundOn] = useState(true); // Default to sound on
+  const [isMusicOn, setIsMusicOn] = useState(true); // Default to music on
 
-  soundManager.loadSound('click', click);
+  soundManager.loadSound("click", click);
   function playClick() {
-      soundManager.playSound('click');
+    soundManager.playSound("click");
   }
 
   // Use effect manages sound and music behavior based on the state
@@ -27,7 +27,10 @@ const SoundControl = () => {
     }
 
     if (isMusicOn) {
-      if (!soundManager.backgroundMusic || soundManager.backgroundMusic.paused) {
+      if (
+        !soundManager.backgroundMusic ||
+        soundManager.backgroundMusic.paused
+      ) {
         soundManager.playBackgroundMusic(backgroundMusic);
       }
     } else {
@@ -51,21 +54,21 @@ const SoundControl = () => {
         onMouseEnter={playClick}
         tabIndex="0"
         onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
+          if (e.key === "Enter" || e.key === " ") {
             handleSoundToggle();
           }
         }}
       >
         <img src={isSoundOn ? sound_on : sound_off} alt="Sound toggle" />
       </div>
-  
+
       <div
         className="music-toggle"
         onClick={handleMusicToggle}
         onMouseEnter={playClick}
         tabIndex="0"
         onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') {
+          if (e.key === "Enter" || e.key === " ") {
             handleMusicToggle();
           }
         }}
@@ -74,7 +77,6 @@ const SoundControl = () => {
       </div>
     </div>
   );
-  
 };
 
 export default SoundControl;

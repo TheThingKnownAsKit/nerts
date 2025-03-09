@@ -17,7 +17,6 @@ function Host() {
 
   const handleJoinLobby = () => {
     if (lobbyID) {
-      console.log(lobbyID);
       socket.emit("joinLobby", { lobbyID });
     } else {
       console.log("Input is empty.");
