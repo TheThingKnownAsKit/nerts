@@ -23,3 +23,7 @@
   flex-direction: row;
   justify-content: space-between;
 }
+
+.spacer-1vw {
+  height: 1vw;
+}

@@ -9,6 +9,7 @@ import { auth } from "../firebase/config";
 
 function Signup() {
   const navigate = useNavigate();
+  const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -39,6 +40,15 @@ function Signup() {
         <h3 className="form-title">Sign Up</h3>
 
         <form onSubmit={handleSignup} className="signup-form">
+          <CustomTextInput
+            type="text"
+            placeholder="Email Address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            centered={false}
+            max={30}
+          />
+          <div className="spacer-1vw"></div>
           <CustomTextInput
             type="text"
             placeholder="Username"
