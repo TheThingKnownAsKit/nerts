@@ -57,15 +57,6 @@ function Signup() {
         <h3 className="form-title">Sign Up</h3>
 
         <form onSubmit={handleSignup} className="signup-form">
-        <CustomTextInput
-            type="text"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            centered={false}
-            max={30}
-          />
-          <div className="spacer-1vw"></div>
           <CustomTextInput
             type="text"
             placeholder="Email Address"
