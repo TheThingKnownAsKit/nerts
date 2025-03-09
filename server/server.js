@@ -14,7 +14,7 @@ const io = socketio(expressServer, {
 
 io.on("connect", (socket) => {
   socket.on("createLobby", () => {
-    const lobbyID = Math.random().toString(36).substr(2, 6).toUpperCase();
+    const lobbyID = Math.random().toString(36).slice(2, 8).toUpperCase();
     socket.join(lobbyID); // This line creates (or joins) the room
     io.to(socket.id).emit("lobbyCreated", { lobbyID });
   });
