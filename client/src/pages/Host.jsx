@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import socket from "../logic/socket";
+import { socket, createLobby, joinLobby } from "../logic/socket";
 import CustomTextInput from "../components/CustomTextInput.jsx";
 import CustomButton from "../components/CustomButton.jsx";
 
@@ -15,22 +15,22 @@ function Host() {
     setLobbyID(newLobbyID);
   };
 
+  const handleCreateLobby = () => {
+    createLobby();
+  };
+
   const handleJoinLobby = () => {
     if (lobbyID) {
-      socket.emit("joinLobby", { lobbyID });
+      joinLobby(lobbyID);
     } else {
       console.log("Input is empty.");
     }
   };
 
   const handleInputChange = (event) => {
-    // Allow only numbers and prevent invalid characters
+    // Allow only alphanumeric inputs to prevent invalid characters
     const newValue = event.target.value.replace(/[^a-zA-Z0-9]/g, "");
     handleLobbyIDChange(newValue);
-  };
-
-  const handleCreateLobby = () => {
-    socket.emit("createLobby");
   };
 
   useEffect(() => {
@@ -38,18 +38,13 @@ function Host() {
       navigate(`/game/${lobbyID}`);
     });
 
-    return () => {
-      socket.off("lobbyCreated");
-    };
-  }, []);
-
-  useEffect(() => {
     socket.on("lobbyJoined", ({ lobbyID }) => {
       navigate(`/game/${lobbyID}`);
     });
 
     return () => {
       socket.off("lobbyCreated");
+      socket.off("lobbyJoined");
     };
   }, []);
 
@@ -61,7 +56,7 @@ function Host() {
       <CustomButton
         back={false}
         absolute={false}
-        text={"Create Game"}
+        text={"Create Lobby"}
         onClick={handleCreateLobby}
       />
 
