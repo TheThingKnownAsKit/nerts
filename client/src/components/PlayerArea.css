@@ -1,13 +1,13 @@
 .nerts-pile {
-  width: 13vw;
-  height: 8.5vw;
+  width: 10vw;
+  height: 6vw;
   margin: 0.5vw;
   padding: 0.25vw;
 }
 .play-pile {
   display: flex;
   width: 26vw;
-  height: 8.5vw;
+  height: 6vw;
   margin: 0.5vw;
   justify-content: space-around;
   align-items: center;
@@ -15,13 +15,13 @@
 }
 .stock-pile {
   width: 13vw;
-  height: 8.5vw;
+  height: 6vw;
   margin: 0.5vw;
   padding: 0.25vw;
 }
 .profile-info {
   width: 23vw;
-  height: 8.5vw;
+  height: 6vw;
   margin: 0.5vw;
   outline: 1px solid white;
   padding: 0.25vw;
@@ -60,4 +60,14 @@
 .player-area.br {
   bottom: 3vw;
   right: 8vw;
+}
+
+.player-area.tm {
+  top: 3vw;
+  right: 31vw;
+}
+
+.player-area.bm {
+  bottom: 3vw;
+  right: 31vw;
 }
