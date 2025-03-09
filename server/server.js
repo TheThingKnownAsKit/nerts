@@ -18,4 +18,14 @@ io.on("connect", (socket) => {
     socket.join(lobbyID); // This line creates (or joins) the room
     io.to(socket.id).emit("lobbyCreated", { lobbyID });
   });
+
+  socket.on("joinLobby", ({ lobbyID }) => {
+    try {
+      socket.join(lobbyID); // Join the lobby room
+      io.to(socket.id).emit("lobbyJoined", { lobbyID });
+      io.to(lobbyID).emit("playerJoined", { playerID: socket.id }); // Notify others in the lobby
+    } catch {
+      io.to(socket.id).emit("error", { message: "Lobby not found." }); // Send error if lobby doesn't exist
+    }
+  });
 });

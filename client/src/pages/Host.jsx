@@ -8,17 +8,17 @@ import "./Host.css";
 
 function Host() {
   const navigate = useNavigate();
-  const [number, setNumber] = useState("");
+  const [lobbyID, setLobbyID] = useState("");
 
   // Handle changes for input
-  const handleNumberChange = (newNumber) => {
-    setNumber(newNumber);
+  const handleLobbyIDChange = (newLobbyID) => {
+    setLobbyID(newLobbyID);
   };
 
-  const handleCheckInput = () => {
-    if (number) {
-      console.log("Input valid: ", number);
-      navigate("/game");
+  const handleJoinLobby = () => {
+    if (lobbyID) {
+      console.log(lobbyID);
+      socket.emit("joinLobby", { lobbyID });
     } else {
       console.log("Input is empty.");
     }
@@ -26,8 +26,8 @@ function Host() {
 
   const handleInputChange = (event) => {
     // Allow only numbers and prevent invalid characters
-    const newValue = event.target.value.replace(/[^0-9]/g, "");
-    handleNumberChange(newValue);
+    const newValue = event.target.value.replace(/[^a-zA-Z0-9]/g, "");
+    handleLobbyIDChange(newValue);
   };
 
   const handleCreateLobby = () => {
@@ -36,6 +36,16 @@ function Host() {
 
   useEffect(() => {
     socket.on("lobbyCreated", ({ lobbyID }) => {
+      navigate(`/game/${lobbyID}`);
+    });
+
+    return () => {
+      socket.off("lobbyCreated");
+    };
+  }, []);
+
+  useEffect(() => {
+    socket.on("lobbyJoined", ({ lobbyID }) => {
       navigate(`/game/${lobbyID}`);
     });
 
@@ -60,17 +70,17 @@ function Host() {
 
       <div className="input-container">
         <CustomTextInput
-          value={number}
+          value={lobbyID}
           onChange={handleInputChange}
           placeholder="Code"
           center={true}
-          max={4}
+          max={6}
         />
         <CustomButton
           back={false}
           absolute={false}
           text={"Next"}
-          onClick={handleCheckInput}
+          onClick={handleJoinLobby}
         />
       </div>
     </div>

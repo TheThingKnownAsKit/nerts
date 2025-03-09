@@ -45,7 +45,7 @@ function Signup() {
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             centered={false}
-            max={20}
+            max={30}
           />
           <div className="spacer-1vw"></div>
           <CustomTextInput
