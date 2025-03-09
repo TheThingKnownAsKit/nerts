@@ -68,6 +68,15 @@ function Signup() {
           <div className="spacer-1vw"></div>
           <CustomTextInput
             type="text"
+            placeholder="Email Address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            centered={false}
+            max={30}
+          />
+          <div className="spacer-1vw"></div>
+          <CustomTextInput
+            type="text"
             placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}

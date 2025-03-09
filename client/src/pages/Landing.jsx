@@ -16,16 +16,14 @@ function Landing() {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    //TODO: This might need to change to actual username and email stuff
-    const email = username;
-
     try {
       const userCredential = await signInWithEmailAndPassword(
         auth,
-        email,
+        username,
         password
       );
-      console.log("User logged in:", userCredential.user);
+      sessionStorage.setItem("userID", userCredential.user.uid);
+      console.log("User logged in:", userCredential.user.uid);
       navigate("/home");
     } catch (error) {
       // TODO: Different error messages on different login mistake cases
@@ -62,11 +60,11 @@ function Landing() {
         <form onSubmit={handleLogin} className="login-form">
           <CustomTextInput
             type="text"
-            placeholder="Username"
+            placeholder="Email/Username"
             value={username}
             centered={false}
             onChange={(e) => setUsername(e.target.value)}
-            max={30} //TODO: We changed this just to get working
+            max={30}
           />
 
           <div className="spacer-1vw"></div>

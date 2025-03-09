@@ -9,10 +9,13 @@ function Game() {
     <>
       <h3>Game: {lobbyID}</h3>
 
-      <PlayerArea corner="tl" />
-      <PlayerArea corner="tr" />
-      <PlayerArea corner="bl" />
-      <PlayerArea corner="br">
+      <PlayerArea corner="tm">
+        <Card rank={5} suit={"diamonds"} />
+        <Card rank={2} suit={"hearts"} />
+        <Card rank={8} suit={"spades"} />
+        <Card rank={11} suit={"clubs"} />
+      </PlayerArea>
+      <PlayerArea corner="bm">
         <Card rank={12} suit={"spades"} />
         <Card rank={1} suit={"hearts"} />
         <Card rank={13} suit={"diamonds"} />

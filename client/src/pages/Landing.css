@@ -1,103 +1,103 @@
 .centered {
-    justify-items: center;
+  justify-items: center;
 }
 
 button {
-    border-radius: 8px;
-    border: 1px solid transparent;
-    padding: 0.6em;
-    font-size: 1.5vw;
-    font-weight: 500;
-    font-family: inherit;
-    background-color: #1a1a1a;
-    cursor: pointer;
-    transition: border-color 0.25s;
-    color: white;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  padding: 0.6em;
+  font-size: 1.5vw;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: #1a1a1a;
+  cursor: pointer;
+  transition: border-color 0.25s;
+  color: white;
 }
 
 .form-title-landing {
-    font-size: 2vw;
-    color: #fff;
-    margin-bottom: 1vw;
-    margin-top: 0px;
-    text-align: center;
-    border: none; /* Removes any border that might be applied */
-    margin-right: 4vw;
+  font-size: 2vw;
+  color: #fff;
+  margin-bottom: 1vw;
+  margin-top: 0px;
+  text-align: center;
+  border: none; /* Removes any border that might be applied */
+  margin-right: 4vw;
 }
 
 #login-signup {
-    display: flex;
-    justify-content: center;
-    flex-direction: column;
-    margin-top: 3vw;
-    margin-left: 1.5vw;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  margin-top: 3vw;
+  margin-left: 1.5vw;
 }
 
 #login-signup button {
-    margin-top: 0.5vw;
-    width: 10vw;
+  margin-top: 0.5vw;
+  width: 10vw;
 }
 
 #nerts-logo {
-    background-image: url("../assets/images/nerts.png");
-    background-size: cover;
-    width: 50vw;
-    margin-top: 5vw;
+  background-image: url("../assets/images/nerts.png");
+  background-size: cover;
+  width: 50vw;
+  margin-top: 5vw;
 }
 
 #login-signup input[type="text"],
 #login-signup input[type="password"] {
-    width: 20vw;
-    font-size: 1.5vw;
-    padding: 0.5em;
-    border: 1px solid #ccc;
-    border-radius: 6px;
-    text-align: left;
-    margin: 0px;
+  width: 20vw;
+  font-size: 1.5vw;
+  padding: 0.5em;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  text-align: left;
+  margin: 0px;
 }
 
 .spacer-1vw {
-    height: 1vw;
-    width: 1vw;
+  height: 1vw;
+  width: 1vw;
 }
 
 .password-row {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin: 0px;
-    padding: 0px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0px;
+  padding: 0px;
 }
 
 .check-box.login {
-    margin: 0px;
-    padding: 0px;
-    height: 3.2vw;
-    width: 4vw;
-    margin-left: 1vw;
-    border-radius: 5px;
+  margin: 0px;
+  padding: 0px;
+  height: 3.2vw;
+  width: 4vw;
+  margin-left: 1vw;
+  border-radius: 5px;
 }
 
 .signup-link {
-    margin-top: 0vw;
-    text-align: center;
-    color: #fff;
-    margin-bottom: 0px;
-    font-size: 1.5vw;
-    align-items: center;
-    display: flex;
-    flex-direction: column;
-    margin-right: 4vw;
+  margin-top: 0vw;
+  text-align: center;
+  color: #fff;
+  margin-bottom: 0px;
+  font-size: 1.5vw;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  margin-right: 4vw;
 }
 
 .signup-link p {
-    margin-bottom: 1vw;
+  margin-bottom: 1vw;
 }
 
 .form-title {
-    font-size: 2vw;
-    color: #fff;
-    margin-bottom: 1vw;
-    text-align: center;
-    border: none;
+  font-size: 2vw;
+  color: #fff;
+  margin-bottom: 1vw;
+  text-align: center;
+  border: none;
 }

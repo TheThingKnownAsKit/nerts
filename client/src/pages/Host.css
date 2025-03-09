@@ -1,24 +1,24 @@
 .host {
-    padding-top: 15vw;
-    margin-top: 0px;
-    margin-bottom: 0.5vw;
+  padding-top: 15vw;
+  margin-top: 0px;
+  margin-bottom: 0.5vw;
 
-    font-size: 7vw;
-    font-weight: 100;
+  font-size: 7vw;
+  font-weight: 100;
 }
 
 .join {
-    margin-bottom: 0px;
+  margin-bottom: 0px;
 
-    font-size: 6vw;
-    font-weight: 100;
+  font-size: 6vw;
+  font-weight: 100;
 }
 
 .btn.play.no-select {
-    margin: 0px;
+  margin: 0px;
 }
 
 .input-container {
-    padding-top: 0.4vw;
-    display: flex;
+  padding-top: 0.4vw;
+  display: flex;
 }

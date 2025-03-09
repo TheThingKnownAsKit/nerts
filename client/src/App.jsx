@@ -8,18 +8,8 @@ import Settings from "./pages/Settings.jsx";
 import Rules from "./pages/Rules.jsx";
 import User from "./pages/User.jsx";
 import "./App.css";
-import { useEffect } from "react";
-import { io } from "socket.io-client";
-const socket = io("http://localhost:3000");
 
 function App() {
-  useEffect(() => {
-    socket.on("welcome", (message) => {
-      console.log("Server says:", message);
-      socket.emit("thanks", "Thanks for the welcome!");
-    });
-  }, []);
-
   return (
     <Router>
       <Routes>

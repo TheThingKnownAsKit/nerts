@@ -1,63 +1,73 @@
 .nerts-pile {
-    width: 13vw;
-    height: 8.5vw;
-    margin: 0.5vw;
-    padding: 0.25vw;
+  width: 10vw;
+  height: 6vw;
+  margin: 0.5vw;
+  padding: 0.25vw;
 }
 .play-pile {
-    display: flex;
-    width: 26vw;
-    height: 8.5vw;
-    margin: 0.5vw;
-    justify-content: space-around;
-    align-items: center;
-    padding: 0.25vw;
+  display: flex;
+  width: 26vw;
+  height: 6vw;
+  margin: 0.5vw;
+  justify-content: space-around;
+  align-items: center;
+  padding: 0.25vw;
 }
 .stock-pile {
-    width: 13vw;
-    height: 8.5vw;
-    margin: 0.5vw;
-    padding: 0.25vw;
+  width: 13vw;
+  height: 6vw;
+  margin: 0.5vw;
+  padding: 0.25vw;
 }
 .profile-info {
-    width: 23vw;
-    height: 8.5vw;
-    margin: 0.5vw;
-    outline: 1px solid white;
-    padding: 0.25vw;
+  width: 23vw;
+  height: 6vw;
+  margin: 0.5vw;
+  outline: 1px solid white;
+  padding: 0.25vw;
 }
 
 .dashed-outline {
-    outline: 3px dashed white;
-    outline-offset: o.5vw;
-    border-radius: 1vw;
+  outline: 3px dashed white;
+  outline-offset: o.5vw;
+  border-radius: 1vw;
 }
 
 .top-row,
 .bottom-row {
-    display: flex;
-    max-width: 36vw;
-    justify-content: space-between;
-    gap: 1vw;
+  display: flex;
+  max-width: 36vw;
+  justify-content: space-between;
+  gap: 1vw;
 }
 
 .player-area {
-    position: absolute;
+  position: absolute;
 }
 
 .player-area.tl {
-    top: 3vw;
-    left: 8vw;
+  top: 3vw;
+  left: 8vw;
 }
 .player-area.tr {
-    top: 3vw;
-    right: 8vw;
+  top: 3vw;
+  right: 8vw;
 }
 .player-area.bl {
-    bottom: 3vw;
-    left: 8vw;
+  bottom: 3vw;
+  left: 8vw;
 }
 .player-area.br {
-    bottom: 3vw;
-    right: 8vw;
+  bottom: 3vw;
+  right: 8vw;
+}
+
+.player-area.tm {
+  top: 3vw;
+  right: 31vw;
+}
+
+.player-area.bm {
+  bottom: 3vw;
+  right: 31vw;
 }
