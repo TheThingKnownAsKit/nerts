@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Letters from "../components/Letters";
 import CustomTextInput from "../components/CustomTextInput";
@@ -31,6 +32,23 @@ function Landing() {
       console.error("Error logging in:", error.message);
     }
   };
+
+    // Login on enter-press
+    let keyPressed = false;
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !keyPressed) {
+        keyPressed = true;
+        if (username && password) {
+          handleLogin(e);
+        }
+      }
+    });
+    document.addEventListener("keyup", (e) => {
+      if (e.key === "Enter") {
+        keyPressed = false;
+      }
+    });
+
 
   const toSignup = () => {
     navigate("/signup");

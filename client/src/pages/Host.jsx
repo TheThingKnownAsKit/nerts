@@ -54,6 +54,23 @@ function Host() {
     };
   }, []);
 
+
+    // Join game on enter-press
+    let keyPressed = false;
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !keyPressed) {
+        keyPressed = true;
+        if (lobbyID) {
+          handleJoinLobby(e);
+        }
+      }
+    });
+    document.addEventListener("keyup", (e) => {
+      if (e.key === "Enter") {
+        keyPressed = false;
+      }
+    });
+
   return (
     <div className="main centered">
       <CustomButton back={true} absolute={true} text={"Back"} />
@@ -68,7 +85,7 @@ function Host() {
 
       <h3 className="join no-select">JOIN</h3>
 
-      <div className="input-container">
+      <div className="input-container code-input">
         <CustomTextInput
           value={lobbyID}
           onChange={handleInputChange}

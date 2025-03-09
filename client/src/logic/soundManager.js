@@ -2,7 +2,7 @@ class SoundManager {
     constructor() {
         if (!SoundManager.instance) {
             this.sounds = {}; // Stores sound effects for re-use
-            this.volume = 1.0; // Default volume (1.0 = 100%)
+            this.volume = 0.75; // Default volume (1.0 = 100%)
             this.soundEnabled = true; // Flag to control whether sound effects are enabled
             this.backgroundMusic = null;
             SoundManager.instance = this;
