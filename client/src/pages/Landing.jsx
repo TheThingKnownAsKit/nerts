@@ -1,5 +1,4 @@
-import React, { useState } from "react";
-import { useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Letters from "../components/Letters";
 import CustomTextInput from "../components/CustomTextInput";
@@ -7,11 +6,13 @@ import CustomButton from "../components/CustomButton";
 import "./Landing.css";
 import { auth } from "../firebase/config";
 import { signInWithEmailAndPassword } from "firebase/auth";
+import { useSocket } from "../context/SocketContext";
 
 function Landing() {
   const navigate = useNavigate();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const { initializeSocket } = useSocket();
 
   const handleLogin = async (e) => {
     e.preventDefault();
@@ -22,8 +23,8 @@ function Landing() {
         username,
         password
       );
-      sessionStorage.setItem("userID", userCredential.user.uid);
-      console.log("User logged in:", userCredential.user.uid);
+      const userID = userCredential.user.uid;
+      initializeSocket(userID);
       navigate("/home");
     } catch (error) {
       // TODO: Different error messages on different login mistake cases
@@ -31,22 +32,21 @@ function Landing() {
     }
   };
 
-    // Login on enter-press
-    let keyPressed = false;
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" && !keyPressed) {
-        keyPressed = true;
-        if (username && password) {
-          handleLogin(e);
-        }
+  // Login on enter-press
+  let keyPressed = false;
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !keyPressed) {
+      keyPressed = true;
+      if (username && password) {
+        handleLogin(e);
       }
-    });
-    document.addEventListener("keyup", (e) => {
-      if (e.key === "Enter") {
-        keyPressed = false;
-      }
-    });
-
+    }
+  });
+  document.addEventListener("keyup", (e) => {
+    if (e.key === "Enter") {
+      keyPressed = false;
+    }
+  });
 
   const toSignup = () => {
     navigate("/signup");

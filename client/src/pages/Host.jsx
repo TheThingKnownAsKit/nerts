@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { socket, createLobby, joinLobby } from "../logic/socket";
+import { useSocket } from "../context/SocketContext.jsx";
 import CustomTextInput from "../components/CustomTextInput.jsx";
 import CustomButton from "../components/CustomButton.jsx";
 import soundManager from "../logic/soundManager.js";
@@ -11,9 +11,13 @@ import "./Host.css";
 function Host() {
   const navigate = useNavigate();
   const [lobbyID, setLobbyID] = useState("");
+  const { socket } = useSocket();
 
   // Starts music back up if refreshed on this page
-  if (!soundManager.backgroundMusic && localStorage.getItem("isMusicOn") == "true") {
+  if (
+    !soundManager.backgroundMusic &&
+    localStorage.getItem("isMusicOn") == "true"
+  ) {
     soundManager.playBackgroundMusic(backgroundMusic);
   }
 
@@ -23,12 +27,12 @@ function Host() {
   };
 
   const handleCreateLobby = () => {
-    createLobby();
+    socket.emit("createLobby");
   };
 
   const handleJoinLobby = () => {
     if (lobbyID) {
-      joinLobby(lobbyID);
+      socket.emit("joinLobby", { lobbyID });
     } else {
       console.log("Input is empty.");
     }
@@ -55,22 +59,21 @@ function Host() {
     };
   }, []);
 
-
-    // Join game on enter-press
-    let keyPressed = false;
-    document.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" && !keyPressed) {
-        keyPressed = true;
-        if (lobbyID) {
-          handleJoinLobby(e);
-        }
+  // Join game on enter-press
+  let keyPressed = false;
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Enter" && !keyPressed) {
+      keyPressed = true;
+      if (lobbyID) {
+        handleJoinLobby(e);
       }
-    });
-    document.addEventListener("keyup", (e) => {
-      if (e.key === "Enter") {
-        keyPressed = false;
-      }
-    });
+    }
+  });
+  document.addEventListener("keyup", (e) => {
+    if (e.key === "Enter") {
+      keyPressed = false;
+    }
+  });
 
   return (
     <div className="main centered">
