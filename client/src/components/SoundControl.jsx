@@ -10,8 +10,12 @@ import backgroundMusic from "../assets/sounds/background.mp3";
 import click from "../assets/sounds/click.mp3";
 
 const SoundControl = () => {
-  const [isSoundOn, setIsSoundOn] = useState(true); // Default to sound on
-  const [isMusicOn, setIsMusicOn] = useState(true); // Default to music on
+  const [isSoundOn, setIsSoundOn] = useState(
+    JSON.parse(localStorage.getItem("isSoundOn")) ?? true
+  );
+  const [isMusicOn, setIsMusicOn] = useState(
+    JSON.parse(localStorage.getItem("isMusicOn")) ?? true
+  );
 
   soundManager.loadSound("click", click);
   function playClick() {
@@ -20,6 +24,9 @@ const SoundControl = () => {
 
   // Use effect manages sound and music behavior based on the state
   useEffect(() => {
+    localStorage.setItem("isSoundOn", JSON.stringify(isSoundOn));
+    localStorage.setItem("isMusicOn", JSON.stringify(isMusicOn));
+    
     if (isSoundOn) {
       soundManager.enableSounds();
     } else {

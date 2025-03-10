@@ -3,12 +3,19 @@ import { useNavigate } from "react-router-dom";
 import { socket, createLobby, joinLobby } from "../logic/socket";
 import CustomTextInput from "../components/CustomTextInput.jsx";
 import CustomButton from "../components/CustomButton.jsx";
+import soundManager from "../logic/soundManager.js";
+import backgroundMusic from "../assets/sounds/background.mp3";
 
 import "./Host.css";
 
 function Host() {
   const navigate = useNavigate();
   const [lobbyID, setLobbyID] = useState("");
+
+  // Starts music back up if refreshed on this page
+  if (!soundManager.backgroundMusic && localStorage.getItem("isMusicOn") == "true") {
+    soundManager.playBackgroundMusic(backgroundMusic);
+  }
 
   // Handle changes for input
   const handleLobbyIDChange = (newLobbyID) => {
@@ -48,6 +55,23 @@ function Host() {
     };
   }, []);
 
+
+    // Join game on enter-press
+    let keyPressed = false;
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && !keyPressed) {
+        keyPressed = true;
+        if (lobbyID) {
+          handleJoinLobby(e);
+        }
+      }
+    });
+    document.addEventListener("keyup", (e) => {
+      if (e.key === "Enter") {
+        keyPressed = false;
+      }
+    });
+
   return (
     <div className="main centered">
       <CustomButton back={true} absolute={true} text={"Back"} />
@@ -62,7 +86,7 @@ function Host() {
 
       <h3 className="join no-select">JOIN</h3>
 
-      <div className="input-container">
+      <div className="input-container code-input">
         <CustomTextInput
           value={lobbyID}
           onChange={handleInputChange}
