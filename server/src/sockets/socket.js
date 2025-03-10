@@ -11,7 +11,9 @@ const setupSocketServer = (server) => {
 
   // When a client connects, run this code with their specific socket instance
   io.on("connect", (socket) => {
-    console.log(`User ${socket.id} connected.`); // Report client connection to server log
+    socket.userID = socket.handshake.auth.userID; // Add userID property to socket from front-end
+
+    console.log(`User ${socket.userID} connected.`); // Report client connection to server log
 
     // Listen for client requesting to create a lobby
     socket.on("createLobby", () => {
@@ -36,7 +38,9 @@ const setupSocketServer = (server) => {
         io.to(lobbyID).emit("playerJoined", { playerID: socket.id });
         console.log(`Player ${socket.id} joined lobby ${lobbyID}.`);
       } else {
-        socket.emit("error", { message: "Lobby not found." }); // Tell client the lobby was not found
+        socket.emit("lobbyNotFound", {
+          message: `Error: lobby ${lobbyID} not found.`,
+        }); // Tell client the lobby was not found
       }
     });
 

@@ -1,7 +1,12 @@
 // Imports
 import { io } from "socket.io-client";
 
-const socket = io("http://localhost:3000"); // Create a socket listening on port 3000
+// Create a socket listening on port 3000 and send userID for this socket to backend
+const socket = io("http://localhost:3000", {
+  auth: { userID: sessionStorage.getItem("userID") },
+});
+
+socket.userID = sessionStorage.getItem("userID");
 
 // Listen for server creating a lobby and log lobby
 socket.on("lobbyCreated", ({ lobbyID }) =>
@@ -12,6 +17,10 @@ socket.on("lobbyCreated", ({ lobbyID }) =>
 socket.on("playerJoined", ({ playerID }) =>
   console.log(`New player ${playerID} joined.`)
 );
+
+socket.on("lobbyNotFound", (message) => {
+  console.log(message);
+});
 
 // Helper functions
 const createLobby = () => socket.emit("createLobby"); // Tells server to create a lobby
