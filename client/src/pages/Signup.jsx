@@ -7,6 +7,7 @@ import CustomButton from "../components/CustomButton";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../firebase/config";
 import { doc, setDoc } from "firebase/firestore";
+import { useSocket } from "../context/SocketContext";
 
 function Signup() {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ function Signup() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const { initializeSocket } = useSocket();
 
   const handleSignup = async (e) => {
     e.preventDefault();
@@ -25,6 +27,7 @@ function Signup() {
         password
       );
       const user = userCredential.user;
+      initializeSocket(user.uid);
       console.log("User signed up:", user);
 
       // New code for database stuff
