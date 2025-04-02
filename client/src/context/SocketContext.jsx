@@ -8,17 +8,17 @@ export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null); // Socket values to be provided on use
 
   // Starts socket once a user has logged in and gets userID from Firebase Authenticate
-  const initializeSocket = (userID) => {
+  const initializeSocket = () => {
     // Disconnect any existing socket if this function is called
     if (socket) {
       socket.disconnect();
     }
 
-    const newSocket = io("http://localhost:3000", {
-      auth: { userId: userID },
-    });
+    const newSocket = io("http://localhost:3000");
 
-    console.log(`User ${userID} is logged in and connected.`); // Log that the client socket has connected
+    newSocket.on("connect", () => {
+      console.log(`User ${newSocket.id} is logged in and connected.`); // Log after socket has connected
+    });
 
     // Event listeners
     newSocket.on("lobbyCreated", ({ lobbyID }) =>
@@ -31,6 +31,10 @@ export const SocketProvider = ({ children }) => {
 
     newSocket.on("lobbyNotFound", (message) => {
       console.log(message);
+    });
+
+    newSocket.on("gameStarted", (gameState) => {
+      console.log(gameState);
     });
 
     setSocket(newSocket); // Set socket object to the initialized socket

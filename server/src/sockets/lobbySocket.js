@@ -1,20 +1,5 @@
-import { Server } from "socket.io";
-
-// Create Socket.IO server on the provided HTTP server and allow communication from front-end port
-const setupSocketServer = (server) => {
-  const io = new Server(server, {
-    cors: {
-      origin: "http://localhost:5173",
-      methods: ["GET", "POST"],
-    },
-  });
-
-  // When a client connects, run this code with their specific socket instance
+export default (io) => {
   io.on("connect", (socket) => {
-    socket.userID = socket.handshake.auth.userID; // Add userID property to socket from front-end
-
-    console.log(`User ${socket.userID} connected.`); // Report client connection to server log
-
     // Listen for client requesting to create a lobby
     socket.on("createLobby", () => {
       const lobbyID = Math.random().toString(36).slice(2, 8).toUpperCase(); // Generate random, 6 character alphanumeric lobby ID
@@ -43,15 +28,5 @@ const setupSocketServer = (server) => {
         }); // Tell client the lobby was not found
       }
     });
-
-    // Log a client disconnecting
-    socket.on("disconnect", () => {
-      console.log(`User ${socket.id} disconnected.`);
-    });
   });
-
-  // Return socket server instance
-  return io;
 };
-
-export default setupSocketServer;

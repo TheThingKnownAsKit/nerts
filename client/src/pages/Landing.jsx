@@ -23,12 +23,12 @@ function Landing() {
         username,
         password
       );
-      const userID = userCredential.user.uid;
-      initializeSocket(userID);
+      initializeSocket();
       navigate("/home");
     } catch (error) {
       // TODO: Different error messages on different login mistake cases
       console.error("Error logging in:", error.message);
+      console.log(error);
     }
   };
 
