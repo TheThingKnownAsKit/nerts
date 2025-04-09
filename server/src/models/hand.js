@@ -38,7 +38,7 @@ class Deck {
     // Generate all 52 cards
     let deck = [];
     for (let suit of this.suits) {
-      const isRed = false;
+      var isRed = false;
       if (suit == "diamonds" || suit == "hearts") {
         isRed = true;
       }
