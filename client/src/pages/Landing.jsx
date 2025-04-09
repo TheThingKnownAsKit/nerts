@@ -17,18 +17,23 @@ function Landing() {
   const handleLogin = async (e) => {
     e.preventDefault();
 
+    let userCredential = null;
+
     try {
-      const userCredential = await signInWithEmailAndPassword(
+      userCredential = await signInWithEmailAndPassword(
         auth,
         username,
         password
       );
-      initializeSocket();
-      navigate("/home");
     } catch (error) {
       // TODO: Different error messages on different login mistake cases
       console.error("Error logging in:", error.message);
       console.log(error);
+    } finally {
+      if (userCredential) {
+        initializeSocket();
+        navigate("/home");
+      }
     }
   };
 
