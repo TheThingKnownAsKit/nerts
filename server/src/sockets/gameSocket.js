@@ -9,5 +9,8 @@ export default (io, gameManager) => {
   });
 };
 
-// GENERAL TODO: fix pressing enter login bug
-// POP UPS: login errors, lobby not found, etc
+// GENERAL TODO:
+// Fix login bug: pressing enter to log in pops up with a bunch of login attempts and errors
+// Pop ups: login errors, lobby not found, player joined lobby, etc
+// Backend logic: handle player leaving, handle invalid move, comment code, connect gameSocket to gameManager logic
+// Connecting front end to back end: The back end

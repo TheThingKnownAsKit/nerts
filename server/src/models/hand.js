@@ -38,12 +38,8 @@ class Deck {
     // Generate all 52 cards
     let deck = [];
     for (let suit of this.suits) {
-      var isRed = false;
-      if (suit == "diamonds" || suit == "hearts") {
-        isRed = true;
-      }
       for (let rank of this.ranks) {
-        deck.push(new Card(suit, rank, isRed));
+        deck.push(new Card(suit, rank));
       }
     }
 
@@ -58,10 +54,10 @@ class Deck {
 
 // Card object definition
 class Card {
-  constructor(suit, rank, isRed) {
+  constructor(suit, rank) {
     this.suit = suit; // "hearts", "diamonds", "clubs", "spades"
     this.rank = rank; // 1-13
-    this.isRed = isRed; // true, false
+    this.isRed = suit == "diamonds" || suit == "hearts"; // true, false
   }
 }
 

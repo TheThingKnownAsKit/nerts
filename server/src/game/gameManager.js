@@ -19,32 +19,32 @@ class GameManager {
     return gameState;
   }
 
-  playCard(lobbyId, playerId, playInfo) {
+  /*
+  {
+    source: {
+      card: {
+        suit: "hearts",
+        rank: 3
+      }
+    }
+    destination: {
+      pileName: "buildPile",
+      pileIndex: 2
+    }
+  }
+  */
+
+  playCard(lobbyId, playerId, playPayload) {
     const { gameState, player } = this.getPlayer(lobbyId, playerId);
 
-    const srcPile = getPile(
-      gameState,
-      player,
-      playInfo.source.pileType,
-      playInfo.source.pileIndex
-    );
-    const destPile = getPile(
-      gameState,
-      player,
-      playInfo.destination.pileType,
-      playInfo.destination.pileIndex
-    );
+    const srcCards = getPileCardsFromCard(player, playPayload.source);
+    const destPile = getPile(gameState, player, playPayload.destination);
 
-    const moveType = `${srcPile.name}-${destPile.name}`;
+    const moveType = `${srcPile.name}-${destPile.name}`; // TODO: handle new move with src cards and dest piles (scoring?)
 
     const moveHandler = new MoveHandler();
 
-    moveHandler.moves[moveType](
-      player,
-      srcPile,
-      playInfo.source.cardIndex,
-      destPile
-    );
+    moveHandler.moves[moveType](player, srcCards, destPile);
 
     return true;
   }
@@ -67,16 +67,28 @@ class GameManager {
     }
   }
 
-  getPile(gameState, player, pileType, pileIndex) {
-    switch (pileType) {
-      case "nertsPile":
-        return player.hand.nertsPile;
-      case "drawPile":
-        return player.hand.drawPile;
-      case "buildPile":
-        return player.hand.buildPile[pileIndex];
-      case "foundationPile":
-        return gameState.foundation[pileIndex];
+  // TODO: make function take from pile and return array of card(s)
+  getPileCardsFromCard(player, source) {
+    const card = `${source.card.rank}-${source.card.suit}`;
+    const cardInfo = player.hand.visibleHand[card]; // pileName, pileIndex, cardIndex // TODO: add visibleHand to player
+
+    const pile = null;
+    const cards = [];
+    if (cardInfo.pileName == "buildPile") {
+      pile = player.hand[cardInfo.pileName][cardInfo.pileIndex];
+      cards = pile.cards.splice(cardInfo.cardIndex);
+    } else {
+      pile = player.hand[pile.pileName];
+      cards.push(pile.takeCard());
+    }
+
+    return cards;
+  }
+  getPile(gameState, player, destination) {
+    if (destination.pileName == "buildPile") {
+      return player.hand[destination.pileName][destination.pileIndex];
+    } else {
+      return gameState.foundation[destination.pileIndex];
     }
   }
 
@@ -110,30 +122,30 @@ class MoveHandler {
 
   initializeMoves() {
     return {
-      "drawPile-foundationPile": (player, drawPile, _, foundationPile) => {
+      "drawPile-foundationPile": (player, drawPile, foundationPile) => {
         const card = drawPile.takeCard();
         foundationPile.addCard(card);
         player.score++;
       },
-      "drawPile-buildPile": (_, drawPile, __, buildPile) => {
+      "drawPile-buildPile": (_, drawPile, buildPile) => {
         const card = drawPile.takeCard();
         buildPile.addCards([card]);
       },
-      "buildPile-buildPile": (_, buildPileSrc, index, buildPileDest) => {
+      "buildPile-buildPile": (_, buildPileSrc, buildPileDest) => {
         const cards = buildPileSrc.takeCards(index);
         buildPileDest.addCards(cards);
       },
-      "buildPile-foundationPile": (player, buildPile, _, foundationPile) => {
+      "buildPile-foundationPile": (player, buildPile, foundationPile) => {
         const card = buildPile.takeCards(-1);
         foundationPile.addCard(card[0]);
         player.score++;
       },
-      "nertsPile-buildPile": (player, nertsPile, _, buildPile) => {
+      "nertsPile-buildPile": (player, nertsPile, buildPile) => {
         const card = nertsPile.takeCard();
         buildPile.addCards([card]);
         player.score += 2;
       },
-      "nertsPile-foundationPile": (player, nertsPile, _, foundationPile) => {
+      "nertsPile-foundationPile": (player, nertsPile, foundationPile) => {
         const card = nertsPile.takeCard();
         foundationPile.addCard(card);
         player.score += 3;
