@@ -4,6 +4,10 @@
     margin: 0.5vw;
     padding: 0.25vw;
 }
+.nerts-pile .card {
+    position: absolute;
+}
+
 .work-pile {
     display: flex;
     width: 26vw;
@@ -18,6 +22,9 @@
     height: 6vw;
     margin: 0.5vw;
     padding: 0.25vw;
+}
+.stock-pile .card {
+    position: absolute;
 }
 .profile-info {
     width: 23vw;
