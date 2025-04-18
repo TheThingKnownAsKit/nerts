@@ -1,5 +1,7 @@
 import { createContext, useState, useContext } from "react";
 import { io } from "socket.io-client";
+import { lobbyEvents } from "../logic/lobbyEvents.js";
+import { gameEvents } from "../logic/gameEvents.js";
 
 const SocketContext = createContext(null); // Create new context for socket connection
 
@@ -22,22 +24,8 @@ export const SocketProvider = ({ children }) => {
     });
 
     // Event listeners
-    newSocket.on("lobbyCreated", ({ lobbyID }) =>
-      console.log(`Lobby ${lobbyID} created.`)
-    );
-
-    newSocket.on("playerJoined", ({ playerID }) =>
-      console.log(`New player ${playerID} joined.`)
-    );
-
-    newSocket.on("lobbyNotFound", (message) => {
-      console.log(message);
-    });
-
-    newSocket.on("gameStarted", (gameState) => {
-      console.log(gameState);
-      setGameState(gameState);
-    });
+    lobbyEvents(newSocket);
+    gameEvents(newSocket);
 
     setSocket(newSocket); // Set socket object to the initialized socket
 
