@@ -10,7 +10,13 @@ function Game() {
 
   const handleStartGame = () => {
     socket.emit("startGame", lobbyID);
+    renderGameState();
   };
+
+  const handleCardClicked = () => {
+    // Handle card click logic here
+    socket.emit("cardClicked", { lobbyID });
+  }
 
   // Render game state if it exists
   const renderGameState = () => {
