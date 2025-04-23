@@ -1,5 +1,6 @@
-export const gameEvents = (socket) => {
-  socket.on("gameStarted", (gameState) => {
-    console.log(gameState);
-  });
+export const gameEvents = (socket, setGameState) => {
+    socket.on("gameStarted", (gameState) => {
+        console.log(gameState);
+        setGameState(gameState);
+    });
 };

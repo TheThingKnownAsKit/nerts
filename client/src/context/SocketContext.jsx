@@ -25,7 +25,7 @@ export const SocketProvider = ({ children }) => {
 
     // Event listeners
     lobbyEvents(newSocket);
-    gameEvents(newSocket);
+    gameEvents(newSocket, setGameState);
 
     setSocket(newSocket); // Set socket object to the initialized socket
 

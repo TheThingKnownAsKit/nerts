@@ -1,16 +1,20 @@
 import "./CommonArea.css";
 
-function CommonArea({ corner, children }) {
+function CommonArea({ numberOfPlayers, onPlaySpotClick }) {
+  const totalSpots = numberOfPlayers * 4;
+
   return (
-    <div className='common-area'>
-        <div className="play-spot"></div>
-        <div className="play-spot"></div>
-        <div className="play-spot"></div>
-        <div className="play-spot"></div>
-        <div className="play-spot"></div>
-        <div className="play-spot"></div>
-        <div className="play-spot"></div>
-        <div className="play-spot"></div>
+    <div className="common-area">
+      {Array.from({ length: totalSpots }).map((_, index) => (
+        <div
+          key={index}
+          className="play-spot"
+          data-index={index}
+          onClick={() => onPlaySpotClick(index)}
+        >
+          Spot {index}
+        </div>
+      ))}
     </div>
   );
 }
