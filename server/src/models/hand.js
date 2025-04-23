@@ -59,6 +59,14 @@ class Card {
     this.rank = rank; // 1-13
     this.isRed = suit == "diamonds" || suit == "hearts"; // true, false
   }
+
+  toString() {
+    return `${this.rank}-${this.suit}`;
+  }
+
+  clone() {
+    return new Card(this.suit, this.rank);
+  }
 }
 
 export default Hand;

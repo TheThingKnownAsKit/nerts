@@ -14,6 +14,11 @@ class NertsPile {
   takeCard() {
     return this.cards.pop();
   }
+
+  // See the top card
+  seeCard() {
+    return this.cards.at(-1);
+  }
 }
 
 // Draw pile model
@@ -50,6 +55,11 @@ class DrawPile {
   takeCard() {
     return this.cards.splice(this.currentIndex, 1);
   }
+
+  // See the current card
+  seeCard() {
+    return this.cards[this.currentIndex];
+  }
 }
 
 // Build pile model
@@ -66,10 +76,12 @@ class BuildPile {
 
   // Remove and return sub-stack of pile from a given index
   takeCards(index) {
-    if (index == -1) {
-      index = this.cards.length - 1;
-    }
     return this.cards.splice(index);
+  }
+
+  // See card(s)
+  seeCards(index) {
+    return this.cards.slice(index);
   }
 
   // Add card(s) to pile
@@ -97,6 +109,11 @@ class FoundationPile {
     this.cards = [];
     this.suit = null;
     this.name = "foundationPile";
+  }
+
+  // See top card
+  seeCard() {
+    return this.cards.at(-1);
   }
 
   // Try to add given card to top of pile
