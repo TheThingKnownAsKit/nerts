@@ -1,24 +1,27 @@
 import { FoundationPile } from "../models/piles.js";
 import Player from "../models/player.js";
 
+// Game manager model to handle game instances and gameplay
 class GameManager {
   constructor() {
-    this.games = {};
+    this.games = {}; // Dictionary of running games { lobbyId: gameState }
   }
 
+  // Initializes gamestate for a given lobby with given players
   startGame(lobbyId, players) {
-    const gameState = new GameState();
+    const gameState = new GameState(); // Create game state
 
+    // Add each player to the game state
     players.forEach((playerId) => {
       const player = new Player(playerId);
       gameState.addPlayer(playerId, player);
     });
 
-    this.games[lobbyId] = gameState;
+    this.games[lobbyId] = gameState; // Add game to game manager dictionary
     return gameState;
   }
 
-  /*
+  /* PLAY PAYLOAD
   {
     source: {
       card: {
@@ -34,18 +37,20 @@ class GameManager {
     },
     playerId: "XTywdu5KJNsrKqTcAAAB",
     gameId: "SFRTNI"
-  }
-  */
+  } */
 
+  // Attempts to play a move from a player given the above example payload
   playCard(lobbyId, playerId, playPayload) {
-    const { gameState, player } = this.getPlayer(lobbyId, playerId);
+    const { gameState, player } = this.getPlayer(lobbyId, playerId); // Get the game and player
 
+    // Get info about the source card(s) given the card sent from front-end
     const { srcPile, srcCardIndex } = getSrcInfoFromCard(
       player,
       playPayload.source
     );
-    const destPile = getPile(gameState, player, playPayload.destination);
+    const destPile = getPile(gameState, player, playPayload.destination); // Get player's destination pile object
 
+    // Set up info needed for a move
     const moveContext = {
       player: player,
       srcPile: srcPile,
@@ -54,7 +59,8 @@ class GameManager {
     };
     const moveType = `${srcPile.name}-${destPile.name}`;
 
-    const wasMoveMade = gameState.moveHandler.executeMove(
+    // Try to perform move
+    const wasMoveMade = gameState.moveHandler.tryExecuteMove(
       moveType,
       moveContext
     );
@@ -62,17 +68,19 @@ class GameManager {
     return wasMoveMade;
   }
 
+  // "Flip" the draw pile and give new top card
   flipDrawPile(lobbyId, playerId) {
-    const { player } = this.getPlayer(lobbyId, playerId);
-
-    const card = player.hand.drawPile.flip();
-
+    const { player } = this.getPlayer(lobbyId, playerId); // Get player
+    const card = player.hand.drawPile.flip(); // Flip the player's draw pile and return new "top" card
+    player.updateVisibleHand(); // Update visible hand to reflect new top card
     return card;
   }
 
+  // Check if nerts can be called
   callNerts(lobbyId, playerId) {
-    const { player } = this.getPlayer(lobbyId, playerId);
+    const { player } = this.getPlayer(lobbyId, playerId); // Get player
 
+    // Ensure the player has no more nerts cards
     if (player.hand.nertsPile.cards.length == 0) {
       return true;
     } else {
@@ -80,31 +88,38 @@ class GameManager {
     }
   }
 
+  // Get necessary info about a specified card attempting to be played
   getSrcInfoFromCard(player, source) {
-    const card = `${source.card.rank}-${source.card.suit}`;
-    const cardInfo = player.visibleHand[card];
+    const card = `${source.card.rank}-${source.card.suit}`; // Put sent card into format readable by visibleHand dictionary
+    const cardInfo = player.visibleHand[card]; // get stored info about the card (such as its parent pile)
 
+    // Initialize necessary info to return
     const srcPile = null;
     const srcCardIndex = null;
 
+    // If the card is from the build pile, card index within the pile is needed
     if (cardInfo.pileName == "buildPile") {
-      srcPile = player.hand.buildPiles[cardInfo.pileIndex];
-      srcCardIndex = cardInfo.cardIndex;
+      srcPile = player.hand.buildPiles[cardInfo.pileIndex]; // Store player's specific pile object
+      srcCardIndex = cardInfo.cardIndex; // Store index of card within this pile
     } else {
-      srcPile = player.hand[cardInfo.pileName];
+      srcPile = player.hand[cardInfo.pileName]; // Store player's specific pile object
     }
 
     return { srcPile, srcCardIndex };
   }
 
+  // Returns a specified play destination pile of a player
   getPile(gameState, player, destination) {
+    // If pile is a build pile, the pile index is needed
     if (destination.pileName == "buildPile") {
       return player.hand.buildPiles[destination.pileIndex];
     } else {
+      // Foudnation pile is the only other destination pile
       return gameState.foundation[destination.pileIndex];
     }
   }
 
+  // Given lobby and player IDs, return the corresponding game state and player object
   getPlayer(lobbyId, playerId) {
     const gameState = this.games[lobbyId];
     const player = gameState.players[playerId];
@@ -113,6 +128,7 @@ class GameManager {
   }
 }
 
+// Game state model to handle player objects and shared gameplay properties
 class GameState {
   constructor() {
     this.players = {};
@@ -120,88 +136,111 @@ class GameState {
     this.moveHandler = new MoveHandler();
   }
 
+  // Helper function for adding players to a game
   addPlayer(playerId, player) {
     this.players[playerId] = player;
 
+    // Add 4 foudnation piles per player
     for (let i = 0; i < 4; i++) {
       this.foundation.push(new FoundationPile());
     }
   }
 }
 
+// Class to handle making moves in a game
 class MoveHandler {
   constructor() {
     this.moves = this.initializeMoves();
   }
 
-  executeMove(moveType, moveContext) {
+  // Helper function to attempt to make a move
+  tryExecuteMove(moveType, moveContext) {
     return this.moves[moveType](moveContext);
   }
 
+  // Initializes moves dictionary {"srcPile-destPile": ({ moveContext }) => {move details...}}
   initializeMoves() {
     return {
+      // Handles playing a card from the draw pile to a foundation pile
       "drawPile-foundationPile": ({ player, srcPile, destPile }) => {
-        const card = srcPile.seeCard();
+        const card = srcPile.seeCard(); // Get (but don't remove) top draw card
+
+        // If move with this card is valid (card added to destination pile)...
         if (destPile.addCard(card)) {
-          srcPile.takeCard();
-          player.updateVisibleHand();
-          player.score++;
-          return true;
+          srcPile.takeCard(); // Remove card from source
+          player.updateVisibleHand(); // Update player's visible hand
+          player.score++; // Update player score
+          return true; // Report success
         } else {
-          return false;
+          return false; // Move not valid, report failure
         }
       },
+      // Handles playing a card from the draw pile to a build pile
       "drawPile-buildPile": ({ player, srcPile, destPile }) => {
-        const card = srcPile.seeCard();
+        const card = srcPile.seeCard(); // Get (but don't remove) top draw card
+
+        // If move with this card is valid (card added to destination pile)...
         if (destPile.addCards([card])) {
-          srcPile.takeCard();
-          player.updateVisibleHand();
-          return true;
+          srcPile.takeCard(); // Remove card from source
+          player.updateVisibleHand(); // Update player's visible hand
+          return true; // Report success
         } else {
-          return false;
+          return false; // Move not valid, report failure
         }
       },
+      // Handles playing a card from a build pile to another build pile
       "buildPile-buildPile": ({ player, srcPile, srcCardIndex, destPile }) => {
-        const cards = srcPile.seeCards(srcCardIndex);
+        const cards = srcPile.seeCards(srcCardIndex); // Get (but don't remove) selected build cards
+
+        // If move with card(s) is valid (card(s) added to destination pile)...
         if (destPile.addCards(cards)) {
-          srcPile.takeCards(srcCardIndex);
+          srcPile.takeCards(srcCardIndex); // Remove card(s) from source
           player.updateVisibleHand();
           return true;
         } else {
-          return false;
+          return false; // Move not valid, report failure
         }
       },
+      // Handles playing a card from a build pile to a foundation pile
       "buildPile-foundationPile": ({ player, srcPile, destPile }) => {
-        const card = srcPile.seeCards(-1);
+        const card = srcPile.seeCards(-1); // Get (but don't remove) top build card
+
+        // If move with this card is valid (card added to destination pile)...
         if (destPile.addCard(card[0])) {
-          srcPile.takeCards(-1);
-          player.updateVisibleHand();
-          player.score++;
-          return true;
+          srcPile.takeCards(-1); // Remove card from source
+          player.updateVisibleHand(); // Update player's visible hand
+          player.score++; // Update player score
+          return true; // Report success
         } else {
-          return false;
+          return false; // Move not valid, report failure
         }
       },
+      // Handles playing a card from the nerts pile to a build pile
       "nertsPile-buildPile": ({ player, srcPile, destPile }) => {
-        const card = srcPile.seeCard();
+        const card = srcPile.seeCard(); // Get (but don't remove) top nerts card
+
+        // If move with this card is valid (card added to destination pile)...
         if (destPile.addCards([card])) {
-          srcPile.takeCard();
-          player.updateVisibleHand();
-          player.score += 2;
-          return true;
+          srcPile.takeCard(); // Remove card from source
+          player.updateVisibleHand(); // Update player's visible hand
+          player.score += 2; // Update player score
+          return true; // Report success
         } else {
-          return false;
+          return false; // Move not valid, report failure
         }
       },
+      // Handles playing a card from the nerts pile to a foundation pile
       "nertsPile-foundationPile": ({ player, srcPile, destPile }) => {
-        const card = srcPile.seeCard();
+        const card = srcPile.seeCard(); // Get (but don't remove) top nerts card
+
+        // If move with this card is valid (card added to destination pile)...
         if (destPile.addCard(card)) {
-          srcPile.takeCard();
-          player.updateVisibleHand();
-          player.score += 3;
-          return true;
+          srcPile.takeCard(); // Remove card from source
+          player.updateVisibleHand(); // Update player's visible hand
+          player.score += 3; // Update player score
+          return true; // Report success
         } else {
-          return false;
+          return false; // Move not valid, report failure
         }
       },
     };
