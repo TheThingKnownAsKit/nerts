@@ -1,4 +1,4 @@
-import Hand from "./hand";
+import Hand from "./hand.js";
 
 class Player {
   constructor(playerId, score = 0) {
@@ -13,7 +13,7 @@ class Player {
     const visibleHand = {}; // Initialize dictionary where key is card string and value is card/pile info
 
     // Get the top nerts card and add to visible hand
-    const nertsCard = this.hand.nertsPile.at(-1);
+    const nertsCard = this.hand.nertsPile.cards.at(-1);
     visibleHand[nertsCard.toString()] = { pileName: "nertsPile" };
 
     // Loop through each build pile and pile card to add to visible hand
@@ -24,10 +24,12 @@ class Player {
     ) {
       for (
         let cardIndex = 0;
-        cardIndex < this.hand.buildPiles[pileIndex].length;
+        cardIndex < this.hand.buildPiles[pileIndex].cards.length;
         cardIndex++
       ) {
-        visibleHand[this.hand.buildPiles[pileIndex][cardIndex].toString()] = {
+        visibleHand[
+          this.hand.buildPiles[pileIndex].cards[cardIndex].toString()
+        ] = {
           pileName: "buildPile",
           pileIndex: pileIndex,
           cardIndex: cardIndex,

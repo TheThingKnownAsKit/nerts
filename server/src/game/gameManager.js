@@ -1,4 +1,3 @@
-import Hand from "../models/hand.js";
 import { FoundationPile } from "../models/piles.js";
 import Player from "../models/player.js";
 
@@ -26,13 +25,15 @@ class GameManager {
         suit: "hearts",
         rank: 3
       }
-    }
+    },
     destination: {
       pile: {
         name: "buildPile",
         index: 2
       }
-    }
+    },
+    playerId: "XTywdu5KJNsrKqTcAAAB",
+    gameId: "SFRTNI"
   }
   */
 
@@ -127,7 +128,7 @@ class GameState {
 
 class MoveHandler {
   constructor() {
-    this.moves = initializeMoves();
+    this.moves = this.initializeMoves();
   }
   // DONT FORGET TO HANDLE VISIBLE CARDS ON MOVES
   initializeMoves() {
