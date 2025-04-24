@@ -54,7 +54,10 @@ class GameManager {
     };
     const moveType = `${srcPile.name}-${destPile.name}`;
 
-    const wasMoveMade = gameState.moveHandler.moves[moveType](moveContext);
+    const wasMoveMade = gameState.moveHandler.executeMove(
+      moveType,
+      moveContext
+    );
 
     return wasMoveMade;
   }
@@ -130,44 +133,79 @@ class MoveHandler {
   constructor() {
     this.moves = this.initializeMoves();
   }
-  // DONT FORGET TO HANDLE VISIBLE CARDS ON MOVES
+
+  executeMove(moveType, moveContext) {
+    return this.moves[moveType](moveContext);
+  }
+
   initializeMoves() {
     return {
       "drawPile-foundationPile": ({ player, srcPile, destPile }) => {
-        if (isMoveValid()) {
-          const card = srcPile.takeCard();
-          destPile.addCard(card);
+        const card = srcPile.seeCard();
+        if (destPile.addCard(card)) {
+          srcPile.takeCard();
+          player.updateVisibleHand();
           player.score++;
+          return true;
         } else {
+          return false;
         }
       },
-      "drawPile-buildPile": ({ srcPile, destPile }) => {
-        const card = srcPile.takeCard();
-        destPile.addCards([card]);
+      "drawPile-buildPile": ({ player, srcPile, destPile }) => {
+        const card = srcPile.seeCard();
+        if (destPile.addCards([card])) {
+          srcPile.takeCard();
+          player.updateVisibleHand();
+          return true;
+        } else {
+          return false;
+        }
       },
-      "buildPile-buildPile": ({ srcPile, srcCardIndex, destPile }) => {
-        const cards = srcPile.takeCards(srcCardIndex);
-        destPile.addCards(cards);
+      "buildPile-buildPile": ({ player, srcPile, srcCardIndex, destPile }) => {
+        const cards = srcPile.seeCards(srcCardIndex);
+        if (destPile.addCards(cards)) {
+          srcPile.takeCards(srcCardIndex);
+          player.updateVisibleHand();
+          return true;
+        } else {
+          return false;
+        }
       },
       "buildPile-foundationPile": ({ player, srcPile, destPile }) => {
-        const card = srcPile.takeCards(-1);
-        destPile.addCard(card[0]);
-        player.score++;
+        const card = srcPile.seeCards(-1);
+        if (destPile.addCard(card[0])) {
+          srcPile.takeCards(-1);
+          player.updateVisibleHand();
+          player.score++;
+          return true;
+        } else {
+          return false;
+        }
       },
       "nertsPile-buildPile": ({ player, srcPile, destPile }) => {
-        const card = srcPile.takeCard();
-        destPile.addCards([card]);
-        player.score += 2;
+        const card = srcPile.seeCard();
+        if (destPile.addCards([card])) {
+          srcPile.takeCard();
+          player.updateVisibleHand();
+          player.score += 2;
+          return true;
+        } else {
+          return false;
+        }
       },
       "nertsPile-foundationPile": ({ player, srcPile, destPile }) => {
-        const card = srcPile.takeCard();
-        destPile.addCard(card);
-        player.score += 3;
+        const card = srcPile.seeCard();
+        if (destPile.addCard(card)) {
+          srcPile.takeCard();
+          player.updateVisibleHand();
+          player.score += 3;
+          return true;
+        } else {
+          return false;
+        }
       },
     };
   }
-
-  isMoveValid() {}
 }
 
 export default GameManager;

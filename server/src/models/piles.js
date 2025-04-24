@@ -19,13 +19,18 @@ class NertsPile {
   seeCard() {
     return this.cards.at(-1);
   }
+
+  // Create a clone of the current pile
+  clone() {
+    return new NertsPile(this.cards);
+  }
 }
 
 // Draw pile model
 class DrawPile {
-  constructor(cards = []) {
+  constructor(cards = [], currentIndex = -1) {
     this.cards = cards;
-    this.currentIndex = -1;
+    this.currentIndex = currentIndex;
     this.name = "drawPile";
   }
 
@@ -53,12 +58,19 @@ class DrawPile {
 
   // Remove and return currently "visible" card
   takeCard() {
-    return this.cards.splice(this.currentIndex, 1);
+    const card = this.cards.splice(this.currentIndex, 1);
+    this.currentIndex--;
+    return card;
   }
 
   // See the current card
   seeCard() {
     return this.cards[this.currentIndex];
+  }
+
+  // Create a clone of the current pile
+  clone() {
+    return new DrawPile(this.cards, this.currentIndex);
   }
 }
 
@@ -99,15 +111,23 @@ class BuildPile {
       cards.forEach((card) => {
         this.cards.push(card);
       });
+    } else {
+      return false;
     }
+    return true;
+  }
+
+  // Create a clone of the current pile
+  clone() {
+    return new BuildPile(this.cards);
   }
 }
 
 // Foundation pile model
 class FoundationPile {
-  constructor() {
-    this.cards = [];
-    this.suit = null;
+  constructor(cards = [], suit = null) {
+    this.cards = cards;
+    this.suit = suit;
     this.name = "foundationPile";
   }
 
@@ -126,18 +146,22 @@ class FoundationPile {
         this.cards.push(card);
         this.suit = card.suit;
       } else {
-        throw new Error("Card must be an ace for an empty foundation pile.");
+        return false; // Card must be ace for empty foundation pile
       }
     } else {
       // Check if card is arithmetically next and matches pile suit
-      if ((card.rank = this.cards.at(-1).rank + 1) && card.suit == this.suit) {
+      if (card.rank == this.cards.at(-1).rank + 1 && card.suit == this.suit) {
         this.cards.push(card);
       } else {
-        throw new Error(
-          "Card is not arithmetically next or does not match suit of foundation pile."
-        );
+        return false; // Card must be next and/or match pile suit
       }
     }
+    return true; // Card was successfully added
+  }
+
+  // Create a clone of the current pile
+  clone() {
+    return new FoundationPile(this.cards, this.suit);
   }
 }
 
