@@ -8,7 +8,7 @@ import { createUserWithEmailAndPassword } from "firebase/auth";
 import { auth, db } from "../firebase/config";
 import { doc, setDoc } from "firebase/firestore";
 import { useSocket } from "../context/SocketContext";
-import Popup from "../components/Popup.Jsx";
+import Popup from "../components/Popup.jsx";
 
 function Signup() {
   const navigate = useNavigate();
