@@ -61,18 +61,26 @@ function Signup() {
       initializeSocket(user.uid);
       console.log("User signed up:", user);
 
-      const userStatisticsRef = doc(db, "user_statistics", user.uid);
       const userRef = doc(db, "users", user.uid);
 
       const userData = {
         uid: user.uid,
         email: user.email,
         username: username,
-        statistics: userStatisticsRef,
       };
+
+      // Create user document
       await setDoc(userRef, userData);
       console.log("User document created in Firestore");
 
+      // Create statistics subcollection under the user document
+      const userStatisticsRef = doc(
+        db,
+        "users",
+        user.uid,
+        "statistics",
+        "data"
+      );
       const userStatistics = {
         gamesPlayed: 0,
         wins: 0,
@@ -82,7 +90,20 @@ function Signup() {
         nerts_called: 0,
       };
       await setDoc(userStatisticsRef, userStatistics);
-      console.log("User statistics document created in Firestore");
+      console.log("User statistics subcollection created in Firestore");
+
+      // Create a settings subcollection under the user document
+      const userSettingsRef = doc(db, "users", user.uid, "settings", "data");
+      const userSettings = {
+        music_on: 1,
+        sfx_on: 1,
+        volume: 100,
+        card_color: 1,
+        tab_hotkey: 1,
+        colorblind_mode: 0,
+      };
+      await setDoc(userSettingsRef, userSettings);
+      console.log("User settings subcollection created in Firestore");
 
       navigate("/home");
     } catch (error) {
