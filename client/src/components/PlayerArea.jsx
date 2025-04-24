@@ -1,14 +1,14 @@
 import "./PlayerArea.css";
 
-function PlayerArea({ corner, children }) {
+function PlayerArea({ corner, nertsPile, workPile, stockPile }) {
   return (
     <div className={`player-area ${corner}`}>
       <div className="top-row">
-        <div className="nerts-pile dashed-outline"></div>
-        <div className="work-pile dashed-outline">{children}</div>
+        <div className="nerts-pile dashed-outline">{nertsPile}</div>
+        <div className="work-pile dashed-outline">{workPile}</div>
       </div>
       <div className="bottom-row">
-        <div className="stock-pile dashed-outline"></div>
+        <div className="stock-pile dashed-outline">{stockPile}</div>
         <div className="profile-info">Profile</div>
       </div>
     </div>

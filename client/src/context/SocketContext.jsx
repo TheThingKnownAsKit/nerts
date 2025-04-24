@@ -8,6 +8,7 @@ const SocketContext = createContext(null); // Create new context for socket conn
 // Create a context provider that "provides" all child components (in our case all of our pages) with socket values
 export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null); // Socket values to be provided on use
+  const [gameState, setGameState] = useState(null); // Store the gamestate for global use
 
   // Starts socket once a user has logged in and gets userID from Firebase Authenticate
   const initializeSocket = () => {
@@ -24,7 +25,7 @@ export const SocketProvider = ({ children }) => {
 
     // Event listeners
     lobbyEvents(newSocket);
-    gameEvents(newSocket);
+    gameEvents(newSocket, setGameState);
 
     setSocket(newSocket); // Set socket object to the initialized socket
 
@@ -43,7 +44,7 @@ export const SocketProvider = ({ children }) => {
   // Return provider values that can be used by children wrapped within SocketContext
   return (
     <SocketContext.Provider
-      value={{ socket, initializeSocket, disconnectSocket }}
+      value={{ socket, initializeSocket, disconnectSocket, gameState }}
     >
       {children}
     </SocketContext.Provider>
