@@ -1,7 +1,7 @@
 import { FoundationPile } from "../models/piles.js";
 import Player from "../models/player.js";
 
-// Game manager model to handle game instances and gameplay
+// Game manager model to handle game instances
 class GameManager {
   constructor() {
     this.games = {}; // Dictionary of running games { lobbyId: gameState }
@@ -20,8 +20,27 @@ class GameManager {
     this.games[lobbyId] = gameState; // Add game to game manager dictionary
     return gameState;
   }
+}
 
-  /* PLAY PAYLOAD
+// Game state model to handle game properties and gameplay logic
+class GameState {
+  constructor() {
+    this.players = {};
+    this.foundation = [];
+    this.moveHandler = new MoveHandler();
+  }
+
+  // Helper function for adding players to a game
+  addPlayer(playerId, player) {
+    this.players[playerId] = player;
+
+    // Add 4 foudnation piles per player
+    for (let i = 0; i < 4; i++) {
+      this.foundation.push(new FoundationPile());
+    }
+  }
+
+  /* EXAMPLE PAYLOAD
   {
     source: {
       card: {
@@ -36,19 +55,19 @@ class GameManager {
       }
     },
     playerId: "XTywdu5KJNsrKqTcAAAB",
-    gameId: "SFRTNI"
+    gameId: "ABCDEF"
   } */
 
   // Attempts to play a move from a player given the above example payload
-  playCard(lobbyId, playerId, playPayload) {
-    const { gameState, player } = this.getPlayer(lobbyId, playerId); // Get the game and player
+  playCard(playPayload) {
+    const player = this.players[playPayload.playerId]; // Get player making the move
 
     // Get info about the source card(s) given the card sent from front-end
     const { srcPile, srcCardIndex } = getSrcInfoFromCard(
       player,
       playPayload.source
     );
-    const destPile = getPile(gameState, player, playPayload.destination); // Get player's destination pile object
+    const destPile = getPile(player, playPayload.destination); // Get player's destination pile object
 
     // Set up info needed for a move
     const moveContext = {
@@ -60,25 +79,22 @@ class GameManager {
     const moveType = `${srcPile.name}-${destPile.name}`;
 
     // Try to perform move
-    const wasMoveMade = gameState.moveHandler.tryExecuteMove(
-      moveType,
-      moveContext
-    );
+    const moveWasMade = this.moveHandler.tryExecuteMove(moveType, moveContext);
 
-    return wasMoveMade;
+    return moveWasMade;
   }
 
   // "Flip" the draw pile and give new top card
-  flipDrawPile(lobbyId, playerId) {
-    const { player } = this.getPlayer(lobbyId, playerId); // Get player
+  flipDrawPile(playerId) {
+    const player = this.players[playerId]; // Get player object
     const card = player.hand.drawPile.flip(); // Flip the player's draw pile and return new "top" card
     player.updateVisibleHand(); // Update visible hand to reflect new top card
     return card;
   }
 
   // Check if nerts can be called
-  callNerts(lobbyId, playerId) {
-    const { player } = this.getPlayer(lobbyId, playerId); // Get player
+  callNerts(playerId) {
+    const player = this.players[playerId]; // Get player object
 
     // Ensure the player has no more nerts cards
     if (player.hand.nertsPile.cards.length == 0) {
@@ -109,40 +125,13 @@ class GameManager {
   }
 
   // Returns a specified play destination pile of a player
-  getPile(gameState, player, destination) {
+  getPile(player, destination) {
     // If pile is a build pile, the pile index is needed
     if (destination.pileName == "buildPile") {
       return player.hand.buildPiles[destination.pileIndex];
     } else {
       // Foudnation pile is the only other destination pile
-      return gameState.foundation[destination.pileIndex];
-    }
-  }
-
-  // Given lobby and player IDs, return the corresponding game state and player object
-  getPlayer(lobbyId, playerId) {
-    const gameState = this.games[lobbyId];
-    const player = gameState.players[playerId];
-
-    return { gameState, player };
-  }
-}
-
-// Game state model to handle player objects and shared gameplay properties
-class GameState {
-  constructor() {
-    this.players = {};
-    this.foundation = [];
-    this.moveHandler = new MoveHandler();
-  }
-
-  // Helper function for adding players to a game
-  addPlayer(playerId, player) {
-    this.players[playerId] = player;
-
-    // Add 4 foudnation piles per player
-    for (let i = 0; i < 4; i++) {
-      this.foundation.push(new FoundationPile());
+      return this.foundation[destination.pileIndex];
     }
   }
 }

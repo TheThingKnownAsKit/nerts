@@ -1,16 +1,58 @@
 export default (io, gameManager) => {
   io.on("connect", (socket) => {
-    // When a client wants to start a game, initialize a game instance
+    // Event listener for starting a game
     socket.on("startGame", (lobbyId) => {
       const players = Array.from(io.sockets.adapter.rooms.get(lobbyId)); // Get all players in lobby
       const gameState = gameManager.startGame(lobbyId, players); // Create a game state
-      io.to(lobbyId).emit("gameStarted", { gameState }); // Tell clients game started
+      io.to(lobbyId).emit("gameStarted", gameState); // Tell clients game started
+    });
+
+    // Event listener for playing a card
+    /* EXAMPLE PAYLOAD
+    {
+      source: {
+        card: {
+          suit: "hearts",
+          rank: 3
+        }
+      },
+      destination: {
+        pile: {
+          name: "buildPile",
+          index: 2
+        }
+      },
+      playerId: "XTywdu5KJNsrKqTcAAAB",
+      gameId: "ABCDEF"
+    } */
+    socket.on("cardPlayed", (payload) => {
+      const gameState = gameManager.games[payload.lobbyId]; // Get game state of specified lobby
+      const moveWasMade = gameState.playCard(payload); // Try to make the move
+      socket.emit("cardPlayAccepted", moveWasMade); // Send move status
+    });
+
+    // Event listener for flipping the draw pile
+    /* EXAMPLE PAYLOAD
+    {
+      lobbyId: "ABCDEF",
+      playerId: "XTywdu5KJNsrKqTcAAAB"
+    } */
+    socket.on("flipDrawPile", (payload) => {
+      const gameState = gameManager.games[payload.lobbyId]; // Get game state of specified lobby
+      const card = gameState.flipDrawPile(payload.playerId); // Get new "visible" draw pile card
+      socket.emit("newDrawCard", card); // Send this updated card
+    });
+
+    // Event listener for calling nerts
+    /* EXAMPLE PAYLOAD
+    {
+      lobbyId: "ABCDEF",
+      playerId: "XTywdu5KJNsrKqTcAAAB"
+    } */
+    socket.on("callNerts", (payload) => {
+      const gameState = gameManager.games[payload.lobbyId]; // Get game state of specified lobby
+      const endGame = gameState.callNerts(payload.playerId); // Attempt to call nerts
+      socket.emit("endGame", endGame); // Send if nerts was successfully called
     });
   });
 };
-
-// GENERAL TODO:
-// Fix login bug: pressing enter to log in pops up with a bunch of login attempts and errors
-// Pop ups: login errors, lobby not found, player joined lobby, etc
-// Backend logic: handle player leaving, handle invalid move, comment code, connect gameSocket to gameManager logic
-// Connecting front end to back end: The back end
