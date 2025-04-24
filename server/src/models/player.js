@@ -1,4 +1,4 @@
-import Hand from "./hand.js";
+import { Hand } from "./hand.js";
 
 class Player {
   constructor(playerId, score = 0) {

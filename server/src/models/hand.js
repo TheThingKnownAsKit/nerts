@@ -65,4 +65,4 @@ class Card {
   }
 }
 
-export default Hand;
+export { Card, Deck, Hand };
