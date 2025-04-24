@@ -4,7 +4,7 @@ export default (io, gameManager) => {
     socket.on("startGame", (lobbyId) => {
       const players = Array.from(io.sockets.adapter.rooms.get(lobbyId)); // Get all players in lobby
       const gameState = gameManager.startGame(lobbyId, players); // Create a game state
-      io.to(lobbyId).emit("gameStarted", gameState); // Tell clients game started
+      io.to(lobbyId).emit("gameStarted", { gameState }); // Tell clients game started
     });
 
     // Event listener for playing a card
