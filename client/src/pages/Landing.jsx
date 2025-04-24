@@ -7,7 +7,7 @@ import "./Landing.css";
 import { auth } from "../firebase/config";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useSocket } from "../context/SocketContext";
-import Popup from "../components/Popup.Jsx";
+import Popup from "../components/Popup.jsx";
 
 function Landing() {
   const navigate = useNavigate();
