@@ -7,17 +7,35 @@ class GameManager {
     this.games = {}; // Dictionary of running games { lobbyId: gameState }
   }
 
+  // Generates a unique lobby ID and it in games dictionary
+  createLobby() {
+    let lobbyId;
+
+    // Keep generating a 6 character, alphanumeric lobby ID until a unique one is found
+    do {
+      lobbyId = Math.random().toString(36).slice(2, 8).toUpperCase();
+    } while (this.games.hasOwnProperty(lobbyId));
+
+    this.games[lobbyId] = null; // Store lobby ID in games dictionary
+    return lobbyId;
+  }
+
   // Initializes gamestate for a given lobby with given players
-  startGame(lobbyId, players) {
+  startGame(lobbyId, playerIds) {
+    // Check for empty player list
+    if (playerIds.length == 0) {
+      return null;
+    }
+
     const gameState = new GameState(); // Create game state
 
     // Add each player to the game state
-    players.forEach((playerId) => {
+    playerIds.forEach((playerId) => {
       const player = new Player(playerId);
-      gameState.addPlayer(playerId, player);
+      gameState.addPlayer(player);
     });
 
-    this.games[lobbyId] = gameState; // Add game to game manager dictionary
+    this.games[lobbyId] = gameState; // Add game state to lobby stored in dictionary
     return gameState;
   }
 }
@@ -31,8 +49,8 @@ class GameState {
   }
 
   // Helper function for adding players to a game
-  addPlayer(playerId, player) {
-    this.players[playerId] = player;
+  addPlayer(player) {
+    this.players[player.playerId] = player;
 
     // Add 4 foudnation piles per player
     for (let i = 0; i < 4; i++) {
@@ -63,11 +81,11 @@ class GameState {
     const player = this.players[playPayload.playerId]; // Get player making the move
 
     // Get info about the source card(s) given the card sent from front-end
-    const { srcPile, srcCardIndex } = getSrcInfoFromCard(
+    const { srcPile, srcCardIndex } = this.getSrcInfoFromCard(
       player,
       playPayload.source
     );
-    const destPile = getPile(player, playPayload.destination); // Get player's destination pile object
+    const destPile = this.getPile(player, playPayload.destination); // Get player's destination pile object
 
     // Set up info needed for a move
     const moveContext = {
@@ -110,8 +128,8 @@ class GameState {
     const cardInfo = player.visibleHand[card]; // get stored info about the card (such as its parent pile)
 
     // Initialize necessary info to return
-    const srcPile = null;
-    const srcCardIndex = null;
+    let srcPile;
+    let srcCardIndex;
 
     // If the card is from the build pile, card index within the pile is needed
     if (cardInfo.pileName == "buildPile") {
@@ -127,11 +145,11 @@ class GameState {
   // Returns a specified play destination pile of a player
   getPile(player, destination) {
     // If pile is a build pile, the pile index is needed
-    if (destination.pileName == "buildPile") {
+    if (destination.pile.name == "buildPile") {
       return player.hand.buildPiles[destination.pileIndex];
     } else {
       // Foudnation pile is the only other destination pile
-      return this.foundation[destination.pileIndex];
+      return this.foundation[destination.pile.index];
     }
   }
 }
@@ -236,4 +254,4 @@ class MoveHandler {
   }
 }
 
-export default GameManager;
+export { GameManager, GameState, MoveHandler };

@@ -1,8 +1,8 @@
-export default (io) => {
+export default (io, gameManager) => {
   io.on("connect", (socket) => {
     // Listen for client requesting to create a lobby
     socket.on("createLobby", () => {
-      const lobbyID = Math.random().toString(36).slice(2, 8).toUpperCase(); // Generate random, 6 character alphanumeric lobby ID
+      const lobbyID = gameManager.createLobby(); // Get unique lobby ID
       socket.join(lobbyID); // Add client to a "room" with this lobby ID
 
       // Tell client the lobby has been created and log the lobby creation

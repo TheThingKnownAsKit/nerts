@@ -52,6 +52,7 @@ class DrawPile {
     } else if (cardsRemaining == 0) {
       // If at the last card, reset pile
       this.currentIndex = -1;
+      return null;
     }
     return this.cards[this.currentIndex];
   }

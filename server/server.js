@@ -3,7 +3,7 @@ import { createServer } from "http";
 import { Server } from "socket.io";
 import lobbySocket from "./src/sockets/lobbySocket.js";
 import gameSocket from "./src/sockets/gameSocket.js";
-import GameManager from "./src/game/gameManager.js";
+import { GameManager } from "./src/game/gameManager.js";
 
 // Create an Express application instance and pass in as handler for HTTP server instance
 const app = express();
@@ -30,7 +30,7 @@ io.on("connect", (socket) => {
 });
 
 // Pass the socket server to lobbySocket and gameSocket
-lobbySocket(io);
+lobbySocket(io, gameManager);
 gameSocket(io, gameManager);
 
 // Start HTTP server on port 3000 and log
