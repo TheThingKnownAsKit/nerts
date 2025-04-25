@@ -305,51 +305,7 @@ test("Flipping draw pile of 6 cards four times after initialization results in c
   expect(card).toBe(mockDrawPile[2]);
 });
 
-// MOVEHANDLER TESTS
-
-// test("Draw pile ace to empty foundation pile", () => {
-//   const gameManager = new GameManager();
-//   const lobbyId = gameManager.createLobby();
-//   const examplePlayerId = "ABC123";
-//   const gameState = gameManager.startGame(lobbyId, [examplePlayerId]);
-//   const player = gameManager.games[lobbyId].players[examplePlayerId];
-//   const mockDrawPile = [
-//     new Card("diamonds", 4),
-//     new Card("clubs", 13),
-//     new Card("hearts", 1),
-//   ];
-//   const mockNertsPile = [new Card("clubs", 1)];
-//   const mockBuildPile1 = [new Card("clubs", 2)];
-//   const mockBuildPile2 = [new Card("clubs", 3)];
-//   const mockBuildPile3 = [new Card("clubs", 4)];
-//   const mockBuildPile4 = [new Card("clubs", 5)];
-//   player.hand.drawPile.cards = mockDrawPile;
-//   player.hand.nertsPile.cards = mockNertsPile;
-//   player.hand.buildPiles[0] = mockBuildPile1;
-//   player.hand.buildPiles[1] = mockBuildPile2;
-//   player.hand.buildPiles[2] = mockBuildPile3;
-//   player.hand.buildPiles[3] = mockBuildPile4;
-//   gameState.flipDrawPile(examplePlayerId);
-//   const playPayload = {
-//     source: {
-//       card: {
-//         suit: "hearts",
-//         rank: 1,
-//       },
-//     },
-//     destination: {
-//       pile: {
-//         name: "foundationPile",
-//         index: 0,
-//       },
-//     },
-//     playerId: examplePlayerId,
-//     lobbyId: lobbyId,
-//   };
-//   const moveWasMade = gameState.playCard(playPayload);
-
-//   expect(moveWasMade).toBe(true);
-// });
+// MOVE HANDLER TESTS
 
 test("Draw pile ace to empty foundation pile", () => {
   const gameManager = new GameManager();
