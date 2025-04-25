@@ -307,17 +307,18 @@ test("Flipping draw pile of 6 cards four times after initialization results in c
 
 // MOVE HANDLER TESTS
 
-test("Draw pile ace to empty foundation pile", () => {
+test("Draw pile ace to empty foundation pile (played)", () => {
   const gameManager = new GameManager();
   const lobbyId = gameManager.createLobby();
   const examplePlayerId = "ABC123";
   const gameState = gameManager.startGame(lobbyId, [examplePlayerId]);
+  const player = gameState.players[examplePlayerId];
   const mockDrawPile = [
     new Card("clubs", 3),
     new Card("clubs", 2),
     new Card("clubs", 1),
   ];
-  gameState.players[examplePlayerId].hand.drawPile.cards = mockDrawPile;
+  player.hand.drawPile.cards = mockDrawPile;
   gameState.flipDrawPile(examplePlayerId);
   const playPayload = {
     source: {
@@ -338,4 +339,242 @@ test("Draw pile ace to empty foundation pile", () => {
   const wasPlayed = gameState.playCard(playPayload);
 
   expect(wasPlayed).toBe(true);
+});
+
+test("Nerts pile not ace to empty foundation pile (not played)", () => {
+  const gameManager = new GameManager();
+  const lobbyId = gameManager.createLobby();
+  const examplePlayerId = "ABC123";
+  const gameState = gameManager.startGame(lobbyId, [examplePlayerId]);
+  const player = gameState.players[examplePlayerId];
+  const mockNertsPile = [new Card("clubs", 3)];
+  player.hand.nertsPile.cards = mockNertsPile;
+  player.updateVisibleHand();
+  const playPayload = {
+    source: {
+      card: {
+        suit: "clubs",
+        rank: 3,
+      },
+    },
+    destination: {
+      pile: {
+        name: "foundationPile",
+        index: 0,
+      },
+    },
+    playerId: examplePlayerId,
+    lobbyId: lobbyId,
+  };
+  const wasPlayed = gameState.playCard(playPayload);
+
+  expect(wasPlayed).toBe(false);
+});
+
+test("Build pile single card (4-diamonds) to empty build pile (played)", () => {
+  const gameManager = new GameManager();
+  const lobbyId = gameManager.createLobby();
+  const examplePlayerId = "ABC123";
+  const gameState = gameManager.startGame(lobbyId, [examplePlayerId]);
+  const player = gameState.players[examplePlayerId];
+  const mockBuildPile = [new Card("diamonds", 4)];
+  player.hand.buildPiles[0].cards = mockBuildPile;
+  player.hand.buildPiles[1].cards = [];
+  player.updateVisibleHand();
+  const playPayload = {
+    source: {
+      card: {
+        suit: "diamonds",
+        rank: 4,
+      },
+    },
+    destination: {
+      pile: {
+        name: "buildPile",
+        index: 1,
+      },
+    },
+    playerId: examplePlayerId,
+    lobbyId: lobbyId,
+  };
+  const wasPlayed = gameState.playCard(playPayload);
+
+  expect(wasPlayed).toBe(true);
+});
+
+test("Nerts pile (4-diamonds) to (13-hearts) build pile (not played)", () => {
+  const gameManager = new GameManager();
+  const lobbyId = gameManager.createLobby();
+  const examplePlayerId = "ABC123";
+  const gameState = gameManager.startGame(lobbyId, [examplePlayerId]);
+  const player = gameState.players[examplePlayerId];
+  const mockNertsPile = [new Card("diamonds", 4)];
+  const mockBuildPile = [new Card("hearts", 13)];
+  player.hand.nertsPile.cards = mockNertsPile;
+  player.hand.buildPiles[0].cards = mockBuildPile;
+  player.updateVisibleHand();
+  const playPayload = {
+    source: {
+      card: {
+        suit: "diamonds",
+        rank: 4,
+      },
+    },
+    destination: {
+      pile: {
+        name: "buildPile",
+        index: 0,
+      },
+    },
+    playerId: examplePlayerId,
+    lobbyId: lobbyId,
+  };
+  const wasPlayed = gameState.playCard(playPayload);
+
+  expect(wasPlayed).toBe(false);
+});
+
+test("Draw pile (4-diamonds) to (13-hearts) build pile (not played)", () => {
+  const gameManager = new GameManager();
+  const lobbyId = gameManager.createLobby();
+  const examplePlayerId = "ABC123";
+  const gameState = gameManager.startGame(lobbyId, [examplePlayerId]);
+  const player = gameState.players[examplePlayerId];
+  const mockBuildPile = [new Card("hearts", 13)];
+  const mockDrawPile = [
+    new Card("clubs", 3),
+    new Card("clubs", 2),
+    new Card("diamonds", 4),
+  ];
+  player.hand.drawPile.cards = mockDrawPile;
+  gameState.flipDrawPile(examplePlayerId);
+  player.hand.buildPiles[0].cards = mockBuildPile;
+  player.updateVisibleHand();
+  const playPayload = {
+    source: {
+      card: {
+        suit: "diamonds",
+        rank: 4,
+      },
+    },
+    destination: {
+      pile: {
+        name: "buildPile",
+        index: 0,
+      },
+    },
+    playerId: examplePlayerId,
+    lobbyId: lobbyId,
+  };
+  const wasPlayed = gameState.playCard(playPayload);
+
+  expect(wasPlayed).toBe(false);
+});
+
+test("Multi-card build pile (4-diamonds, 3-clubs, 2-hearts) to multi-card build pile (6-diamonds, 5-spades) (played)", () => {
+  const gameManager = new GameManager();
+  const lobbyId = gameManager.createLobby();
+  const examplePlayerId = "ABC123";
+  const gameState = gameManager.startGame(lobbyId, [examplePlayerId]);
+  const player = gameState.players[examplePlayerId];
+  const mockBuildPile1 = [
+    new Card("diamonds", 4),
+    new Card("clubs", 3),
+    new Card("hearts", 2),
+  ];
+  const mockBuildPile2 = [new Card("diamonds", 6), new Card("spades", 5)];
+  player.hand.buildPiles[0].cards = mockBuildPile1;
+  player.hand.buildPiles[1].cards = mockBuildPile2;
+  player.updateVisibleHand();
+  const playPayload = {
+    source: {
+      card: {
+        suit: "diamonds",
+        rank: 4,
+      },
+    },
+    destination: {
+      pile: {
+        name: "buildPile",
+        index: 1,
+      },
+    },
+    playerId: examplePlayerId,
+    lobbyId: lobbyId,
+  };
+  const wasPlayed = gameState.playCard(playPayload);
+
+  expect(wasPlayed).toBe(true);
+});
+
+test("Multi-card build pile (4-clubs, 3-diamonds, 2-spades) to multi-card build pile (6-diamonds, 5-spades) (not played)", () => {
+  const gameManager = new GameManager();
+  const lobbyId = gameManager.createLobby();
+  const examplePlayerId = "ABC123";
+  const gameState = gameManager.startGame(lobbyId, [examplePlayerId]);
+  const player = gameState.players[examplePlayerId];
+  const mockBuildPile1 = [
+    new Card("clubs", 4),
+    new Card("diamonds", 3),
+    new Card("spades", 2),
+  ];
+  const mockBuildPile2 = [new Card("diamonds", 6), new Card("spades", 5)];
+  player.hand.buildPiles[0].cards = mockBuildPile1;
+  player.hand.buildPiles[1].cards = mockBuildPile2;
+  player.updateVisibleHand();
+  const playPayload = {
+    source: {
+      card: {
+        suit: "clubs",
+        rank: 4,
+      },
+    },
+    destination: {
+      pile: {
+        name: "buildPile",
+        index: 1,
+      },
+    },
+    playerId: examplePlayerId,
+    lobbyId: lobbyId,
+  };
+  const wasPlayed = gameState.playCard(playPayload);
+
+  expect(wasPlayed).toBe(false);
+});
+
+test("Multi-card build pile (4-clubs, 3-diamonds, 2-spades) to foundation pile (1-spades) (played)", () => {
+  const gameManager = new GameManager();
+  const lobbyId = gameManager.createLobby();
+  const examplePlayerId = "ABC123";
+  const gameState = gameManager.startGame(lobbyId, [examplePlayerId]);
+  const player = gameState.players[examplePlayerId];
+  const mockBuildPile1 = [
+    new Card("clubs", 4),
+    new Card("diamonds", 3),
+    new Card("spades", 2),
+  ];
+  const mockFoundationPile = [new Card("spades", 1)];
+  gameState.foundation[0].cards = mockFoundationPile;
+  player.hand.buildPiles[0].cards = mockBuildPile1;
+  player.updateVisibleHand();
+  const playPayload = {
+    source: {
+      card: {
+        suit: "spades",
+        rank: 2,
+      },
+    },
+    destination: {
+      pile: {
+        name: "foundationPile",
+        index: 0,
+      },
+    },
+    playerId: examplePlayerId,
+    lobbyId: lobbyId,
+  };
+  const wasPlayed = gameState.playCard(playPayload);
+
+  expect(wasPlayed).toBe(false);
 });

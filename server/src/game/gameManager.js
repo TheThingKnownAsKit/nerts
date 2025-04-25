@@ -146,7 +146,7 @@ class GameState {
   getPile(player, destination) {
     // If pile is a build pile, the pile index is needed
     if (destination.pile.name == "buildPile") {
-      return player.hand.buildPiles[destination.pileIndex];
+      return player.hand.buildPiles[destination.pile.index];
     } else {
       // Foudnation pile is the only other destination pile
       return this.foundation[destination.pile.index];

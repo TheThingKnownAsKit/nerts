@@ -44,6 +44,7 @@ class Player {
       }
     }
     this.visibleHand = visibleHand;
+    return visibleHand;
   }
 }
 
