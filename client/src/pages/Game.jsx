@@ -4,12 +4,26 @@ import CommonArea from "../components/CommonArea.jsx";
 import { useParams } from "react-router-dom";
 import { useSocket } from "../context/SocketContext.jsx";
 import { useEffect, useState } from "react";
+import Popup from "../components/Popup.jsx";
 
 function Game() {
   const { lobbyID } = useParams();
   const { socket, gameState } = useSocket();
   const [selectedCard, setSelectedCard] = useState(null);
   const [gameStarted, setGameStarted] = useState(false);
+  const [popup, setPopup] = useState(null);
+
+  useEffect(() => {
+    socket.on("playerJoined", ({ message }) => {
+      setPopup({
+        title: "New Player Joined",
+        message,
+      });
+    });
+    return () => {
+      socket.off("playerJoined");
+    };
+  }, [socket]);
 
   const startButtonPress = () => {
     if (socket) {
@@ -155,6 +169,13 @@ function Game() {
       />
 
       {createCards()}
+      {popup && (
+        <Popup
+          title={popup.title}
+          message={popup.message}
+          onClose={() => setPopup(null)}
+        />
+      )}
     </div>
   );
 }

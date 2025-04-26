@@ -20,7 +20,10 @@ export default (io, gameManager) => {
 
         // Tell client the lobby has been joined, tell the lobby a new client has joined, and log the join
         socket.emit("lobbyJoined", { lobbyID });
-        io.to(lobbyID).emit("playerJoined", { playerID: socket.id });
+        io.to(lobbyID).emit("playerJoined", {
+          playerID: socket.id,
+          message: `Player ${socket.id} has joined the lobby.`,
+        });
         console.log(`Player ${socket.id} joined lobby ${lobbyID}.`);
       } else {
         socket.emit("lobbyNotFound", {
