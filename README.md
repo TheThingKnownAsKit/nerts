@@ -1,47 +1,23 @@
 # Nerts
 
-1. Client
+Web-app implementation of the card game Nerts powered by Node.js, Socket.io, Vite/React, and Firebase. Developed for RAIK-284H by Ella, Joey, Shayna, and Carter.
 
-a. css
-This is where all the css styles will go. We were unsure what all needs to go in here, so if
-changes need to be made let us know or just make them
+# Installing and Running
 
-b. js
-This is where all our javascript files attached to the front-end will go. For example, socket.js is what handles
-front-end implementation/connection of socket.io
-Other files that might go here could include more advanced buttons, events, and page logic (some of this is back-end work)
+## 1. Clone Repo to Your Local Machine
 
-2. Server
+Clone this repo to somewhere accessible on your machine.
 
-This is where all our back-end code will go
+## 2. Installing Dependencies
 
-a. controllers
-This is where we'll put our logic that handles incoming requests and returning appropriate responses. It will update classes and call relevant functions and such.
+Run `npm run install-all` in the top level directory to install all dependencies.
 
-b. model
-This is where we're putting all of our object designs
+## 3. Running the Game
 
-c. routes
-This will define the routes that requests can take through the application and send the requests to the relevant controller
+- Run `npm run start` to run both the front and back end servers (will change to only running back end on deployment).
+- To run just the front end Vite server, enter `npm run client`.
+- To run just the back end server, enter `npm run server`.
 
-d. sockets
-This will handle our back-end logic for websocket connections
+# 4. Testing
 
-package-lock.json and package.json are automatically generated files that just manage the dependencies of the project
-
-# Installing Dependencies
-
-Running `npm run install-all` will install all dependencies in the project
-
-# Running Backend
-
-In the top-level directory, run `npm run server` to run only the back-end server
-
-# Running Frontend
-
-In the top-level directory, run `npm run client` to run only the front-end server
-
-# Running Servers Simultaneously
-
-If you need to run both in development, run `npm run start` to execute both server
-scripts simultaneously
+To run Jest test suites, cd into the server directory and run `npm run test`. Coverage details can be found in server/testing/coverage after running tests.
