@@ -4,6 +4,9 @@
 # Node modules
 node_modules/
 
+# Testing
+server/src/testing/coverage/
+
 # Logs
 logs
 *.log

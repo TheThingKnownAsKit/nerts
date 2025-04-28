@@ -4,12 +4,26 @@ import CommonArea from "../components/CommonArea.jsx";
 import { useParams } from "react-router-dom";
 import { useSocket } from "../context/SocketContext.jsx";
 import { useEffect, useState } from "react";
+import Popup from "../components/Popup.jsx";
 
 function Game() {
   const { lobbyID } = useParams();
   const { socket, gameState, userID } = useSocket();
   const [selectedCard, setSelectedCard] = useState(null);
   const [gameStarted, setGameStarted] = useState(false);
+  const [popup, setPopup] = useState(null);
+
+  useEffect(() => {
+    socket.on("playerJoined", ({ message }) => {
+      setPopup({
+        title: "New Player Joined",
+        message,
+      });
+    });
+    return () => {
+      socket.off("playerJoined");
+    };
+  }, [socket]);
 
   const startButtonPress = () => {
     if (socket) {
@@ -63,14 +77,14 @@ function Game() {
 
     return (
       <>
-        <PlayerArea 
+        <PlayerArea
           corner="tm"
           nertsPile={renderNertsPile(opponentID)}
           workPile={renderWorkPiles(opponentID)}
           stockPile={renderStockPile(opponentID)}
         />
 
-        <PlayerArea 
+        <PlayerArea
           corner="bm"
           nertsPile={renderNertsPile(currentPlayerID)}
           workPile={renderWorkPiles(currentPlayerID)}
@@ -81,7 +95,8 @@ function Game() {
   }
 
   const renderNertsPile = (playerID) => {
-    const pile = gameState?.gameState?.players?.[playerID]?.hand?.nertsPile?.cards;
+    const pile =
+      gameState?.gameState?.players?.[playerID]?.hand?.nertsPile?.cards;
     if (!pile) return null;
   
     const isCurrentPlayer = playerID === userID;
@@ -98,7 +113,8 @@ function Game() {
   };
 
   const renderWorkPiles = (playerID) => {
-    const buildPiles = gameState?.gameState?.players?.[playerID]?.hand?.buildPiles;
+    const buildPiles =
+      gameState?.gameState?.players?.[playerID]?.hand?.buildPiles;
     if (!buildPiles) return null;
 
     const workCards = [];
@@ -142,7 +158,8 @@ function Game() {
     ));
   };
 
-  const numberOfPlayers = Object.keys(gameState?.gameState?.players || {}).length || 2;
+  const numberOfPlayers =
+    Object.keys(gameState?.gameState?.players || {}).length || 2;
 
   return (
     <div className="game-container">
@@ -154,12 +171,19 @@ function Game() {
         </button>
       )}
 
-      <CommonArea 
-        numberOfPlayers={numberOfPlayers} 
+      <CommonArea
+        numberOfPlayers={numberOfPlayers}
         onPlaySpotClick={handlePlaySpotClick}
       />
 
       {createCards()}
+      {popup && (
+        <Popup
+          title={popup.title}
+          message={popup.message}
+          onClose={() => setPopup(null)}
+        />
+      )}
     </div>
   );
 }

@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { useSocket } from "../context/SocketContext.jsx";
 import CustomTextInput from "../components/CustomTextInput.jsx";
 import CustomButton from "../components/CustomButton.jsx";
+import Popup from "../components/Popup.jsx";
 import soundManager from "../logic/soundManager.js";
 import backgroundMusic from "../assets/sounds/background.mp3";
 
@@ -10,42 +11,22 @@ import "./Host.css";
 
 function Host() {
   const navigate = useNavigate();
-  const [lobbyID, setLobbyID] = useState("");
   const { socket } = useSocket();
 
+  const [lobbyID, setLobbyID] = useState("");
+  const [popup, setPopup] = useState(null);
+
   // Starts music back up if refreshed on this page
-  if (
-    !soundManager.backgroundMusic &&
-    localStorage.getItem("isMusicOn") == "true"
-  ) {
-    soundManager.playBackgroundMusic(backgroundMusic);
-  }
-
-  // Handle changes for input
-  const handleLobbyIDChange = (newLobbyID) => {
-    setLobbyID(newLobbyID);
-  };
-
-  const handleCreateLobby = () => {
-    if (!socket) return;
-
-    socket.emit("createLobby");
-  };
-
-  const handleJoinLobby = () => {
-    if (lobbyID) {
-      socket.emit("joinLobby", { lobbyID });
-    } else {
-      console.log("Input is empty.");
+  useEffect(() => {
+    if (
+      !soundManager.backgroundMusic &&
+      localStorage.getItem("isMusicOn") === "true"
+    ) {
+      soundManager.playBackgroundMusic(backgroundMusic);
     }
-  };
+  }, []);
 
-  const handleInputChange = (event) => {
-    // Allow only alphanumeric inputs to prevent invalid characters
-    const newValue = event.target.value.replace(/[^a-zA-Z0-9]/g, "");
-    handleLobbyIDChange(newValue);
-  };
-
+  // Socket listeners
   useEffect(() => {
     if (!socket) return;
 
@@ -57,19 +38,53 @@ function Host() {
       navigate(`/game/${lobbyID}`);
     });
 
+    socket.on("lobbyNotFound", ({ message }) => {
+      setPopup({
+        title: "Join Error",
+        message,
+      });
+    });
+
     return () => {
       socket.off("lobbyCreated");
       socket.off("lobbyJoined");
+      socket.off("lobbyNotFound");
     };
-  }, []);
+  }, [socket, navigate]);
 
-  // Join game on enter-press
+  // Input handlers
+  const handleLobbyIDChange = (newLobbyID) => {
+    setLobbyID(newLobbyID);
+  };
+
+  const handleInputChange = (e) => {
+    const newValue = e.target.value.replace(/[^a-zA-Z0-9]/g, "");
+    handleLobbyIDChange(newValue);
+  };
+
+  // Lobby actions
+  const handleCreateLobby = () => {
+    socket.emit("createLobby");
+  };
+
+  const handleJoinLobby = () => {
+    if (!lobbyID) {
+      setPopup({
+        title: "Input Error",
+        message: "Please enter a lobby code.",
+      });
+      return;
+    }
+    socket.emit("joinLobby", { lobbyID });
+  };
+
+  // Join on Enter key
   let keyPressed = false;
   document.addEventListener("keydown", (e) => {
     if (e.key === "Enter" && !keyPressed) {
       keyPressed = true;
       if (lobbyID) {
-        handleJoinLobby(e);
+        handleJoinLobby();
       }
     }
   });
@@ -92,7 +107,6 @@ function Host() {
       />
 
       <h3 className="join no-select">JOIN</h3>
-
       <div className="input-container code-input">
         <CustomTextInput
           value={lobbyID}
@@ -108,6 +122,14 @@ function Host() {
           onClick={handleJoinLobby}
         />
       </div>
+
+      {popup && (
+        <Popup
+          title={popup.title}
+          message={popup.message}
+          onClose={() => setPopup(null)}
+        />
+      )}
     </div>
   );
 }
