@@ -9,9 +9,10 @@ const SocketContext = createContext(null); // Create new context for socket conn
 export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null); // Socket values to be provided on use
   const [gameState, setGameState] = useState(null); // Store the gamestate for global use
+  const [userID, setUserID] = useState(null);
 
   // Starts socket once a user has logged in and gets userID from Firebase Authenticate
-  const initializeSocket = () => {
+  const initializeSocket = (uid) => {
     // Disconnect any existing socket if this function is called
     if (socket) {
       socket.disconnect();
@@ -28,6 +29,7 @@ export const SocketProvider = ({ children }) => {
     gameEvents(newSocket, setGameState);
 
     setSocket(newSocket); // Set socket object to the initialized socket
+    setUserID(uid);
 
     return newSocket;
   };
@@ -44,7 +46,7 @@ export const SocketProvider = ({ children }) => {
   // Return provider values that can be used by children wrapped within SocketContext
   return (
     <SocketContext.Provider
-      value={{ socket, initializeSocket, disconnectSocket, gameState }}
+      value={{ socket, initializeSocket, disconnectSocket, gameState, userID }}
     >
       {children}
     </SocketContext.Provider>

@@ -27,6 +27,8 @@ function Host() {
   };
 
   const handleCreateLobby = () => {
+    if (!socket) return;
+
     socket.emit("createLobby");
   };
 
@@ -45,6 +47,8 @@ function Host() {
   };
 
   useEffect(() => {
+    if (!socket) return;
+
     socket.on("lobbyCreated", ({ lobbyID }) => {
       navigate(`/game/${lobbyID}`);
     });

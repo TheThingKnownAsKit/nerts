@@ -7,7 +7,7 @@ import { useEffect, useState } from "react";
 
 function Game() {
   const { lobbyID } = useParams();
-  const { socket, gameState } = useSocket();
+  const { socket, gameState, userID } = useSocket();
   const [selectedCard, setSelectedCard] = useState(null);
   const [gameStarted, setGameStarted] = useState(false);
 
@@ -43,10 +43,13 @@ function Game() {
       destination: {
         pileName: `buildPile${spotIndex}`,
       },
+      lobbyID: lobbyID,
+      playerID: userID,
     };
 
     socket.emit("cardPlayed", payload);
     console.log(payload);
+    socket.emit("cardPlayAccepted", ""); //temp
     setSelectedCard(null);
   };
 
@@ -80,14 +83,16 @@ function Game() {
   const renderNertsPile = (playerID) => {
     const pile = gameState?.gameState?.players?.[playerID]?.hand?.nertsPile?.cards;
     if (!pile) return null;
-
+  
+    const isCurrentPlayer = playerID === userID;
+  
     return pile.map((card, index) => (
       <Card
         key={`${playerID}-nerts-${index}`}
         suit={card.suit}
         rank={card.rank}
         faceDown={index !== pile.length - 1}
-        onClick={() => handleCardClick(card)}
+        onClick={isCurrentPlayer ? () => handleCardClick(card) : () => handleCardClick(card)}
       />
     ));
   };
@@ -97,6 +102,7 @@ function Game() {
     if (!buildPiles) return null;
 
     const workCards = [];
+    const isCurrentPlayer = playerID === userID;
 
     for (let i = 0; i < buildPiles.length; i++) {
       const pile = buildPiles[i]?.cards || [];
@@ -107,8 +113,8 @@ function Game() {
             suit={card.suit}
             rank={card.rank}
             faceDown={false}
-            onClick={() => handleCardClick(card)}
-          />
+            onClick={isCurrentPlayer ? () => handleCardClick(card) : () => handleCardClick(card)}
+            />
         );
       });
     }
@@ -123,14 +129,16 @@ function Game() {
 
     if (!cards || visibleIndex === undefined) return null;
 
+    const isCurrentPlayer = playerID === userID;
+
     return cards.map((card, index) => (
       <Card
         key={`${playerID}-stock-${index}`}
         suit={card.suit}
         rank={card.rank}
         faceDown={index !== visibleIndex}
-        onClick={() => handleCardClick(card)}
-      />
+        onClick={isCurrentPlayer ? () => handleCardClick(card) : () => handleCardClick(card)}
+        />
     ));
   };
 
