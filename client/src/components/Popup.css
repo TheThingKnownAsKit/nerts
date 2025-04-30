@@ -1,3 +1,4 @@
+/* overlay to cover the entire screen and dim the background */
 .popup-overlay {
   position: fixed;
   top: 0;
@@ -9,26 +10,25 @@
   align-items: flex-start;
   justify-content: center;
   padding-top: 20px;
-  z-index: 1000;
 }
 
+/* popup dialog container */
 .popup {
   background: #fff;
   border-radius: 8px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
   width: 250px;
   padding: 15px;
   text-align: center;
-  display: flex;
-  flex-direction: column;
 }
 
+/*popuptitle styling */
 .popup h2 {
   font-size: 1.1rem;
   margin: 0 0 5px;
   color: #e11e17;
 }
 
+/* popup message styling */
 .popup p {
   font-size: 0.9rem;
   margin: 0 0 10px;
@@ -36,18 +36,15 @@
   line-height: 1.2;
 }
 
+/* dismiss button styling */
 .popup button {
-  margin-top: 5px;
   padding: 6px 12px;
   font-size: 0.9rem;
-  border: none;
-  border-radius: 4px;
   background: #484c50;
   color: #fff;
-  cursor: pointer;
-  transition: background 0.2s;
 }
 
+/*hover state background for dismiss button */
 .popup button:hover {
   background: #2d2f32;
 }
