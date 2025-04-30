@@ -98,16 +98,20 @@ function Game() {
     const pile =
       gameState?.gameState?.players?.[playerID]?.hand?.nertsPile?.cards;
     if (!pile) return null;
-  
+
     const isCurrentPlayer = playerID === userID;
-  
+
     return pile.map((card, index) => (
       <Card
         key={`${playerID}-nerts-${index}`}
         suit={card.suit}
         rank={card.rank}
         faceDown={index !== pile.length - 1}
-        onClick={isCurrentPlayer ? () => handleCardClick(card) : () => handleCardClick(card)}
+        onClick={
+          isCurrentPlayer
+            ? () => handleCardClick(card)
+            : () => handleCardClick(card)
+        }
       />
     ));
   };
@@ -129,8 +133,12 @@ function Game() {
             suit={card.suit}
             rank={card.rank}
             faceDown={false}
-            onClick={isCurrentPlayer ? () => handleCardClick(card) : () => handleCardClick(card)}
-            />
+            onClick={
+              isCurrentPlayer
+                ? () => handleCardClick(card)
+                : () => handleCardClick(card)
+            }
+          />
         );
       });
     }
@@ -153,8 +161,12 @@ function Game() {
         suit={card.suit}
         rank={card.rank}
         faceDown={index !== visibleIndex}
-        onClick={isCurrentPlayer ? () => handleCardClick(card) : () => handleCardClick(card)}
-        />
+        onClick={
+          isCurrentPlayer
+            ? () => handleCardClick(card)
+            : () => handleCardClick(card)
+        }
+      />
     ));
   };
 
@@ -176,6 +188,10 @@ function Game() {
         onPlaySpotClick={handlePlaySpotClick}
       />
 
+      {/* render the popup component
+        - `title` and `message` come from the lobby socket handling
+        - `onClose`hides the popup and sets to null
+      */}
       {createCards()}
       {popup && (
         <Popup

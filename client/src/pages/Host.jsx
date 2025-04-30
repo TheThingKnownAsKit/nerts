@@ -68,6 +68,7 @@ function Host() {
   };
 
   const handleJoinLobby = () => {
+    // show popup if user tries to join without entering a code
     if (!lobbyID) {
       setPopup({
         title: "Input Error",
@@ -123,6 +124,10 @@ function Host() {
         />
       </div>
 
+      {/*renders popup component
+        - passes `title` and `message` from the error event
+        - onClose hides the popup and sets to null
+      */}
       {popup && (
         <Popup
           title={popup.title}
