@@ -19,6 +19,7 @@ function Landing() {
   const handleLogin = async (e) => {
     e.preventDefault();
 
+    //input validation checks and rende respective popup
     if (!username.trim() && !password.trim()) {
       setPopup({
         title: "Input Error",
@@ -40,9 +41,11 @@ function Landing() {
       });
       return;
     }
-
+    //declared variable to hold result of firebase sign in
     let userCredential = null;
 
+    //attempt to sign in with Firebase Authentication
+    //passing in auth instance, entered username, and password
     try {
       userCredential = await signInWithEmailAndPassword(
         auth,
@@ -50,13 +53,9 @@ function Landing() {
         password
       );
     } catch (error) {
+      //if anything goes wrong in login process (incorrect password, no user found, etc)
+      //popup with error message if failed
       let errorMessage = "Invalid username or password.";
-      if (error.code === "auth/user-not-found") {
-        errorMessage = "User not found. Please check your username.";
-      } else if (error.code === "auth/wrong-password") {
-        errorMessage = "Incorrect password. Please try again.";
-      }
-      console.error("Error logging in:", error.message);
       setPopup({
         title: "Login Error",
         message: errorMessage,
@@ -64,13 +63,14 @@ function Landing() {
       return;
     }
 
+    //on successful login, navigate to home page
     if (userCredential) {
       initializeSocket();
       navigate("/home");
     }
   };
 
-  // Login on enter-press
+  //login on enter-press
   useEffect(() => {
     let keyPressed = false;
 
@@ -99,16 +99,20 @@ function Landing() {
     };
   }, [username, password]);
 
+  //navigate to signup page
   const toSignup = () => {
     navigate("/signup");
   };
 
   return (
     <div className="main centered">
+      {/* animated letters component */}
       <Letters />
       <div id="login-signup">
         <h3 className="form-title-landing">Login</h3>
+        {/* login elements */}
         <form onSubmit={handleLogin} className="login-form">
+          {/* username/email input */}
           <CustomTextInput
             type="text"
             placeholder="Email/Username"
@@ -121,14 +125,16 @@ function Landing() {
           <div className="spacer-1vw"></div>
 
           <div className="password-row">
+            {/* password input */}
             <CustomTextInput
               type="password"
               placeholder="Password"
               value={password}
               centered={false}
               onChange={(e) => setPassword(e.target.value)}
-              max={20}
+              max={30}
             />
+            {/* “Next” button to submit form */}
             <CustomButton
               back={false}
               absolute={false}
@@ -137,6 +143,7 @@ function Landing() {
             />
           </div>
         </form>
+        {/* link to signup */}
         <div className="signup-link">
           <p>Don't have an account?</p>
           <CustomButton
@@ -148,6 +155,7 @@ function Landing() {
         </div>
       </div>
 
+      {/* popup for error or info messages */}
       {popup && (
         <Popup
           title={popup.title}
