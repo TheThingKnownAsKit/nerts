@@ -71,8 +71,20 @@ function Game() {
     }
   };
 
-  const handlePlaySpotClick = (spotIndex) => {  
+  const handlePlaySpotClick = (spotIndex, clickedPlayerId) => {
     if (!selectedCard || !socket) return;
+  
+    let destinationPileName;
+    let destinationPileIndex;
+  
+    if (!clickedPlayerId || clickedPlayerId !== userID) {
+      destinationPileName = "foundationPile";
+      destinationPileIndex = spotIndex;
+    }else {
+      // It's a foundation pile in the common area
+      destinationPileName = "buildPile";
+      destinationPileIndex = spotIndex;
+    }
   
     const payload = {
       source: {
@@ -83,19 +95,19 @@ function Game() {
       },
       destination: {
         pile: {
-          name: `buildPile`,
-          index: spotIndex
-        }
+          name: destinationPileName,
+          index: destinationPileIndex,
+        },
       },
       playerId: userID,
-      gameId: lobbyID
+      gameId: lobbyID,
     };
   
-    console.log(payload);
+    console.log("Sending payload:", payload);
     socket.emit("cardPlayed", payload);
-
     setSelectedCard(null);
   };
+  
 
   function createCards() {
     const gs = gameState?.gameState;
@@ -108,90 +120,24 @@ function Game() {
     return (
       <>
         <PlayerArea
-          corner="tm"
-          nertsPile={renderNertsPile(opponentID)}
-          workPile={renderWorkPiles(opponentID)}
-          stockPile={renderStockPile(opponentID)}
-          onPlaySpotClick={handlePlaySpotClick}
-          playerId={opponentID}
-        />
-
-        <PlayerArea
           corner="bm"
-          nertsPile={renderNertsPile(currentPlayerID)}
-          workPile={renderWorkPiles(currentPlayerID)}
-          stockPile={renderStockPile(currentPlayerID)}
-          onPlaySpotClick={handlePlaySpotClick}
           playerId={currentPlayerID}
+          hand={gameState?.gameState?.players?.[currentPlayerID]?.hand}
+          userID={userID}
+          onPlaySpotClick={handlePlaySpotClick}
+          onCardClick={handleCardClick}
+        />
+        <PlayerArea
+          corner="tm"
+          playerId={opponentID}
+          hand={gameState?.gameState?.players?.[opponentID]?.hand}
+          userID={opponentID}
+          onPlaySpotClick={handlePlaySpotClick}
+          onCardClick={handleCardClick}
         />
       </>
     );
   }
-
-  const renderNertsPile = (playerID) => {
-    const pile =
-      gameState?.gameState?.players?.[playerID]?.hand?.nertsPile?.cards;
-    if (!pile) return null;
-
-    const isCurrentPlayer = playerID === userID;
-
-    return pile.map((card, index) => (
-      <Card
-        key={`${playerID}-nerts-${index}`}
-        suit={card.suit}
-        rank={card.rank}
-        faceDown={index !== pile.length - 1}
-        onClick={isCurrentPlayer ? () => handleCardClick(card) : null}
-      />
-    ));
-  };
-
-  const renderWorkPiles = (playerID) => {
-    const buildPiles =
-      gameState?.gameState?.players?.[playerID]?.hand?.buildPiles;
-    if (!buildPiles) return [];
-  
-    const isCurrentPlayer = playerID === userID;
-  
-    // Each work pile gets its own array of cards
-    return buildPiles.map((pile, pileIndex) => {
-      const cards = pile?.cards || [];
-      const topCard = cards[cards.length - 1]; // Only show the top card
-  
-      if (!topCard) return null;
-  
-      return (
-        <Card
-          key={`${playerID}-work-${pileIndex}`}
-          suit={topCard.suit}
-          rank={topCard.rank}
-          faceDown={false}
-          onClick={isCurrentPlayer ? () => handleCardClick(topCard) : null}
-        />
-      );
-    });
-  };
-  
-
-  const renderStockPile = (playerID) => {
-    const drawPile = gameState?.gameState?.players?.[playerID]?.hand?.drawPile;
-    const cards = drawPile?.cards;
-    const visibleIndex = drawPile?.currentIndex;
-
-    if (!cards || visibleIndex === undefined) return null;
-
-    const isCurrentPlayer = playerID === userID;
-
-    return cards.map((card, index) => (
-      <Card
-        key={`${playerID}-stock-${index}`}
-        suit={card.suit}
-        rank={card.rank}
-        faceDown={index !== visibleIndex}
-        onClick={isCurrentPlayer ? () => handleCardClick(card) : null}
-        />
-    ));
-  };
 
   const numberOfPlayers =
     Object.keys(gameState?.gameState?.players || {}).length || 2;
@@ -208,6 +154,7 @@ function Game() {
 
       <CommonArea
         numberOfPlayers={numberOfPlayers}
+        foundation={gameState?.gameState?.foundation}
         onPlaySpotClick={handlePlaySpotClick}
       />
 

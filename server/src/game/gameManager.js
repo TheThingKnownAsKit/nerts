@@ -159,6 +159,7 @@ class MoveHandler {
 
     // Helper function to attempt to make a move
     tryExecuteMove(moveType, moveContext) {
+        console.log(moveType);
         return this.moves[moveType](moveContext);
     }
 

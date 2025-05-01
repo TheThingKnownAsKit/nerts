@@ -1,4 +1,4 @@
-import { createContext, useState, useContext } from "react";
+import { createContext, useState, useContext, useEffect } from "react";
 import { io } from "socket.io-client";
 import { lobbyEvents } from "../logic/lobbyEvents.js";
 import { gameEvents } from "../logic/gameEvents.js";
@@ -42,6 +42,20 @@ export const SocketProvider = ({ children }) => {
       setSocket(null);
     }
   };
+
+  useEffect(() => {
+    if (!socket) return;
+  
+    const handleGameStateUpdate = ({ gameState }) => {
+      setGameState({ gameState });
+    };
+  
+    socket.on("gameStateUpdated", handleGameStateUpdate);
+  
+    return () => {
+      socket.off("gameStateUpdated", handleGameStateUpdate);
+    };
+  }, [socket]);
 
   // Return provider values that can be used by children wrapped within SocketContext
   return (

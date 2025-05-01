@@ -8,10 +8,9 @@
 }
 
 .play-spot {
-    width: 3.4vw;
-    height: 5vw;
+    width: 4vw;
+    height: 5.8vw;
     margin: 0.7vw 0.9vw 0.7vw 0.9vw;
-    padding: 0.25vw;
     outline: 3px solid white;
     outline-offset: 0.5vw;
     border-radius: 0.5vw;

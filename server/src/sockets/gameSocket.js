@@ -35,9 +35,16 @@ export default (io, gameManager) => {
       gameId: "ABCDEF"
     } */
         socket.on("cardPlayed", (payload) => {
-            const gameState = gameManager.games[payload.gameId]; // Get game state of specified lobby
-            const moveWasMade = gameState.playCard(payload); // Try to make the move
-            socket.emit("cardPlayAccepted", moveWasMade); // Send move status
+            const gameState = gameManager.games[payload.gameId];
+            const moveWasMade = gameState.playCard(payload);
+
+            socket.emit("cardPlayAccepted", moveWasMade);
+
+            if (moveWasMade) {
+                io.to(payload.gameId).emit("gameStateUpdated", {
+                    gameState,
+                });
+            }
         });
 
         // Event listener for flipping the draw pile
