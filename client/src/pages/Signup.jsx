@@ -22,6 +22,7 @@ function Signup() {
   const handleSignup = async (e) => {
     e.preventDefault();
 
+    //input validation to ensure all fields are filled
     if (
       !email.trim() ||
       !username.trim() ||
@@ -35,6 +36,7 @@ function Signup() {
       return;
     }
 
+    //minimum password length
     if (password.length < 10) {
       setPopup({
         title: "Password Requirements",
@@ -43,6 +45,7 @@ function Signup() {
       return;
     }
 
+    //password and confirm password must match
     if (password !== confirmPassword) {
       setPopup({
         title: "Password Mismatch",
@@ -51,6 +54,7 @@ function Signup() {
       return;
     }
 
+    //create the user in firebase
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -59,9 +63,6 @@ function Signup() {
       );
       const user = userCredential.user;
       initializeSocket(user.uid);
-      console.log("User signed up:", user);
-
-      const userRef = doc(db, "users", user.uid);
 
       const userData = {
         uid: user.uid,
@@ -105,9 +106,10 @@ function Signup() {
       await setDoc(userSettingsRef, userSettings);
       console.log("User settings subcollection created in Firestore");
 
+      //redirect to home page upon successful signup
       navigate("/home");
+      //catch any firebase errors while signing up
     } catch (error) {
-      console.error("Error signing up:", error.message);
       setPopup({
         title: "Signup Error",
         message: error.message,
@@ -115,6 +117,7 @@ function Signup() {
     }
   };
 
+  //allow form submission with enter key
   useEffect(() => {
     let keyPressed = false;
     const onKeyDown = (e) => {
@@ -140,10 +143,14 @@ function Signup() {
 
   return (
     <div className="main centered">
+      {/* animated letters*/}
       <Letters />
+      {/* signup form container*/}
       <div id="login-signup" className="su">
         <h3 className="form-title">Sign Up</h3>
+        {/* form wrapping all signup inputs */}
         <form onSubmit={handleSignup} className="signup-form">
+          {/* email address input */}
           <CustomTextInput
             type="text"
             placeholder="Email Address"
@@ -153,6 +160,7 @@ function Signup() {
             max={30}
           />
           <div className="spacer-1vw"></div>
+          {/* username input */}
           <CustomTextInput
             type="text"
             placeholder="Username"
@@ -162,6 +170,7 @@ function Signup() {
             max={30}
           />
           <div className="spacer-1vw"></div>
+          {/* password input */}
           <CustomTextInput
             type="password"
             placeholder="Password"
@@ -171,6 +180,7 @@ function Signup() {
             max={20}
           />
           <div className="spacer-1vw"></div>
+          {/* confirm password input */}
           <CustomTextInput
             type="password"
             placeholder="Confirm Password"
@@ -180,11 +190,14 @@ function Signup() {
             max={20}
           />
           <div className="spacer-1vw"></div>
+          {/* back and next buttons row */}
           <div className="button-row">
+            {/* back button could navigate back to login */}
             <CustomButton back={true} absolute={false} text={"Back"} />
             <div className="spacer-1vw"></div>
             <div className="spacer-1vw"></div>
             <div className="spacer-1vw"></div>
+            {/* next button triggers handling signup */}
             <CustomButton
               back={false}
               absolute={false}
@@ -194,7 +207,7 @@ function Signup() {
           </div>
         </form>
       </div>
-
+      {/* renders popup component with error and message*/}
       {popup && (
         <Popup
           title={popup.title}

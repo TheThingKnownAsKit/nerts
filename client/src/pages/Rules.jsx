@@ -1,14 +1,14 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
 import CustomButton from "../components/CustomButton";
 import "./Rules.css";
 
+/* displays the game instructions in two sections with a floating "Back" button*/
 function Rules() {
-  const navigate = useNavigate();
-
   return (
     <div className="rules-container">
+      {/* back button. used to navigate to previous page and places button in top left*/}
       <CustomButton back={true} absolute={true} text={"Back"} />
+      {/* top right section of rules */}
       <div className="rules-top-right">
         <p>
           Clicking your deck will flip 3 new cards at a time. Keep moving cards
@@ -20,6 +20,7 @@ function Rules() {
           leftover cards in your Nerts pile.
         </p>
       </div>
+      {/* bottom left section of rules */}
       <div className="rules-bottom-left">
         <p>
           To win the game, be the first to reach 100 points. Cards of the same

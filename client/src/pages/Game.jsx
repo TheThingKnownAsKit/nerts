@@ -132,9 +132,9 @@ function Game() {
     const pile =
       gameState?.gameState?.players?.[playerID]?.hand?.nertsPile?.cards;
     if (!pile) return null;
-  
+
     const isCurrentPlayer = playerID === userID;
-  
+
     return pile.map((card, index) => (
       <Card
         key={`${playerID}-nerts-${index}`}
@@ -211,6 +211,10 @@ function Game() {
         onPlaySpotClick={handlePlaySpotClick}
       />
 
+      {/* render the popup component
+        - `title` and `message` come from the lobby socket handling
+        - `onClose`hides the popup and sets to null
+      */}
       {createCards()}
       {popup && (
         <Popup

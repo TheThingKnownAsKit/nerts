@@ -1,25 +1,22 @@
+/* container for the signup form inputs: stacks fields vertically and centers them */
 .signup-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
+/* title styling for the form heading */
 .form-title {
-    font-size: 2vw;
-    color: #fff;
-    margin-bottom: 1vw;
-    margin-top: 0px;
-    text-align: center;
-    border: none; /* Removes any border that might be applied */
+  font-size: 2vw;
+  color: #fff;
+  margin-bottom: 1vw;
+  margin-top: 0px;
+  text-align: center;
 }
 
-.su {
-    margin-right: 4.2vw;
-    margin-top: 0px;
-}
-
+/* row layout for the Back/Next buttons*/
 .button-row {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
