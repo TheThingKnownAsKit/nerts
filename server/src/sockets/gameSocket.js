@@ -56,7 +56,13 @@ export default (io, gameManager) => {
         socket.on("flipDrawPile", (payload) => {
             const gameState = gameManager.games[payload.lobbyId]; // Get game state of specified lobby
             const card = gameState.flipDrawPile(payload.playerId); // Get new "visible" draw pile card
-            socket.emit("newDrawCard", card); // Send this updated card
+            const playerId = payload.playerId; // Get player ID
+
+            socket.emit("newDrawCard", { card, playerId }); // Send this updated card
+            io.to(payload.lobbyId).emit("newDrawCard", {
+                card,
+                playerId,
+            });
         });
 
         // Event listener for calling nerts

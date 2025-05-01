@@ -1,7 +1,7 @@
 import Card from "./Card";
 import "./PlayerArea.css";
 
-function PlayerArea({ corner, playerId, hand, userID, onPlaySpotClick, onCardClick }) {
+function PlayerArea({ corner, playerId, hand, userID, onPlaySpotClick, onCardClick, flippedCard }) {
   const isCurrentPlayer = playerId === userID;
 
   const renderNertsPile = () => {
@@ -66,7 +66,22 @@ function PlayerArea({ corner, playerId, hand, userID, onPlaySpotClick, onCardCli
         </div>
       </div>
       <div className="bottom-row">
-        <div className="stock-pile dashed-outline">{renderStockPile()}</div>
+        <div className="stock-pile dashed-outline">
+          <div className="stock">
+            {renderStockPile()}
+          </div>
+          <div className="flipped">
+            {flippedCard && (
+              <Card
+                suit={flippedCard.suit}
+                rank={flippedCard.rank}
+                faceDown={false}
+                locked={false}
+                onClick={onCardClick ? () => onCardClick(flippedCard) : undefined}
+              />
+            )}
+          </div>
+        </div>
       </div>
       <div className="sidebar">
         <div className="profile-info">Profile</div>

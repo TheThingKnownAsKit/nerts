@@ -17,12 +17,25 @@
     align-items: center;
     padding: 0.25vw;
 }
+
 .stock-pile {
+    display: flex;
     width: 9vw;
     height: 6vw;
     margin: 0.5vw;
     padding: 0.25vw;
+    gap: 1vw;
+    align-items: center;
+    justify-content: space-between;
 }
+
+.stock,
+.flipped {
+    position: relative;
+    width: 4vw;
+    height: 6vw;
+}
+
 .stock-pile .card {
     position: absolute;
 }

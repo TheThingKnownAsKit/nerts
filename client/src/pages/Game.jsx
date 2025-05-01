@@ -12,6 +12,7 @@ function Game() {
   const [selectedCard, setSelectedCard] = useState(null);
   const [gameStarted, setGameStarted] = useState(false);
   const [popup, setPopup] = useState(null);
+  const [flippedCards, setFlippedCards] = useState({});
 
   useEffect(() => {
     socket.on("playerJoined", ({ message }) => {
@@ -38,28 +39,59 @@ function Game() {
       setGameStarted(true);
     };
   
-    socket.on("gameStarted", handleGameStarted);
-  
-    return () => {
-      socket.off("gameStarted", handleGameStarted);
-    };
-  }, [socket]);
-
-  useEffect(() => {
-    if (!socket) return;
-  
     const handleCardPlayAccepted = (moveWasMade) => {
       console.log(moveWasMade);
     };
+
+    const handleNewDrawCard = ({ card, playerId }) => {
+      console.log("New draw card:", flippedCards);
+      setFlippedCards((prev) => ({
+        ...prev,
+        [playerId]: card, // associate card with that player's ID
+      }));
+    };
   
+    socket.on("gameStarted", handleGameStarted);
     socket.on("cardPlayAccepted", handleCardPlayAccepted);
-  
+    socket.on("newDrawCard", handleNewDrawCard);
+
     return () => {
-      socket.off("cardPlayAccepted", handleCardPlayAccepted); //  Cleanup
+      socket.off("gameStarted", handleGameStarted);
+      socket.off("cardPlayAccepted", handleCardPlayAccepted);
+      socket.off("newDrawCard", handleNewDrawCard);
     };
   }, [socket]);
+  
 
   const handleCardClick = (card) => {
+    if (!gameState?.gameState?.players?.[userID]?.hand) return;
+  
+    const drawPile = gameState.gameState.players[userID].hand.drawPile;
+    const visibleIndex = drawPile.currentIndex;
+    const visibleCard = drawPile.cards?.[visibleIndex];
+  
+    // 🔒 Check if the clicked card is in the draw pile but not visible
+    const isDrawPileCard = drawPile.cards?.some(
+      (c) => c.suit === card.suit && c.rank === card.rank
+    );
+  
+    const isNotVisible = !(
+      visibleCard &&
+      visibleCard.suit === card.suit &&
+      visibleCard.rank === card.rank
+    );
+  
+    if (isDrawPileCard && isNotVisible) {
+      socket.emit("flipDrawPile", {
+        lobbyId: lobbyID,
+        playerId: userID,
+      });
+      setSelectedCard(null);
+      console.log("Flipping draw pile");
+      return; // Exit early
+    }
+  
+    // ✅ Normal selection toggle
     if (
       selectedCard &&
       selectedCard.suit === card.suit &&
@@ -126,7 +158,8 @@ function Game() {
           userID={userID}
           onPlaySpotClick={handlePlaySpotClick}
           onCardClick={handleCardClick}
-        />
+          flippedCard={flippedCards[currentPlayerID] || null}
+          />
         <PlayerArea
           corner="tm"
           playerId={opponentID}
@@ -134,7 +167,8 @@ function Game() {
           userID={opponentID}
           onPlaySpotClick={handlePlaySpotClick}
           onCardClick={handleCardClick}
-        />
+          flippedCard={flippedCards[opponentID] || null}
+          />
       </>
     );
   }
