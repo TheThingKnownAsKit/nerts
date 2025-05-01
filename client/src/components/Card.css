@@ -1,8 +1,14 @@
 .card {
     width: 4vw;
+    transition: transform 0.2s, filter 0.2s;
 }
 
-.card:hover {
+.card.unlocked {
+    cursor: pointer;
+}
+
+/* Only unlocked cards should respond to hover */
+.card.unlocked:hover {
     transform: scale(1.05);
     filter: brightness(0.8);
 }

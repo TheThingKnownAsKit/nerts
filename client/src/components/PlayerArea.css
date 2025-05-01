@@ -18,7 +18,7 @@
     padding: 0.25vw;
 }
 .stock-pile {
-    width: 13vw;
+    width: 9vw;
     height: 6vw;
     margin: 0.5vw;
     padding: 0.25vw;
@@ -27,11 +27,12 @@
     position: absolute;
 }
 .profile-info {
-    width: 23vw;
-    height: 6vw;
+    width: 8vw;
+    height: 13vw;
     margin: 0.5vw;
-    outline: 1px solid white;
+    outline: 2px solid white;
     padding: 0.25vw;
+    margin-left: 1.5vw;
 }
 
 .dashed-outline {
@@ -39,16 +40,32 @@
     border-radius: 1vw;
 }
 
-.top-row,
-.bottom-row {
+.top-row {
+    grid-column: 1;
+    grid-row: 1;
     display: flex;
-    max-width: 36vw;
+    max-width: 40vw;
     justify-content: space-between;
     gap: 1vw;
+}
+.bottom-row {
+    grid-column: 1;
+    grid-row: 2;
+    display: flex;
+    max-width: 40vw;
+    justify-content: space-between;
+    gap: 1vw;
+}
+.sidebar {
+    grid-column: 2;
+    grid-row: 1 / span 2; /* spans both rows */
 }
 
 .player-area {
     position: absolute;
+    display: grid;
+    grid-template-columns: 1fr auto; /* main content + sidebar */
+    grid-template-rows: auto auto; /* two stacked rows */
 }
 
 .player-area.tl {
@@ -70,10 +87,10 @@
 
 .player-area.tm {
     top: 3vw;
-    right: 31vw;
+    right: 26vw;
 }
 
 .player-area.bm {
     bottom: 3vw;
-    right: 31vw;
+    right: 26vw;
 }

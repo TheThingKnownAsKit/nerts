@@ -1,16 +1,16 @@
 import "./Card.css";
 
-const Card = ({ suit, rank, faceDown, onClick }) => {
+const Card = ({ suit, rank, faceDown, onClick, locked = false }) => {
   const src = faceDown
     ? "/cards/Back.png"
     : `/cards/${rank}_${suit}.png`;
 
   return (
     <img
-      className="card"
+      className={`card ${locked ? "locked" : "unlocked"}`}
       src={src}
       alt={faceDown ? "Card back" : `Card ${rank} of ${suit}`}
-      onClick={onClick}
+      onClick={locked ? undefined : onClick} // Disable interaction if locked
     />
   );
 };

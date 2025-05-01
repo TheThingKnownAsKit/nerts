@@ -22,6 +22,7 @@ function CommonArea({ numberOfPlayers, foundation, onPlaySpotClick }) {
                 suit={topCard.suit}
                 rank={topCard.rank}
                 faceDown={false}
+                locked={true}
                 onClick={null} // These aren't clickable directly
               />
             ) : (

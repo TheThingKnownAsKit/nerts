@@ -12,6 +12,7 @@ function PlayerArea({ corner, playerId, hand, userID, onPlaySpotClick, onCardCli
         suit={card.suit}
         rank={card.rank}
         faceDown={index !== pile.length - 1}
+        locked={false}
         onClick={isCurrentPlayer ? () => onCardClick(card) : undefined}
       />
     ));
@@ -25,6 +26,7 @@ function PlayerArea({ corner, playerId, hand, userID, onPlaySpotClick, onCardCli
         suit={topCard.suit}
         rank={topCard.rank}
         faceDown={false}
+        locked={false}
         onClick={isCurrentPlayer ? () => onCardClick(topCard) : undefined}
       />
     ) : null;
@@ -38,6 +40,7 @@ function PlayerArea({ corner, playerId, hand, userID, onPlaySpotClick, onCardCli
         key={`stock-${index}`}
         suit={card.suit}
         rank={card.rank}
+        locked={false}
         faceDown={index !== visibleIndex}
         onClick={isCurrentPlayer ? () => onCardClick(card) : undefined}
       />
@@ -64,6 +67,8 @@ function PlayerArea({ corner, playerId, hand, userID, onPlaySpotClick, onCardCli
       </div>
       <div className="bottom-row">
         <div className="stock-pile dashed-outline">{renderStockPile()}</div>
+      </div>
+      <div className="sidebar">
         <div className="profile-info">Profile</div>
       </div>
     </div>
