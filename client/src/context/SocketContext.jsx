@@ -21,7 +21,7 @@ export const SocketProvider = ({ children }) => {
     const newSocket = io("http://localhost:3000");
 
     newSocket.on("connect", () => {
-      console.log(`User ${newSocket.id} is logged in and connected.`); // Log after socket has connected
+      console.log(`User ${uid} is logged in and connected.`); // Log after socket has connected
     });
 
     // Event listeners

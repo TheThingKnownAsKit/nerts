@@ -65,7 +65,9 @@ function Landing() {
     }
 
     if (userCredential) {
-      initializeSocket();
+      const uid = userCredential.user.uid;
+
+      initializeSocket(uid);
       navigate("/home");
     }
   };

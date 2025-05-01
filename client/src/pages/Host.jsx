@@ -11,7 +11,7 @@ import "./Host.css";
 
 function Host() {
   const navigate = useNavigate();
-  const { socket } = useSocket();
+  const { socket, userID } = useSocket();
 
   const [lobbyID, setLobbyID] = useState("");
   const [popup, setPopup] = useState(null);
@@ -64,7 +64,7 @@ function Host() {
 
   // Lobby actions
   const handleCreateLobby = () => {
-    socket.emit("createLobby");
+    socket.emit("createLobby", {userID});
   };
 
   const handleJoinLobby = () => {
@@ -75,7 +75,7 @@ function Host() {
       });
       return;
     }
-    socket.emit("joinLobby", { lobbyID });
+    socket.emit("joinLobby", { lobbyID, userID });
   };
 
   // Join on Enter key

@@ -1,14 +1,23 @@
 export default (io, gameManager) => {
-  io.on("connect", (socket) => {
-    // Event listener for starting a game
-    socket.on("startGame", (lobbyId) => {
-      const players = Array.from(io.sockets.adapter.rooms.get(lobbyId)); // Get all players in lobby
-      const gameState = gameManager.startGame(lobbyId, players); // Create a game state
-      io.to(lobbyId).emit("gameStarted", { gameState }); // Tell clients game started
-    });
+    io.on("connect", (socket) => {
+        // Event listener for starting a game
+        socket.on("startGame", (lobbyId) => {
+            const socketsInRoom = io.sockets.adapter.rooms.get(lobbyId); // Set of socket IDs
+            const players = [];
 
-    // Event listener for playing a card
-    /* EXAMPLE PAYLOAD
+            for (const socketId of socketsInRoom) {
+                const playerSocket = io.sockets.sockets.get(socketId);
+                if (playerSocket?.data?.userID) {
+                    players.push(playerSocket.data.userID);
+                }
+            }
+            console.log(players);
+            const gameState = gameManager.startGame(lobbyId, players); // Now using userIDs
+            io.to(lobbyId).emit("gameStarted", { gameState });
+        });
+
+        // Event listener for playing a card
+        /* EXAMPLE PAYLOAD
     {
       source: {
         card: {
@@ -25,34 +34,34 @@ export default (io, gameManager) => {
       playerId: "XTywdu5KJNsrKqTcAAAB",
       gameId: "ABCDEF"
     } */
-    socket.on("cardPlayed", (payload) => {
-      const gameState = gameManager.games[payload.lobbyId]; // Get game state of specified lobby
-      const moveWasMade = gameState.playCard(payload); // Try to make the move
-      socket.emit("cardPlayAccepted", moveWasMade); // Send move status
-    });
+        socket.on("cardPlayed", (payload) => {
+            const gameState = gameManager.games[payload.gameId]; // Get game state of specified lobby
+            const moveWasMade = gameState.playCard(payload); // Try to make the move
+            socket.emit("cardPlayAccepted", moveWasMade); // Send move status
+        });
 
-    // Event listener for flipping the draw pile
-    /* EXAMPLE PAYLOAD
+        // Event listener for flipping the draw pile
+        /* EXAMPLE PAYLOAD
     {
       lobbyId: "ABCDEF",
       playerId: "XTywdu5KJNsrKqTcAAAB"
     } */
-    socket.on("flipDrawPile", (payload) => {
-      const gameState = gameManager.games[payload.lobbyId]; // Get game state of specified lobby
-      const card = gameState.flipDrawPile(payload.playerId); // Get new "visible" draw pile card
-      socket.emit("newDrawCard", card); // Send this updated card
-    });
+        socket.on("flipDrawPile", (payload) => {
+            const gameState = gameManager.games[payload.lobbyId]; // Get game state of specified lobby
+            const card = gameState.flipDrawPile(payload.playerId); // Get new "visible" draw pile card
+            socket.emit("newDrawCard", card); // Send this updated card
+        });
 
-    // Event listener for calling nerts
-    /* EXAMPLE PAYLOAD
+        // Event listener for calling nerts
+        /* EXAMPLE PAYLOAD
     {
       lobbyId: "ABCDEF",
       playerId: "XTywdu5KJNsrKqTcAAAB"
     } */
-    socket.on("callNerts", (payload) => {
-      const gameState = gameManager.games[payload.lobbyId]; // Get game state of specified lobby
-      const endGame = gameState.callNerts(payload.playerId); // Attempt to call nerts
-      socket.emit("endGame", endGame); // Send if nerts was successfully called
+        socket.on("callNerts", (payload) => {
+            const gameState = gameManager.games[payload.lobbyId]; // Get game state of specified lobby
+            const endGame = gameState.callNerts(payload.playerId); // Attempt to call nerts
+            socket.emit("endGame", endGame); // Send if nerts was successfully called
+        });
     });
-  });
 };
