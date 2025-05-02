@@ -41,6 +41,11 @@ const SettingsBox = () => {
     <div className="settings-box">
       <h3 className="title">SETTINGS</h3>
 
+      {/* label for background color */}
+      <div className="settings-item">
+        <label>Background Color:</label>
+      </div>
+
       {/* color selection squares */}
       <div className="squares-container">
         {colors.map((color, index) => (

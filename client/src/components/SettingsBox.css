@@ -103,3 +103,13 @@ button:hover {
   font-size: 1rem;
   color: #fff;
 }
+
+/* center the background color heading */
+.settings-box .settings-item:first-of-type {
+  display: flex;
+  justify-content: center;
+}
+
+.settings-box .settings-item:first-of-type label {
+  margin: 0;
+}
