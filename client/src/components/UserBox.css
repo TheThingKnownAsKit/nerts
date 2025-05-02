@@ -6,6 +6,11 @@
   flex-direction: row;
   user-select: none;
   align-items: center;
+  color: white;
+}
+
+.user-box * {
+  color: inherit;
 }
 
 .icon img {
@@ -18,7 +23,6 @@
 }
 
 .username {
-  color: white;
   font-size: 2.5vw;
 }
 

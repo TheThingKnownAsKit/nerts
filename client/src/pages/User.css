@@ -12,6 +12,7 @@
 }
 
 .user-name {
+  color: white;
   font-size: 6vw;
   font-weight: 100;
   margin: 0 0 0 2vw;
@@ -26,11 +27,13 @@
   margin-top: 1vw;
 }
 .change-user-image {
+  color: white;
   margin-top: 0px;
   margin-right: 12.5vw;
 }
 
 .change-user-name {
+  color: white;
   margin-top: 0px;
   margin-right: 3.5vw;
 }
@@ -44,6 +47,7 @@
 }
 
 .stats h3 {
+  color: white;
   font-weight: 100;
   font-size: 3vw;
   margin: 0px;
