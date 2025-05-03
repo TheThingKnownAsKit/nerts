@@ -1,6 +1,24 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./SettingsBox.css";
 import soundManager from "../logic/soundManager.js";
+
+import blue from "../assets/images/backgrounds/Blue-BG.png";
+import green from "../assets/images/backgrounds/Green-BG.png";
+import orange from "../assets/images/backgrounds/Orange-BG.png";
+import purple from "../assets/images/backgrounds/Purple-BG.png";
+import red from "../assets/images/backgrounds/Red-BG.png";
+import redOrange from "../assets/images/backgrounds/Red-Orange-BG.png";
+import yellow from "../assets/images/backgrounds/Yellow-BG.png";
+
+const bgMap = {
+  "#f2002b": red,
+  "#f64021": redOrange,
+  "#f98016": orange,
+  "#ffff00": yellow,
+  "#00cc66": green,
+  "#496ddb": blue,
+  "#7209b7": purple,
+};
 
 const SettingsBox = () => {
   //state for color square selected
@@ -13,28 +31,22 @@ const SettingsBox = () => {
   const [deckHotkey, setDeckHotkey] = useState(true);
   const [colorblind, setColorblind] = useState(true);
 
-  //color options
-  const colors = [
-    "#f2002b",
-    "#f64021",
-    "#f98016",
-    "#ffff00",
-    "#00cc66",
-    "#496ddb",
-    "#7209b7",
-  ];
+  useEffect(() => {
+    if (!selectedColor) return;
+    console.log("Forcing body background to:", bgMap[selectedColor]);
+    document.body.style.backgroundImage = `url(${bgMap[selectedColor]})`;
+  }, [selectedColor]);
 
-  //to update color when selected
+  const colors = Object.keys(bgMap);
+
   const handleColorClick = (color) => {
     setSelectedColor(color);
   };
 
-  //to update volume from slider changes
-  const handleVolumeChange = (event) => {
-    const newVolume = Number(event.target.value);
-    setSoundEffectVolume(newVolume);
-    //soundManger needs volume between 0.0/1.0
-    soundManager.setVolume(newVolume / 100);
+  const handleVolumeChange = (e) => {
+    const v = Number(e.target.value);
+    setSoundEffectVolume(v);
+    soundManager.setVolume(v / 100);
   };
 
   return (
