@@ -13,6 +13,7 @@ function PlayerArea({ corner, playerId, hand, userID, onPlaySpotClick, onCardCli
         rank={card.rank}
         faceDown={index !== pile.length - 1}
         locked={false}
+        style={{ '--i': index }}
         onClick={isCurrentPlayer ? () => onCardClick(card) : undefined}
       />
     ));
@@ -20,16 +21,17 @@ function PlayerArea({ corner, playerId, hand, userID, onPlaySpotClick, onCardCli
 
   const renderWorkPile = (index) => {
     const pile = hand?.buildPiles?.[index]?.cards || [];
-    const topCard = pile[pile.length - 1];
-    return topCard ? (
+    return pile.map((card, i) => (
       <Card
-        suit={topCard.suit}
-        rank={topCard.rank}
+        key={`work-${index}-${i}`}
+        suit={card.suit}
+        rank={card.rank}
         faceDown={false}
         locked={false}
-        onClick={isCurrentPlayer ? () => onCardClick(topCard) : undefined}
+        style={{ '--i': i }}
+        onClick={isCurrentPlayer ? () => onCardClick(card) : undefined}
       />
-    ) : null;
+    ));
   };
 
   const renderStockPile = () => {
@@ -49,8 +51,29 @@ function PlayerArea({ corner, playerId, hand, userID, onPlaySpotClick, onCardCli
 
   return (
     <div className={`player-area ${corner}`}>
-      <div className="top-row">
+      {/* Column 1: Nerts + Stock */}
+      <div className="left-column">
         <div className="nerts-pile dashed-outline">{renderNertsPile()}</div>
+        <div className="stock-pile dashed-outline">
+          <div className="stock">
+            {renderStockPile()}
+          </div>
+          <div className="flipped">
+            {flippedCard && (
+              <Card
+                suit={flippedCard.suit}
+                rank={flippedCard.rank}
+                faceDown={false}
+                locked={false}
+                onClick={onCardClick ? () => onCardClick(flippedCard, false) : undefined}
+              />
+            )}
+          </div>
+        </div>
+      </div>
+  
+      {/* Column 2: Work pile */}
+      <div className="middle-column">
         <div className="work-pile dashed-outline">
           {Array.from({ length: 4 }).map((_, index) => (
             <div
@@ -65,25 +88,9 @@ function PlayerArea({ corner, playerId, hand, userID, onPlaySpotClick, onCardCli
           ))}
         </div>
       </div>
-      <div className="bottom-row">
-        <div className="stock-pile dashed-outline">
-          <div className="stock">
-            {renderStockPile()}
-          </div>
-          <div className="flipped">
-            {flippedCard && (
-              <Card
-                suit={flippedCard.suit}
-                rank={flippedCard.rank}
-                faceDown={false}
-                locked={false}
-                onClick={onCardClick ? () => onCardClick(flippedCard) : undefined}
-              />
-            )}
-          </div>
-        </div>
-      </div>
-      <div className="sidebar">
+  
+      {/* Column 3: Profile */}
+      <div className="right-column">
         <div className="profile-info">Profile</div>
       </div>
     </div>

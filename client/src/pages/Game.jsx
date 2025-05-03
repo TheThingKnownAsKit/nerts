@@ -6,6 +6,10 @@ import { useSocket } from "../context/SocketContext.jsx";
 import { useEffect, useState } from "react";
 import Popup from "../components/Popup.jsx";
 
+// Sounds
+import soundManager from "../logic/soundManager.js";
+import flips from "../assets/sounds/flip_cards.mp3";
+
 function Game() {
   const { lobbyID } = useParams();
   const { socket, gameState, userID } = useSocket();
@@ -13,6 +17,11 @@ function Game() {
   const [gameStarted, setGameStarted] = useState(false);
   const [popup, setPopup] = useState(null);
   const [flippedCards, setFlippedCards] = useState({});
+
+  soundManager.loadSound("flips", flips);
+  function playFlips() {
+    soundManager.playSound("flips");
+  }
 
   useEffect(() => {
     socket.on("playerJoined", ({ message }) => {
@@ -45,6 +54,7 @@ function Game() {
 
     const handleNewDrawCard = ({ card, playerId }) => {
       console.log("New draw card:", flippedCards);
+      playFlips();
       setFlippedCards((prev) => ({
         ...prev,
         [playerId]: card, // associate card with that player's ID
@@ -63,9 +73,11 @@ function Game() {
   }, [socket]);
   
 
-  const handleCardClick = (card) => {
+  const handleCardClick = (card, stockCard=true) => {
     if (!gameState?.gameState?.players?.[userID]?.hand) return;
   
+    console.log("Clicked card:", card);
+
     const drawPile = gameState.gameState.players[userID].hand.drawPile;
     const visibleIndex = drawPile.currentIndex;
     const visibleCard = drawPile.cards?.[visibleIndex];
@@ -81,7 +93,7 @@ function Game() {
       visibleCard.rank === card.rank
     );
   
-    if (isDrawPileCard && isNotVisible) {
+    if (stockCard && isDrawPileCard && isNotVisible) {
       socket.emit("flipDrawPile", {
         lobbyId: lobbyID,
         playerId: userID,
