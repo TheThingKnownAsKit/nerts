@@ -18,7 +18,7 @@ export const SocketProvider = ({ children }) => {
       socket.disconnect();
     }
 
-    const newSocket = io("http://localhost:3000");
+    const newSocket = io("https://nerts-web-app.onrender.com");
 
     newSocket.on("connect", () => {
       console.log(`User ${uid} is logged in and connected.`); // Log after socket has connected
