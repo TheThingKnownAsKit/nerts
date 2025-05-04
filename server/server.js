@@ -1,20 +1,27 @@
 import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
 import { createServer } from "http";
 import { Server } from "socket.io";
 import lobbySocket from "./src/sockets/lobbySocket.js";
 import gameSocket from "./src/sockets/gameSocket.js";
 import { GameManager } from "./src/game/gameManager.js";
 
+// Get filepath and directory of server.js
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 // Create an Express application instance and pass in as handler for HTTP server instance
 const app = express();
 const server = createServer(app);
+const port = process.env.PORT || 3000;
 
-const gameManager = new GameManager();
+const gameManager = new GameManager(); // Initialize game manager
 
 // Create Socket.IO server on the provided HTTP server and allow communication from front-end port
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:5173",
+    origin: ["https://nerts-web-app.onrender.com", "http://localhost:5173"],
     methods: ["GET", "POST"],
   },
 });
@@ -33,5 +40,12 @@ io.on("connect", (socket) => {
 lobbySocket(io, gameManager);
 gameSocket(io, gameManager);
 
+app.use(express.static(path.join(__dirname, "dist"))); // Serve static front-end compiled files
+
+// For any requests not found in compiled static files, revert to index.html
+app.get("*", (request, response) => {
+  response.sendFile(path.join(__dirname, "dist", "index.html"));
+})
+
 // Start HTTP server on port 3000 and log
-server.listen(3000, () => console.log("Server running on port 3000"));
+server.listen(port, () => console.log(`Server running on port ${port}`));
