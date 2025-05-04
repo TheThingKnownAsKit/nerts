@@ -33,7 +33,6 @@ const SettingsBox = () => {
 
   useEffect(() => {
     if (!selectedColor) return;
-    console.log("Forcing body background to:", bgMap[selectedColor]);
     document.body.style.backgroundImage = `url(${bgMap[selectedColor]})`;
   }, [selectedColor]);
 

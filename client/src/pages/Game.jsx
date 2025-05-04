@@ -56,7 +56,6 @@ function Game() {
     };
   
     const handleCardPlayAccepted = (moveWasMade) => {
-      console.log(moveWasMade);
       if (moveWasMade) {
         playPlay();
       }
@@ -163,10 +162,8 @@ function Game() {
       gameId: lobbyID,
     };
   
-    console.log("Sending payload:", payload);
     socket.emit("cardPlayed", payload);
     setSelectedCard(null);
-    console.log(gameState);
   };
   
 
