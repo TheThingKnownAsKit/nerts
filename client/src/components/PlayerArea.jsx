@@ -14,7 +14,8 @@ function PlayerArea({ corner, playerId, hand, userID, onPlaySpotClick, onCardCli
         faceDown={index !== pile.length - 1}
         locked={index !== pile.length - 1 || !isCurrentPlayer}
         style={{ '--i': index }}
-        onClick={isCurrentPlayer ? () => onCardClick(card) : undefined}
+        onClick={onCardClick ? () => onCardClick(card, true, playerId) : undefined}
+        playerid={playerId}
       />
     ));
   };
@@ -29,7 +30,8 @@ function PlayerArea({ corner, playerId, hand, userID, onPlaySpotClick, onCardCli
         faceDown={false}
         locked={false || !isCurrentPlayer}
         style={{ '--i': i }}
-        onClick={isCurrentPlayer ? () => onCardClick(card) : undefined}
+        onClick={onCardClick ? () => onCardClick(card, true, playerId) : undefined}
+        playerid={playerId}
       />
     ));
   };
@@ -50,6 +52,7 @@ function PlayerArea({ corner, playerId, hand, userID, onPlaySpotClick, onCardCli
           faceDown={true}
           locked={false || !isCurrentPlayer}
           onClick={onCardClick ? () => onCardClick(card, true, playerId) : undefined}
+          playerid={playerId}
         />
       );
     });
@@ -77,6 +80,7 @@ function PlayerArea({ corner, playerId, hand, userID, onPlaySpotClick, onCardCli
                   faceDown={false}
                   locked={false || !isCurrentPlayer}
                   onClick={onCardClick ? () => onCardClick(card, false, playerId) : undefined}
+                  playerid={playerId}
                 />
               ) : null;
             })()}

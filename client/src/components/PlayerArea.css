@@ -98,6 +98,7 @@
     align-items: flex-start;
     gap: 1vw; /* space between columns */
     max-width: 48vw;
+    max-height: 30vh;
 }
 
 .player-area.tl {

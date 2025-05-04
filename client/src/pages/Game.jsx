@@ -39,7 +39,7 @@ function Game() {
 
   const startButtonPress = () => {
     if (socket) {
-      socket.emit("startGame", lobbyID);
+      socket.emit("startGame", lobbyID, playerCount);
     }
   };
 
@@ -76,7 +76,7 @@ function Game() {
     );
   }
 
-  const handleCardClick = (card, stockCard = true) => {
+  const handleCardClick = (card, stockCard = true, playerId) => {
     const drawPile = gameState?.gameState?.players?.[userID]?.hand?.drawPile;
     const visibleIndex = drawPile?.currentIndex ?? -1;
     const visibleCard = drawPile?.cards?.[visibleIndex];
@@ -101,7 +101,7 @@ function Game() {
     }
   
     // Toggle selection
-    const cardSelector = `[data-suit="${card.suit}"][data-rank="${card.rank}"]`;
+    const cardSelector = `[data-suit="${card.suit}"][data-rank="${card.rank}"][data-playerid="${playerId}"]`;
   
     // Clear all other selections
     removeAllCardSelections();
@@ -246,11 +246,11 @@ function Game() {
 
   return (
     <div className="game-container">
-      <h3>Game: {lobbyID}</h3>
 
       {!gameStarted && (
         <div className="menu">
-          <label htmlFor="player-count">Number of Players:</label>
+          <h3>Game: {lobbyID}</h3>
+          <label className="player-count" htmlFor="player-count">Number of Players:</label>
           <select
             id="player-count"
             value={playerCount}

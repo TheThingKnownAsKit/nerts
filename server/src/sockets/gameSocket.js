@@ -1,7 +1,7 @@
 export default (io, gameManager) => {
     io.on("connect", (socket) => {
         // Event listener for starting a game
-        socket.on("startGame", (lobbyId) => {
+        socket.on("startGame", (lobbyId, playerCount) => {
             const socketsInRoom = io.sockets.adapter.rooms.get(lobbyId); // Set of socket IDs
             const players = [];
 
@@ -11,7 +11,12 @@ export default (io, gameManager) => {
                     players.push(playerSocket.data.userID);
                 }
             }
-            console.log(players);
+            console.log(players.length);
+            console.log(playerCount);
+            console.log(lobbyId);
+
+            if (players.length < playerCount && players.length != 1) return; // Not enough players to start the game)
+
             const gameState = gameManager.startGame(lobbyId, players); // Now using userIDs
             io.to(lobbyId).emit("gameStarted", { gameState });
         });

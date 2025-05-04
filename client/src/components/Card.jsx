@@ -1,6 +1,6 @@
 import "./Card.css";
 
-const Card = ({ suit, rank, faceDown, onClick, locked = false, style }) => {
+const Card = ({ suit, rank, faceDown, onClick, locked = false, style, playerid }) => {
   const src = faceDown
     ? "/cards/Back.png"
     : `/cards/${rank}_${suit}.png`;
@@ -14,6 +14,7 @@ const Card = ({ suit, rank, faceDown, onClick, locked = false, style }) => {
       style={style} // Passes the custom style (like --i) to the <img>
       data-suit={suit}
       data-rank={rank}
+      data-playerid={playerid}
     />
   );
 };
