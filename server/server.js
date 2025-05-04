@@ -1,5 +1,6 @@
 import express from "express";
 import path from "path";
+import fs from "fs";
 import { fileURLToPath } from "url";
 import { createServer } from "http";
 import { Server } from "socket.io";
@@ -14,7 +15,8 @@ const __dirname = path.dirname(__filename);
 // Create an Express application instance and pass in as handler for HTTP server instance
 const app = express();
 const server = createServer(app);
-const port = process.env.PORT || 3000;
+
+const port = process.env.PORT || 3000; // Get port being run on or default to 3000
 
 const gameManager = new GameManager(); // Initialize game manager
 
@@ -40,12 +42,15 @@ io.on("connect", (socket) => {
 lobbySocket(io, gameManager);
 gameSocket(io, gameManager);
 
-app.use(express.static(path.join(__dirname, "dist"))); // Serve static front-end compiled files
+// Check if dist folder exists
+if (fs.existsSync(path.join(__dirname, "dist"))) {
+  app.use(express.static(path.join(__dirname, "dist"))); // Serve static front-end compiled files
 
-// For any requests not found in compiled static files, revert to index.html
-app.get("*", (request, response) => {
-  response.sendFile(path.join(__dirname, "dist", "index.html"));
-})
+  // For any requests not found in compiled static files, revert to index.html
+  app.get("*", (request, response) => {
+    response.sendFile(path.join(__dirname, "dist", "index.html"));
+  });
+}
 
 // Start HTTP server on port 3000 and log
 server.listen(port, () => console.log(`Server running on port ${port}`));
