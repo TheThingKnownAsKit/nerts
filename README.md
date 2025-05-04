@@ -1,23 +1,16 @@
 # Nerts
 
-Web-app implementation of the card game Nerts powered by Node.js, Socket.io, Vite/React, and Firebase. Developed for RAIK-284H by Ella, Joey, Shayna, and Carter.
+Nerts is a fast-paced, solitaire-like, multiplayer card game where you compete against friends to clear your nerts pile first! Speed is the name of the game while you race to score points by playing cards to the middle, or by playing a nerts card. Be the first to 100 points to win the game (and bragging rights)!
 
-# Installing and Running
+To play, visit https://nerts-web-app.onrender.com or see [Installing and Running](#installing-and-running) to run it locally.
 
-## 1. Clone Repo to Your Local Machine
+This web-app implementation of the game is powered by Node.js, Socket.io, Vite/React, Firebase, and Render. Developed for RAIK-284H by Ella, Joey, Shayna, and Carter.
 
-Clone this repo to somewhere accessible on your machine.
+## Installing and Running
 
-## 2. Installing Dependencies
-
-Run `npm run install-all` in the top level directory to install all dependencies.
-
-## 3. Running the Game
-
-- Run `npm run start` to run both the front and back end servers (will change to only running back end on deployment).
-- To run just the front end Vite server, enter `npm run client`.
-- To run just the back end server, enter `npm run server`.
-
-# 4. Testing
-
-To run Jest test suites, cd into the server directory and run `npm run test`. Coverage details can be found in server/testing/coverage after running tests.
+1. Clone this repo to somewhere accessible on your machine.
+2. Run `npm run install-all` in the top-level directory to install all dependencies.
+3. Run one of the initialization scripts to start the game
+    - Run `npm run server` to run in production mode (builds front end to serve from back end server at http://localhost:3000).
+    - Run `npm run start` to run in development mode (back end server at http://localhost:3000 and front end server at http://localhost:5173).
+    - Run `npm run client` to run only the front end server (at http://localhost:5173).
