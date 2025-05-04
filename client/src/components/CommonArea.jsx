@@ -43,7 +43,7 @@ function CommonArea({ numberOfPlayers, foundation, onPlaySpotClick }) {
             className="play-spot"
             data-index={index}
             onClick={() => onPlaySpotClick(index, null)} // null or "common"
-            >
+          >
             {topCard ? (
               <Card
                 suit={topCard.suit}

@@ -2,20 +2,20 @@ import React, { useState } from "react";
 import "./Letters.css";
 import soundManager from "../logic/soundManager.js";
 import play from "../assets/sounds/play.mp3";
-import nImg from '../assets/images/letters/N.png'
-import eImg from '../assets/images/letters/E.png'
-import rImg from '../assets/images/letters/R.png'
-import tImg from '../assets/images/letters/T.png'
-import sImg from '../assets/images/letters/S.png'
-import exImg from '../assets/images/letters/!.png'
+import nImg from "../assets/images/letters/N.png";
+import eImg from "../assets/images/letters/E.png";
+import rImg from "../assets/images/letters/R.png";
+import tImg from "../assets/images/letters/T.png";
+import sImg from "../assets/images/letters/S.png";
+import exImg from "../assets/images/letters/!.png";
 
 const letters = ["N", "E", "R", "T", "S", "!"];
 const imageMap = {
-  "N": nImg,
-  "E": eImg,
-  "R": rImg,
-  "T": tImg,
-  "S": sImg,
+  N: nImg,
+  E: eImg,
+  R: rImg,
+  T: tImg,
+  S: sImg,
   "!": exImg,
 };
 

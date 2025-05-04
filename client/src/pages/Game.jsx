@@ -50,11 +50,11 @@ function Game() {
 
   useEffect(() => {
     if (!socket) return;
-  
+
     const handleGameStarted = ({ gameState }) => {
       setGameStarted(true);
     };
-  
+
     const handleCardPlayAccepted = (moveWasMade) => {
       console.log(moveWasMade);
       if (moveWasMade) {
@@ -65,7 +65,7 @@ function Game() {
     const handleNewDrawCard = () => {
       playFlips();
     };
-  
+
     socket.on("gameStarted", handleGameStarted);
     socket.on("cardPlayAccepted", handleCardPlayAccepted);
     socket.on("newDrawCard", handleNewDrawCard);
@@ -77,27 +77,26 @@ function Game() {
     };
   }, [socket]);
 
-
   function removeAllCardSelections() {
-    document.querySelectorAll(".card.selected").forEach((el) =>
-      el.classList.remove("selected")
-    );
+    document
+      .querySelectorAll(".card.selected")
+      .forEach((el) => el.classList.remove("selected"));
   }
 
   const handleCardClick = (card, stockCard = true, playerId) => {
     const drawPile = gameState?.gameState?.players?.[userID]?.hand?.drawPile;
     const visibleIndex = drawPile?.currentIndex ?? -1;
     const visibleCard = drawPile?.cards?.[visibleIndex];
-  
+
     const isDrawPileCard = drawPile?.cards?.some(
       (c) => c.suit === card.suit && c.rank === card.rank
     );
-  
+
     const isNotVisible =
       !visibleCard ||
       visibleCard.suit !== card.suit ||
       visibleCard.rank !== card.rank;
-  
+
     if (stockCard && isDrawPileCard && isNotVisible) {
       socket.emit("flipDrawPile", {
         lobbyId: lobbyID,
@@ -107,13 +106,13 @@ function Game() {
       removeAllCardSelections();
       return;
     }
-  
+
     // Toggle selection
     const cardSelector = `[data-suit="${card.suit}"][data-rank="${card.rank}"][data-playerid="${playerId}"]`;
-  
+
     // Clear all other selections
     removeAllCardSelections();
-  
+
     if (
       selectedCard &&
       selectedCard.suit === card.suit &&
@@ -122,7 +121,7 @@ function Game() {
       setSelectedCard(null);
     } else {
       setSelectedCard(card);
-  
+
       // Add the selected class
       const el = document.querySelector(cardSelector);
       if (el) el.classList.add("selected");
@@ -131,21 +130,21 @@ function Game() {
 
   const handlePlaySpotClick = (spotIndex, clickedPlayerId) => {
     if (!selectedCard || !socket) return;
-  
+
     removeAllCardSelections();
 
     let destinationPileName;
     let destinationPileIndex;
-  
+
     if (!clickedPlayerId || clickedPlayerId !== userID) {
       destinationPileName = "foundationPile";
       destinationPileIndex = spotIndex;
-    }else {
+    } else {
       // It's a foundation pile in the common area
       destinationPileName = "buildPile";
       destinationPileIndex = spotIndex;
     }
-  
+
     const payload = {
       source: {
         card: {
@@ -162,13 +161,12 @@ function Game() {
       playerId: userID,
       gameId: lobbyID,
     };
-  
+
     console.log("Sending payload:", payload);
     socket.emit("cardPlayed", payload);
     setSelectedCard(null);
     console.log(gameState);
   };
-  
 
   function createCards() {
     if (!gameStarted) {
@@ -193,7 +191,7 @@ function Game() {
               { id: "Player3", corner: "bl" },
               { id: "Player4", corner: "br" },
             ];
-  
+
       return layoutMap.map(({ id, corner }) => (
         <PlayerArea
           key={id}
@@ -209,12 +207,12 @@ function Game() {
       // AFTER game starts — use real player IDs from backend
       const gs = gameState?.gameState;
       if (!gs || !gs.players) return null;
-  
+
       const allPlayerIDs = Object.keys(gs.players);
       const otherPlayerIDs = allPlayerIDs.filter((id) => id !== userID);
-  
+
       let layoutMap = [];
-  
+
       if (allPlayerIDs.length === 1) {
         layoutMap = [{ id: userID, corner: "bm" }];
       } else if (allPlayerIDs.length === 2) {
@@ -236,7 +234,7 @@ function Game() {
           { id: userID, corner: "br" },
         ];
       }
-  
+
       return layoutMap.map(({ id, corner }) => (
         <PlayerArea
           key={id}
@@ -255,11 +253,12 @@ function Game() {
 
   return (
     <div className="game-container">
-
       {!gameStarted && (
         <div className="menu">
           <h3>Game: {lobbyID}</h3>
-          <label className="player-count" htmlFor="player-count">Number of Players:</label>
+          <label className="player-count" htmlFor="player-count">
+            Number of Players:
+          </label>
           <select
             id="player-count"
             value={playerCount}
@@ -267,7 +266,9 @@ function Game() {
             className="player-count-selector"
           >
             {[2, 3, 4].map((num) => (
-              <option key={num} value={num}>{num}</option>
+              <option key={num} value={num}>
+                {num}
+              </option>
             ))}
           </select>
           <CustomButton onClick={startButtonPress} text="Start Game" />
