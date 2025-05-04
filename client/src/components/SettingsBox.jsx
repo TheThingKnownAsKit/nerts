@@ -21,8 +21,8 @@ const bgMap = {
 };
 
 const SettingsBox = () => {
-  //state for color square selected
-  const [selectedColor, setSelectedColor] = useState("#00cc66"); // green
+  const defaultColor = localStorage.getItem("bgColor") || "#00cc66";
+  const [selectedColor, setSelectedColor] = useState(defaultColor);
   //state for sound effect volume 0-100
   const [soundEffectVolume, setSoundEffectVolume] = useState(50);
 
@@ -34,6 +34,7 @@ const SettingsBox = () => {
   useEffect(() => {
     if (!selectedColor) return;
     document.body.style.backgroundImage = `url(${bgMap[selectedColor]})`;
+    localStorage.setItem("bgColor", selectedColor);
   }, [selectedColor]);
 
   const colors = Object.keys(bgMap);
