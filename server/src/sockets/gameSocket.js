@@ -80,8 +80,30 @@ export default (io, gameManager) => {
     } */
     socket.on("callNerts", (payload) => {
       const gameState = gameManager.games[payload.lobbyId]; // Get game state of specified lobby
-      const endGame = gameState.callNerts(payload.playerId); // Attempt to call nerts
-      socket.emit("endGame", endGame); // Send if nerts was successfully called
+      const endRound = gameState.callNerts(payload.playerId); // Attempt to call nerts
+
+      // Check if round has ended
+      if (endRound) {
+        io.to(payload.lobbyId).emit("endRound"); // Broadcast that round has ended
+        const players = Object.values(gameState.players); // Get array of all player objects
+
+        // Check if someone is above 100 points at end of round
+        const scoreAboveThreshold = players.some(
+          (player) => player.score >= 100
+        );
+
+        // Broadcast that game has ended if a player won and send scores
+        if (scoreAboveThreshold) {
+          io.to(payload.lobbyId).emit("endGame", { players });
+        }
+      }
+    });
+
+    // Event listener for starting another round
+    socket.on("startRound", (lobbyId) => {
+      const gameState = gameManager.games[lobbyId];
+      gameState.startRound();
+      io.to(lobbyId).emit("roundStarted", { gameState });
     });
   });
 };

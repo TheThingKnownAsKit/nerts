@@ -152,6 +152,14 @@ class GameState {
       return this.foundation[destination.pile.index];
     }
   }
+
+  // Initializes each player with a new random starting hand
+  startRound() {
+    // Loop through each player and create a new hand
+    Object.values(this.players).forEach((player) => {
+      player.createNewHand();
+    });
+  }
 }
 
 // Class to handle making moves in a game

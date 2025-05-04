@@ -46,6 +46,10 @@ class Player {
     this.visibleHand = visibleHand;
     return visibleHand;
   }
+
+  createNewHand() {
+    this.hand = new Hand();
+  }
 }
 
 export default Player;

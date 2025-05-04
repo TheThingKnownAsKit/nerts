@@ -37,10 +37,10 @@ function Signup() {
     }
 
     //minimum password length
-    if (password.length < 10) {
+    if (password.length < 12) {
       setPopup({
         title: "Password Requirements",
-        message: "Password must be at least 10 characters long.",
+        message: "Password must be at least 12 characters long.",
       });
       return;
     }
