@@ -8,6 +8,8 @@ This web-app implementation of the game is powered by Node.js, Socket.io, Vite/R
 
 ## Installing and Running
 
+> **Note:** Node.js and Node Package Manager (npm) are required to run this application locally. Make sure you have them installed before proceeding.
+
 1. Clone this repo to somewhere accessible on your machine.
 2. Run `npm run install-all` in the top-level directory to install all dependencies.
 3. Run one of the initialization scripts to start the game
