@@ -26,7 +26,7 @@ function CommonArea({ numberOfPlayers, foundation, onPlaySpotClick }) {
                 onClick={null} // These aren't clickable directly
               />
             ) : (
-              `Spot ${index}`
+              ``
             )}
           </div>
         );

@@ -12,7 +12,7 @@ function PlayerArea({ corner, playerId, hand, userID, onPlaySpotClick, onCardCli
         suit={card.suit}
         rank={card.rank}
         faceDown={index !== pile.length - 1}
-        locked={index !== pile.length - 1}
+        locked={index !== pile.length - 1 || !isCurrentPlayer}
         style={{ '--i': index }}
         onClick={isCurrentPlayer ? () => onCardClick(card) : undefined}
       />
@@ -27,7 +27,7 @@ function PlayerArea({ corner, playerId, hand, userID, onPlaySpotClick, onCardCli
         suit={card.suit}
         rank={card.rank}
         faceDown={false}
-        locked={false}
+        locked={false || !isCurrentPlayer}
         style={{ '--i': i }}
         onClick={isCurrentPlayer ? () => onCardClick(card) : undefined}
       />
@@ -48,8 +48,8 @@ function PlayerArea({ corner, playerId, hand, userID, onPlaySpotClick, onCardCli
           suit={card.suit}
           rank={card.rank}
           faceDown={true}
-          locked={false}
-          onClick={onCardClick ? () => onCardClick(card) : undefined}
+          locked={false || !isCurrentPlayer}
+          onClick={onCardClick ? () => onCardClick(card, true, playerId) : undefined}
         />
       );
     });
@@ -75,8 +75,8 @@ function PlayerArea({ corner, playerId, hand, userID, onPlaySpotClick, onCardCli
                   suit={card.suit}
                   rank={card.rank}
                   faceDown={false}
-                  locked={false}
-                  onClick={onCardClick ? () => onCardClick(card, true) : undefined}
+                  locked={false || !isCurrentPlayer}
+                  onClick={onCardClick ? () => onCardClick(card, false, playerId) : undefined}
                 />
               ) : null;
             })()}

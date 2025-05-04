@@ -1,6 +1,7 @@
 .card {
     width: 4vw;
     transition: transform 0.2s, filter 0.2s;
+    padding: 2px;
 }
 
 .card.unlocked {
@@ -15,7 +16,8 @@
 
 .card.selected {
     border-radius: 6px;
-    border-style: dashed;
+    border-width: 1px;
+    border-style: solid;
 }
 
 @keyframes pulseGlow {

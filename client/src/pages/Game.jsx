@@ -121,6 +121,8 @@ function Game() {
   const handlePlaySpotClick = (spotIndex, clickedPlayerId) => {
     if (!selectedCard || !socket) return;
   
+    removeAllCardSelections();
+
     let destinationPileName;
     let destinationPileIndex;
   
@@ -179,9 +181,9 @@ function Game() {
           corner="tm"
           playerId={opponentID}
           hand={gameState?.gameState?.players?.[opponentID]?.hand}
-          userID={opponentID}
-          onPlaySpotClick={handlePlaySpotClick}
-          onCardClick={handleCardClick}
+          userID={userID}
+          onPlaySpotClick={() => {}}
+          onCardClick={() => {}}
           />
       </>
     );
