@@ -22,7 +22,6 @@ function CommonArea({ numberOfPlayers, foundation, onPlaySpotClick }) {
         const currentLength = pile?.cards?.length ?? 0;
 
         if (currentLength > prevLength) {
-          console.log(`New card added to foundation pile ${index}`);
           soundManager.playSound("play");
         }
       });
