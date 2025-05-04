@@ -250,7 +250,8 @@ function Game() {
       ));
     }
   }
-  
+
+  const np = Object.keys(gameState?.gameState?.players || {}).length || 0;
 
   return (
     <div className="game-container">
@@ -274,7 +275,7 @@ function Game() {
       )}
 
       <CommonArea
-        numberOfPlayers={playerCount}
+        numberOfPlayers={np}
         foundation={gameState?.gameState?.foundation}
         onPlaySpotClick={handlePlaySpotClick}
       />
