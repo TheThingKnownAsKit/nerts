@@ -1,5 +1,6 @@
 import express from "express";
 import path from "path";
+import fs from "fs";
 import { fileURLToPath } from "url";
 import { createServer } from "http";
 import { Server } from "socket.io";
@@ -41,13 +42,15 @@ io.on("connect", (socket) => {
 lobbySocket(io, gameManager);
 gameSocket(io, gameManager);
 
+// Check if dist folder exists
+if (fs.existsSync(path.join(__dirname, "dist"))) {
+  app.use(express.static(path.join(__dirname, "dist"))); // Serve static front-end compiled files
 
-app.use(express.static(path.join(__dirname, "dist"))); // Serve static front-end compiled files
-
-// For any requests not found in compiled static files, revert to index.html
-app.get("*", (request, response) => {
-  response.sendFile(path.join(__dirname, "dist", "index.html"));
-});
+  // For any requests not found in compiled static files, revert to index.html
+  app.get("*", (request, response) => {
+    response.sendFile(path.join(__dirname, "dist", "index.html"));
+  });
+}
 
 // Start HTTP server on port 3000 and log
 server.listen(port, () => console.log(`Server running on port ${port}`));
