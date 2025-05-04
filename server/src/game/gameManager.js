@@ -36,7 +36,6 @@ class GameManager {
     });
 
     this.games[lobbyId] = gameState; // Add game state to lobby stored in dictionary
-    gameState.startTimer();
     return gameState;
   }
 }
@@ -80,8 +79,6 @@ class GameState {
 
   // Attempts to play a move from a player given the above example payload
   playCard(playPayload) {
-    clearTimeout(this.timer);
-    this.startTimer();
     const player = this.players[playPayload.playerId]; // Get player making the move
 
     // Get info about the source card(s) given the card sent from front-end
@@ -168,16 +165,6 @@ class GameState {
   // Returns a list of player objects belonging to game state
   getPlayers() {
     return Object.values(this.players);
-  }
-
-  // Starts inactivity timer for draw pile shuffle
-  startTimer() {
-    this.timer = setTimeout(() => {
-      console.log("No recent moves made, shuffling all draw piles...");
-      gameState.getPlayers().forEach((player) => {
-        player.shuffleDrawPile();
-      });
-    }, 30000);
   }
 }
 
