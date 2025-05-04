@@ -11,9 +11,6 @@ export default (io, gameManager) => {
           players.push(playerSocket.data.userID);
         }
       }
-      console.log(players.length);
-      console.log(playerCount);
-      console.log(lobbyId);
 
       if (players.length < playerCount && players.length != 1) return; // Not enough players to start the game)
 
