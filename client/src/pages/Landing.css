@@ -1,63 +1,67 @@
 /* centers items*/
 .centered {
-  justify-items: center;
+    justify-items: center;
 }
 
 /* login title */
 .form-title-landing {
-  font-size: 2vw;
-  color: #fff;
-  margin-bottom: 1vw;
-  margin-top: 0px;
-  text-align: center;
-  margin-right: 4vw;
+    font-size: 2vw;
+    color: #fff;
+    margin-bottom: 1vw;
+    margin-top: 0px;
+    text-align: center;
+    margin-right: 5vw;
 }
 
 /* wrapper for both login and signup sections */
 #login-signup {
-  margin-top: 3vw;
-  margin-left: 1.5vw;
+    margin-top: 3vw;
+    margin-left: 3vw;
 }
 
 /* logo container */
 #nerts-logo {
-  background-image: url("../assets/images/nerts.png");
-  background-size: cover;
-  width: 50vw;
-  margin-top: 5vw;
+    background-image: url("../assets/images/nerts.png");
+    background-size: cover;
+    width: 50vw;
+    margin-top: 5vw;
 }
 
 /* style text‐based inputs within the login/signup area */
 #login-signup input[type="text"],
 #login-signup input[type="password"] {
-  width: 20vw;
-  font-size: 1.5vw;
-  padding: 0.5em;
-  border: 1px solid #ccc;
-  border-radius: 6px;
-  text-align: left;
-  margin: 0px;
+    width: 20vw;
+    font-size: 1.5vw;
+    padding: 0.5em;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    text-align: left;
+    margin: 0px;
 }
 
 /* spacer for gaps between input fields */
 .spacer-1vw {
-  height: 1vw;
-  width: 1vw;
+    height: 1vw;
+    width: 1vw;
 }
 
 /* layout for the row containing the password field + Next button */
 .password-row {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 /*container for the “Don’t have an account?” text + button */
 .signup-link {
-  text-align: center;
-  color: #fff;
-  font-size: 1.5vw;
-  align-items: center;
-  display: flex;
-  flex-direction: column;
+    text-align: center;
+    color: #fff;
+    font-size: 1.5vw;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    padding-right: 4.5vw;
+}
+
+.login-form {
 }
