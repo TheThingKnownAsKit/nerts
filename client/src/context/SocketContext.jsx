@@ -5,6 +5,15 @@ import { gameEvents } from "../logic/gameEvents.js";
 
 const SocketContext = createContext(null); // Create new context for socket connection
 
+// Get the proper server URL (hosted vs local)
+const getSocketServerURL = () => {
+  // If run on something not from localhost, return that URL
+  if (window.location.hostname != "localhost") {
+    return window.location.origin;
+  }
+  return "http://localhost:3000"; // Otherwise default to local port 3000
+};
+
 // Create a context provider that "provides" all child components (in our case all of our pages) with socket values
 export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null); // Socket values to be provided on use
@@ -18,7 +27,10 @@ export const SocketProvider = ({ children }) => {
       socket.disconnect();
     }
 
-    const newSocket = io("https://nerts-web-app.onrender.com");
+    // Find the backend socket server to connect to and create socket connection
+    const socketURL = getSocketServerURL();
+    const newSocket = io(socketURL);
+    console.log(`SocketContext connected to ${socketURL}`);
 
     newSocket.on("connect", () => {
       console.log(`User ${uid} is logged in and connected.`); // Log after socket has connected
