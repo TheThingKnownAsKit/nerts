@@ -19,11 +19,6 @@ class NertsPile {
   seeCard() {
     return this.cards.at(-1);
   }
-
-  // Create a clone of the current pile
-  clone() {
-    return new NertsPile(this.cards);
-  }
 }
 
 // Draw pile model
@@ -69,9 +64,12 @@ class DrawPile {
     return this.cards[this.currentIndex];
   }
 
-  // Create a clone of the current pile
-  clone() {
-    return new DrawPile(this.cards, this.currentIndex);
+  // Shuffles current draw pile
+  shuffle() {
+    for (let i = this.cards.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [this.cards[i], this.cards[j]] = [this.cards[j], this.cards[i]];
+    }
   }
 }
 
@@ -117,11 +115,6 @@ class BuildPile {
     }
     return true;
   }
-
-  // Create a clone of the current pile
-  clone() {
-    return new BuildPile(this.cards);
-  }
 }
 
 // Foundation pile model
@@ -158,11 +151,6 @@ class FoundationPile {
       }
     }
     return true; // Card was successfully added
-  }
-
-  // Create a clone of the current pile
-  clone() {
-    return new FoundationPile(this.cards, this.suit);
   }
 }
 

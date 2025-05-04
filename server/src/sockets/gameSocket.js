@@ -85,7 +85,7 @@ export default (io, gameManager) => {
       // Check if round has ended
       if (endRound) {
         io.to(payload.lobbyId).emit("endRound"); // Broadcast that round has ended
-        const players = Object.values(gameState.players); // Get array of all player objects
+        const players = gameState.getPlayers(); // Get array of all player objects
 
         // Check if someone is above 100 points at end of round
         const scoreAboveThreshold = players.some(
