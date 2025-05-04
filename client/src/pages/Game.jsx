@@ -5,6 +5,8 @@ import { useParams } from "react-router-dom";
 import { useSocket } from "../context/SocketContext.jsx";
 import { useEffect, useState } from "react";
 import Popup from "../components/Popup.jsx";
+import CustomButton from "../components/CustomButton.jsx";
+import "./Game.css";
 
 // Sounds
 import soundManager from "../logic/soundManager.js";
@@ -16,6 +18,7 @@ function Game() {
   const [selectedCard, setSelectedCard] = useState(null);
   const [gameStarted, setGameStarted] = useState(false);
   const [popup, setPopup] = useState(null);
+  const [playerCount, setPlayerCount] = useState(2);
 
   soundManager.loadSound("flips", flips);
   function playFlips() {
@@ -160,50 +163,110 @@ function Game() {
   
 
   function createCards() {
-    const gs = gameState?.gameState;
-    if (!gs || !gs.players) return null;
-
-    const playerIDs = Object.keys(gs.players);
-    const currentPlayerID = userID; // This is you
-    const opponentID = playerIDs.find((id) => id !== userID); // Anyone else
-
-    return (
-      <>
+    if (!gameStarted) {
+      // BEFORE game starts — show placeholders based on selected playerCount
+      const layoutMap =
+        playerCount === 1
+          ? [{ id: "Player1", corner: "bm" }]
+          : playerCount === 2
+          ? [
+              { id: "Player1", corner: "bm" },
+              { id: "Player2", corner: "tm" },
+            ]
+          : playerCount === 3
+          ? [
+              { id: "Player1", corner: "bm" },
+              { id: "Player2", corner: "tl" },
+              { id: "Player3", corner: "tr" },
+            ]
+          : [
+              { id: "Player1", corner: "tl" },
+              { id: "Player2", corner: "tr" },
+              { id: "Player3", corner: "bl" },
+              { id: "Player4", corner: "br" },
+            ];
+  
+      return layoutMap.map(({ id, corner }) => (
         <PlayerArea
-          corner="bm"
-          playerId={currentPlayerID}
-          hand={gameState?.gameState?.players?.[currentPlayerID]?.hand}
-          userID={userID}
-          onPlaySpotClick={handlePlaySpotClick}
-          onCardClick={handleCardClick}
-          />
-        <PlayerArea
-          corner="tm"
-          playerId={opponentID}
-          hand={gameState?.gameState?.players?.[opponentID]?.hand}
+          key={id}
+          corner={corner}
+          playerId={id}
+          hand={null}
           userID={userID}
           onPlaySpotClick={() => {}}
           onCardClick={() => {}}
-          />
-      </>
-    );
+        />
+      ));
+    } else {
+      // AFTER game starts — use real player IDs from backend
+      const gs = gameState?.gameState;
+      if (!gs || !gs.players) return null;
+  
+      const allPlayerIDs = Object.keys(gs.players);
+      const otherPlayerIDs = allPlayerIDs.filter((id) => id !== userID);
+  
+      let layoutMap = [];
+  
+      if (allPlayerIDs.length === 1) {
+        layoutMap = [{ id: userID, corner: "bm" }];
+      } else if (allPlayerIDs.length === 2) {
+        layoutMap = [
+          { id: userID, corner: "bm" },
+          { id: otherPlayerIDs[0], corner: "tm" },
+        ];
+      } else if (allPlayerIDs.length === 3) {
+        layoutMap = [
+          { id: userID, corner: "bm" },
+          { id: otherPlayerIDs[0], corner: "tl" },
+          { id: otherPlayerIDs[1], corner: "tr" },
+        ];
+      } else if (allPlayerIDs.length === 4) {
+        layoutMap = [
+          { id: otherPlayerIDs[0], corner: "tl" },
+          { id: otherPlayerIDs[1], corner: "tr" },
+          { id: otherPlayerIDs[2], corner: "bl" },
+          { id: userID, corner: "br" },
+        ];
+      }
+  
+      return layoutMap.map(({ id, corner }) => (
+        <PlayerArea
+          key={id}
+          corner={corner}
+          playerId={id}
+          hand={gs.players[id]?.hand}
+          userID={userID}
+          onPlaySpotClick={id === userID ? handlePlaySpotClick : () => {}}
+          onCardClick={id === userID ? handleCardClick : () => {}}
+        />
+      ));
+    }
   }
-
-  const numberOfPlayers =
-    Object.keys(gameState?.gameState?.players || {}).length || 2;
+  
 
   return (
     <div className="game-container">
       <h3>Game: {lobbyID}</h3>
 
       {!gameStarted && (
-        <button onClick={startButtonPress} className="start-game-button">
-          Start Game
-        </button>
+        <div className="menu">
+          <label htmlFor="player-count">Number of Players:</label>
+          <select
+            id="player-count"
+            value={playerCount}
+            onChange={(e) => setPlayerCount(Number(e.target.value))}
+            className="player-count-selector"
+          >
+            {[2, 3, 4].map((num) => (
+              <option key={num} value={num}>{num}</option>
+            ))}
+          </select>
+          <CustomButton onClick={startButtonPress} text="Start Game" />
+        </div>
       )}
 
       <CommonArea
-        numberOfPlayers={numberOfPlayers}
+        numberOfPlayers={playerCount}
         foundation={gameState?.gameState?.foundation}
         onPlaySpotClick={handlePlaySpotClick}
       />

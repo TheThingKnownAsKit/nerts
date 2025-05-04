@@ -97,31 +97,32 @@
     flex-direction: row;
     align-items: flex-start;
     gap: 1vw; /* space between columns */
+    max-width: 48vw;
 }
 
 .player-area.tl {
-    top: 3vw;
-    left: 8vw;
+    top: 4vw;
+    left: 1vw;
 }
 .player-area.tr {
-    top: 3vw;
-    right: 8vw;
+    top: 4vw;
+    right: 1vw;
 }
 .player-area.bl {
-    bottom: 3vw;
-    left: 8vw;
+    bottom: 4vw;
+    left: 1vw;
 }
 .player-area.br {
-    bottom: 3vw;
-    right: 8vw;
+    bottom: 4vw;
+    right: 1vw;
 }
 
 .player-area.tm {
-    top: 3vw;
+    top: 4vw;
     right: 26vw;
 }
-
+.player-area,
 .player-area.bm {
-    bottom: 3vw;
+    bottom: 4vw;
     right: 26vw;
 }

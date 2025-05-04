@@ -32,7 +32,7 @@ const Letters = () => {
         return (
           <img
             key={index}
-            src={`/src/assets/images/letters/${letter}.png`}
+            src={`src/assets/images/letters/${letter}.png`}
             className={`wiggle-letter ${isSecret ? "secret" : ""}`}
             draggable="false"
             onClick={() => handleClick(letter)}
