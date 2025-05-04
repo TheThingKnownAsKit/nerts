@@ -7,7 +7,7 @@ const Card = ({ suit, rank, faceDown, onClick, locked = false, style, playerid }
 
   return (
     <img
-      className={`card ${locked ? "locked" : "unlocked"}`}
+      className={`card ${locked ? "locked" : "unlocked"} no-select`}
       src={src}
       alt={faceDown ? "Card back" : `Card ${rank} of ${suit}`}
       onClick={locked ? undefined : onClick} // Disable interaction if locked
