@@ -22,7 +22,7 @@ const bgMap = {
 
 const SettingsBox = () => {
   //state for color square selected
-  const [selectedColor, setSelectedColor] = useState(null);
+  const [selectedColor, setSelectedColor] = useState("#00cc66"); // green
   //state for sound effect volume 0-100
   const [soundEffectVolume, setSoundEffectVolume] = useState(50);
 

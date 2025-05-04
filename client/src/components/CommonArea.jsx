@@ -24,6 +24,7 @@ function CommonArea({ numberOfPlayers, foundation, onPlaySpotClick }) {
                 faceDown={false}
                 locked={true}
                 onClick={null} // These aren't clickable directly
+                playerid={-1}
               />
             ) : (
               ``
