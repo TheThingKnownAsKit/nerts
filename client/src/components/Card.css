@@ -12,3 +12,20 @@
     transform: scale(1.05);
     filter: brightness(0.8);
 }
+
+.card.selected {
+    border-radius: 6px;
+    border-style: dashed;
+}
+
+@keyframes pulseGlow {
+    0% {
+        box-shadow: 0 0 5px 2px rgb(255, 255, 255);
+    }
+    50% {
+        box-shadow: 0 0 10px 3px rgb(255, 255, 255);
+    }
+    100% {
+        box-shadow: 0 0 5px 2px rgb(255, 255, 255);
+    }
+}

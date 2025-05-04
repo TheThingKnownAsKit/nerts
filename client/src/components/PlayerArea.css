@@ -20,18 +20,19 @@
 
 .work-pile {
     display: flex;
-    width: 26vw;
+    width: 25vw;
     height: 14.5vw;
     margin: 0.5vw;
     justify-content: center;
     align-items: flex-start;
     padding: 0.25vw;
+    padding-top: 0.5vw;
 }
 
 .work-spot {
     position: relative;
     width: 6vw;
-    height: 8vw;
+    height: 14vw;
 }
 
 /* Staggered card stacking */

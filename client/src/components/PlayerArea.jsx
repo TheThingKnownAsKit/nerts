@@ -1,7 +1,7 @@
 import Card from "./Card";
 import "./PlayerArea.css";
 
-function PlayerArea({ corner, playerId, hand, userID, onPlaySpotClick, onCardClick, flippedCard }) {
+function PlayerArea({ corner, playerId, hand, userID, onPlaySpotClick, onCardClick }) {
   const isCurrentPlayer = playerId === userID;
 
   const renderNertsPile = () => {
@@ -12,7 +12,7 @@ function PlayerArea({ corner, playerId, hand, userID, onPlaySpotClick, onCardCli
         suit={card.suit}
         rank={card.rank}
         faceDown={index !== pile.length - 1}
-        locked={false}
+        locked={index !== pile.length - 1}
         style={{ '--i': index }}
         onClick={isCurrentPlayer ? () => onCardClick(card) : undefined}
       />
@@ -36,17 +36,23 @@ function PlayerArea({ corner, playerId, hand, userID, onPlaySpotClick, onCardCli
 
   const renderStockPile = () => {
     const pile = hand?.drawPile?.cards || [];
-    const visibleIndex = hand?.drawPile?.currentIndex;
-    return pile.map((card, index) => (
-      <Card
-        key={`stock-${index}`}
-        suit={card.suit}
-        rank={card.rank}
-        locked={false}
-        faceDown={index !== visibleIndex}
-        onClick={isCurrentPlayer ? () => onCardClick(card) : undefined}
-      />
-    ));
+    const visibleIndex = hand?.drawPile?.currentIndex ?? -1;
+  
+    return pile.map((card, index) => {
+      // Skip rendering the visible (flipped) card
+      if (index === visibleIndex) return null;
+  
+      return (
+        <Card
+          key={`stock-${index}`}
+          suit={card.suit}
+          rank={card.rank}
+          faceDown={true}
+          locked={false}
+          onClick={onCardClick ? () => onCardClick(card) : undefined}
+        />
+      );
+    });
   };
 
   return (
@@ -59,15 +65,21 @@ function PlayerArea({ corner, playerId, hand, userID, onPlaySpotClick, onCardCli
             {renderStockPile()}
           </div>
           <div className="flipped">
-            {flippedCard && (
-              <Card
-                suit={flippedCard.suit}
-                rank={flippedCard.rank}
-                faceDown={false}
-                locked={false}
-                onClick={onCardClick ? () => onCardClick(flippedCard, false) : undefined}
-              />
-            )}
+            {(() => {
+              const visibleIndex = hand?.drawPile?.currentIndex ?? -1;
+              const card = hand?.drawPile?.cards?.[visibleIndex];
+
+              return card ? (
+                <Card
+                  key={`flipped-${card.rank}-${card.suit}`}
+                  suit={card.suit}
+                  rank={card.rank}
+                  faceDown={false}
+                  locked={false}
+                  onClick={onCardClick ? () => onCardClick(card, true) : undefined}
+                />
+              ) : null;
+            })()}
           </div>
         </div>
       </div>

@@ -54,7 +54,7 @@ export default (io, gameManager) => {
       playerId: "XTywdu5KJNsrKqTcAAAB"
     } */
         socket.on("flipDrawPile", (payload) => {
-            const gameState = gameManager.games[payload.lobbyId]; // Get game state of specified lobby
+            let gameState = gameManager.games[payload.lobbyId]; // Get game state of specified lobby
             const card = gameState.flipDrawPile(payload.playerId); // Get new "visible" draw pile card
             const playerId = payload.playerId; // Get player ID
 
@@ -63,6 +63,9 @@ export default (io, gameManager) => {
                 card,
                 playerId,
             });
+            // Trigger refresh manually because the flip function only modifies a primitive type
+            const safeState = JSON.parse(JSON.stringify(gameManager.games[payload.lobbyId]));
+            io.to(payload.lobbyId).emit("gameStateUpdated", { gameState: safeState });
         });
 
         // Event listener for calling nerts

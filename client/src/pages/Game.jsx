@@ -16,7 +16,6 @@ function Game() {
   const [selectedCard, setSelectedCard] = useState(null);
   const [gameStarted, setGameStarted] = useState(false);
   const [popup, setPopup] = useState(null);
-  const [flippedCards, setFlippedCards] = useState({});
 
   soundManager.loadSound("flips", flips);
   function playFlips() {
@@ -52,13 +51,8 @@ function Game() {
       console.log(moveWasMade);
     };
 
-    const handleNewDrawCard = ({ card, playerId }) => {
-      console.log("New draw card:", flippedCards);
+    const handleNewDrawCard = () => {
       playFlips();
-      setFlippedCards((prev) => ({
-        ...prev,
-        [playerId]: card, // associate card with that player's ID
-      }));
     };
   
     socket.on("gameStarted", handleGameStarted);
@@ -71,27 +65,27 @@ function Game() {
       socket.off("newDrawCard", handleNewDrawCard);
     };
   }, [socket]);
-  
 
-  const handleCardClick = (card, stockCard=true) => {
-    if (!gameState?.gameState?.players?.[userID]?.hand) return;
-  
-    console.log("Clicked card:", card);
 
-    const drawPile = gameState.gameState.players[userID].hand.drawPile;
-    const visibleIndex = drawPile.currentIndex;
-    const visibleCard = drawPile.cards?.[visibleIndex];
+  function removeAllCardSelections() {
+    document.querySelectorAll(".card.selected").forEach((el) =>
+      el.classList.remove("selected")
+    );
+  }
+
+  const handleCardClick = (card, stockCard = true) => {
+    const drawPile = gameState?.gameState?.players?.[userID]?.hand?.drawPile;
+    const visibleIndex = drawPile?.currentIndex ?? -1;
+    const visibleCard = drawPile?.cards?.[visibleIndex];
   
-    // 🔒 Check if the clicked card is in the draw pile but not visible
-    const isDrawPileCard = drawPile.cards?.some(
+    const isDrawPileCard = drawPile?.cards?.some(
       (c) => c.suit === card.suit && c.rank === card.rank
     );
   
-    const isNotVisible = !(
-      visibleCard &&
-      visibleCard.suit === card.suit &&
-      visibleCard.rank === card.rank
-    );
+    const isNotVisible =
+      !visibleCard ||
+      visibleCard.suit !== card.suit ||
+      visibleCard.rank !== card.rank;
   
     if (stockCard && isDrawPileCard && isNotVisible) {
       socket.emit("flipDrawPile", {
@@ -99,11 +93,16 @@ function Game() {
         playerId: userID,
       });
       setSelectedCard(null);
-      console.log("Flipping draw pile");
-      return; // Exit early
+      removeAllCardSelections();
+      return;
     }
   
-    // ✅ Normal selection toggle
+    // Toggle selection
+    const cardSelector = `[data-suit="${card.suit}"][data-rank="${card.rank}"]`;
+  
+    // Clear all other selections
+    removeAllCardSelections();
+  
     if (
       selectedCard &&
       selectedCard.suit === card.suit &&
@@ -112,6 +111,10 @@ function Game() {
       setSelectedCard(null);
     } else {
       setSelectedCard(card);
+  
+      // Add the selected class
+      const el = document.querySelector(cardSelector);
+      if (el) el.classList.add("selected");
     }
   };
 
@@ -150,6 +153,7 @@ function Game() {
     console.log("Sending payload:", payload);
     socket.emit("cardPlayed", payload);
     setSelectedCard(null);
+    console.log(gameState);
   };
   
 
@@ -170,7 +174,6 @@ function Game() {
           userID={userID}
           onPlaySpotClick={handlePlaySpotClick}
           onCardClick={handleCardClick}
-          flippedCard={flippedCards[currentPlayerID] || null}
           />
         <PlayerArea
           corner="tm"
@@ -179,7 +182,6 @@ function Game() {
           userID={opponentID}
           onPlaySpotClick={handlePlaySpotClick}
           onCardClick={handleCardClick}
-          flippedCard={flippedCards[opponentID] || null}
           />
       </>
     );
