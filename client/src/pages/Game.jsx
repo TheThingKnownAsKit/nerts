@@ -11,6 +11,7 @@ import "./Game.css";
 // Sounds
 import soundManager from "../logic/soundManager.js";
 import flips from "../assets/sounds/flip_cards.mp3";
+import flip_one from "../assets/sounds/flip_card.mp3";
 
 function Game() {
   const { lobbyID } = useParams();
@@ -21,8 +22,12 @@ function Game() {
   const [playerCount, setPlayerCount] = useState(2);
 
   soundManager.loadSound("flips", flips);
+  soundManager.loadSound("flip_one", flip_one);
   function playFlips() {
     soundManager.playSound("flips");
+  }
+  function playPlay() {
+    soundManager.playSound("flip_one");
   }
 
   useEffect(() => {
@@ -52,6 +57,9 @@ function Game() {
   
     const handleCardPlayAccepted = (moveWasMade) => {
       console.log(moveWasMade);
+      if (moveWasMade) {
+        playPlay();
+      }
     };
 
     const handleNewDrawCard = () => {
@@ -242,7 +250,8 @@ function Game() {
       ));
     }
   }
-  
+
+  const np = Object.keys(gameState?.gameState?.players || {}).length || 0;
 
   return (
     <div className="game-container">
@@ -266,7 +275,7 @@ function Game() {
       )}
 
       <CommonArea
-        numberOfPlayers={playerCount}
+        numberOfPlayers={np}
         foundation={gameState?.gameState?.foundation}
         onPlaySpotClick={handlePlaySpotClick}
       />
