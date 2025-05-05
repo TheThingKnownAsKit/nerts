@@ -71,6 +71,7 @@ function Signup() {
       };
 
       // Create user document
+      const userRef = doc(db, "users", user.uid);
       await setDoc(userRef, userData);
       console.log("User document created in Firestore");
 

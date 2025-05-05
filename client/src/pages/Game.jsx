@@ -7,6 +7,9 @@ import { useEffect, useState } from "react";
 import Popup from "../components/Popup.jsx";
 import CustomButton from "../components/CustomButton.jsx";
 import "./Game.css";
+import { db } from "../firebase/config";
+import { doc, updateDoc, increment } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 
 // Sounds
 import soundManager from "../logic/soundManager.js";
@@ -57,6 +60,12 @@ function Game() {
 
     const handleCardPlayAccepted = (moveWasMade) => {
       if (moveWasMade) {
+        // Update the number of cards played in user statistics
+        const auth = getAuth();
+        const uid = auth.currentUser.uid;
+        const statsRef = doc(db, "users", uid, "statistics", "data");
+        updateDoc(statsRef, { cards_played: increment(1) });
+
         playPlay();
       }
     };
