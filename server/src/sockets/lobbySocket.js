@@ -22,7 +22,7 @@ export default (io, gameManager) => {
 
         // Tell client the lobby has been joined, tell the lobby a new client has joined, and log the join
         socket.emit("lobbyJoined", { lobbyID });
-        socket.broadcast.to(lobbyID).emit("playerJoined", {
+        io.to(lobbyID).emit("playerJoined", {
           playerID: userID,
           message: `Player ${userID} has joined the lobby.`,
         });
