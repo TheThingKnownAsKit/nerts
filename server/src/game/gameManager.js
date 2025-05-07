@@ -129,7 +129,7 @@ class GameState {
 
     // If a move was made, reset draw pile shuffle timers
     if (moveWasMade) {
-      gameManager.resetShuffleTimer(playPayload.lobbyId);
+      gameManager.resetShuffleTimers(playPayload.lobbyId);
     }
 
     return moveWasMade;
