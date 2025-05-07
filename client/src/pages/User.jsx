@@ -9,6 +9,12 @@ import "./User.css";
 function User() {
   const { userID } = useSocket();
   const [username, setUsername] = useState("Loading...");
+
+  const [showPopup, setShowPopup] = useState(false);
+  const [editedUsername, setEditedUsername] = useState(username);
+  const [selectedProfile, setSelectedProfile] = useState(profile); // default image
+  const [editedProfile, setEditedProfile] = useState(profile);
+
   const [stats, setStats] = useState({
     cardsPlayed: 0,
     gamesPlayed: 0,
@@ -33,6 +39,7 @@ function User() {
 
         if (userSnap.exists()) {
           setUsername(userSnap.data().username);
+          setEditedUsername(userSnap.data().username);
         }
 
         if (statsSnap.exists()) {
@@ -60,19 +67,23 @@ function User() {
       <CustomButton back={true} absolute={true} text={"Back"} />
 
       <div className="user-header">
-        <img
-          className="user-image no-select"
-          src={profile}
-          alt="Profile picture"
-        />
+      <img
+        className="user-image no-select"
+        src={selectedProfile}
+        alt="Profile picture"
+      />
         <h3 className="user-name no-select">{username}</h3>
       </div>
-      <div className="user-edit">
-        <h3 className="change-user-image no-select">
-          <u>Change Icon</u>
-        </h3>
-        <h3 className="change-user-name no-select">
-          <u>Change Username</u>
+      <div
+        className="user-edit"
+        onClick={() => {
+          setEditedUsername(username);
+          setEditedProfile(selectedProfile); // sync current
+          setShowPopup(true);
+        }}
+      >
+        <h3 className="edit-profile no-select">
+          <u>Edit Profile</u>
         </h3>
       </div>
       <div className="stats">
@@ -105,6 +116,57 @@ function User() {
           <span className="total-tp">{stats.timePlayed}</span>
         </h3>
       </div>
+
+      {showPopup && (
+  <div className="settings-box">
+    <h2>Edit Profile</h2>
+
+    <label htmlFor="username-input">Username:</label>
+    <input
+      id="username-input"
+      type="text"
+      value={editedUsername}
+      onChange={(e) => setEditedUsername(e.target.value)}
+      className="username-input"
+    />
+
+    <div className="profile-pic-selection">
+      <p>Select a profile picture:</p>
+      <div className="profile-pic-grid">
+        {Array.from({ length: 5 }, (_, i) => (
+          <img
+            key={i}
+            src={`/icons/pic${i + 1}.png`} // <-- adjust paths as needed
+            alt={`Profile ${i + 1}`}
+            className={`profile-pic-option ${
+              editedProfile.includes(`pic${i + 1}`) ? "selected" : ""
+            }`}
+            onClick={() => setEditedProfile(`/icons/pic${i + 1}.png`)}
+          />
+        ))}
+      </div>
+    </div>
+
+    <div className="popup-buttons">
+      <CustomButton
+        text="Save"
+        onClick={() => {
+          setUsername(editedUsername);
+          setSelectedProfile(editedProfile); // ✅ Commit profile
+          setShowPopup(false);
+        }}
+      />
+      <CustomButton
+        text="Cancel"
+        onClick={() => {
+          setEditedUsername(username);        // Reset username field
+          setEditedProfile(selectedProfile);  // Reset profile picker
+          setShowPopup(false);
+        }}
+      />
+    </div>
+  </div>
+)}
     </div>
   );
 }
