@@ -63,6 +63,7 @@ function Game() {
 
   const handleNerts = () => {
     /// Blah blah blah
+    setRoundEnded(true)
   };
 
   useEffect(() => {
@@ -127,6 +128,10 @@ function Game() {
       .querySelectorAll(".card.selected")
       .forEach((el) => el.classList.remove("selected"));
   }
+
+  const nextRoundPress = () => {
+    setRoundEnded(false);
+  };
 
   const handleCardClick = (card, stockCard = true, playerId) => {
     const drawPile = gameState?.gameState?.players?.[userID]?.hand?.drawPile;
@@ -305,8 +310,7 @@ function Game() {
           <RoundDisplay
             round={round}
             players={playerList}
-            userID={userID}
-            host={host}
+            nextRoundPress={nextRoundPress}
           />
         </>
       )}

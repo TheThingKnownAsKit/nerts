@@ -48,7 +48,6 @@ function PlayerArea({
       />
     ));
   };
-
   const renderStockPile = () => {
     const pile = hand?.drawPile?.cards || [];
     const visibleIndex = hand?.drawPile?.currentIndex ?? -1;
@@ -79,7 +78,7 @@ function PlayerArea({
       <div className="left-column">
       <div className="nerts-pile dashed-outline">
         {renderNertsPile()}
-        {hand?.nertsPile?.cards?.length === 0 && (
+        {hand?.nertsPile?.cards?.length !== 0 && (
           <img className="nerts-button" src={nertsButton} alt="nerts button" onClick={handleNerts}/>
         )}
       </div>
