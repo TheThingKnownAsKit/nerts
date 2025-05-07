@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { useRef } from "react";
 import "./SettingsBox.css";
 import soundManager from "../logic/soundManager.js";
 
@@ -29,10 +30,13 @@ const SettingsBox = () => {
   //toggles for music, deck hotkey, colorblind palette
   const [music, setMusic] = useState(true);
   const [deckHotkey, setDeckHotkey] = useState(true);
-  const [colorblind, setColorblind] = useState(true);
 
+  const didMount = useRef(false);
   useEffect(() => {
-    if (!selectedColor) return;
+    if (!didMount.current) {
+      didMount.current = true;
+      return;
+    }
     document.body.style.backgroundImage = `url(${bgMap[selectedColor]})`;
     localStorage.setItem("bgColor", selectedColor);
   }, [selectedColor]);
@@ -96,14 +100,6 @@ const SettingsBox = () => {
         <label>Tab for Deck Hotkey:</label>
         <button onClick={() => setDeckHotkey(!deckHotkey)}>
           {deckHotkey ? "ON" : "OFF"}
-        </button>
-      </div>
-
-      {/* toggly button for colorblind friendly palette */}
-      <div className="settings-item">
-        <label>Colorblind Palette:</label>
-        <button onClick={() => setColorblind(!colorblind)}>
-          {colorblind ? "ON" : "OFF"}
         </button>
       </div>
     </div>

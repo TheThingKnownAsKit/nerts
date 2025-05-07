@@ -3,8 +3,11 @@ import Player from "../models/player.js";
 
 // Game manager model to handle game instances
 class GameManager {
-  constructor() {
+  constructor(io) {
+    this.io = io;
     this.games = {}; // Dictionary of running games { lobbyId: gameState }
+    this.inactivityTimers = {}; // Dictionary of 50s timers for inavtivity for draw pile shuffle { lobbyId: interval object }
+    this.shuffleTimers = {}; // Dictionary of 10s timers for draw pile shuffle { lobbyId: timeout object}
   }
 
   // Generates a unique lobby ID and it in games dictionary
@@ -36,17 +39,41 @@ class GameManager {
     });
 
     this.games[lobbyId] = gameState; // Add game state to lobby stored in dictionary
+    this.resetShuffleTimers(lobbyId); // Reset/Start timers
+
     return gameState;
+  }
+
+  // Resets timers related to draw pile shuffling for inactivity
+  resetShuffleTimers(lobbyId) {
+    // Clear both timers
+    clearInterval(this.inactivityTimers[lobbyId]);
+    clearTimeout(this.shuffleTimers[lobbyId]);
+
+    // Set long timer that warns players about incoming shuffle
+    this.inactivityTimers[lobbyId] = setInterval(() => {
+      this.io.to(lobbyId).emit("shuffleWarning");
+
+      // Set 10 second timer to let players know the draw pile is about to be shuffled
+      this.shuffleTimers[lobbyId] = setTimeout(() => {
+        const gameState = this.games[lobbyId]; // Get game state
+
+        // Go through each player in game and shuffle draw pile
+        gameState.getPlayers().forEach((player) => {
+          player.shuffleDrawPile();
+        });
+        this.io.to(lobbyId).emit("drawPileShuffled", { gameState }); // Emit changes to front end
+      }, 10000);
+    }, 20000);
   }
 }
 
 // Game state model to handle game properties and gameplay logic
 class GameState {
   constructor() {
-    this.players = {};
-    this.foundation = [];
+    this.players = {}; // Dictionary of players {playerId: player object}
+    this.foundation = []; // Array of foundationPile objects
     this.moveHandler = new MoveHandler();
-    this.timer = null;
   }
 
   // Helper function for adding players to a game
@@ -60,25 +87,25 @@ class GameState {
   }
 
   /* EXAMPLE PAYLOAD
-    {
-        source: {
-            card: {
-                suit: "hearts",
-                rank: 3
-            }
-        },
-        destination: {
-            pile: {
-                name: "buildPile",
-                index: 2
-            }
-        },
-        playerId: "XTywdu5KJNsrKqTcAAAB",
-        gameId: "ABCDEF"
-    } */
+  {
+    source: {
+      card: {
+        suit: "hearts",
+        rank: 3
+      }
+    },
+    destination: {
+      pile: {
+        name: "buildPile",
+        index: 2
+      }
+    },
+    playerId: "XTywdu5KJNsrKqTcAAAB",
+    lobbyId: "ABCDEF"
+  } */
 
   // Attempts to play a move from a player given the above example payload
-  playCard(playPayload) {
+  playCard(playPayload, gameManager) {
     const player = this.players[playPayload.playerId]; // Get player making the move
 
     // Get info about the source card(s) given the card sent from front-end
@@ -99,6 +126,11 @@ class GameState {
 
     // Try to perform move
     const moveWasMade = this.moveHandler.tryExecuteMove(moveType, moveContext);
+
+    // If a move was made, reset draw pile shuffle timers
+    if (moveWasMade) {
+      gameManager.resetShuffleTimers(playPayload.lobbyId);
+    }
 
     return moveWasMade;
   }

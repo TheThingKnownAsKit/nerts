@@ -164,7 +164,7 @@ function Game() {
         },
       },
       playerId: userID,
-      gameId: lobbyID,
+      lobbyId: lobbyID,
     };
 
     socket.emit("cardPlayed", payload);

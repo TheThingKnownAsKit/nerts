@@ -70,6 +70,7 @@ class DrawPile {
       const j = Math.floor(Math.random() * (i + 1));
       [this.cards[i], this.cards[j]] = [this.cards[j], this.cards[i]];
     }
+    this.currentIndex = -1;
   }
 }
 

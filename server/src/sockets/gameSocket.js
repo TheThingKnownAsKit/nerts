@@ -34,16 +34,16 @@ export default (io, gameManager) => {
         }
       },
       playerId: "XTywdu5KJNsrKqTcAAAB",
-      gameId: "ABCDEF"
+      lobbyId: "ABCDEF"
     } */
     socket.on("cardPlayed", (payload) => {
-      const gameState = gameManager.games[payload.gameId];
-      const moveWasMade = gameState.playCard(payload);
+      const gameState = gameManager.games[payload.lobbyId];
+      const moveWasMade = gameState.playCard(payload, gameManager);
 
       socket.emit("cardPlayAccepted", moveWasMade);
 
       if (moveWasMade) {
-        io.to(payload.gameId).emit("gameStateUpdated", {
+        io.to(payload.lobbyId).emit("gameStateUpdated", {
           gameState,
         });
       }

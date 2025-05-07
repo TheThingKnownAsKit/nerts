@@ -336,7 +336,7 @@ test("Draw pile ace to empty foundation pile (played)", () => {
     playerId: examplePlayerId,
     lobbyId: lobbyId,
   };
-  const wasPlayed = gameState.playCard(playPayload);
+  const wasPlayed = gameState.playCard(playPayload, gameManager);
 
   expect(wasPlayed).toBe(true);
 });
@@ -366,7 +366,7 @@ test("Nerts pile not ace to empty foundation pile (not played)", () => {
     playerId: examplePlayerId,
     lobbyId: lobbyId,
   };
-  const wasPlayed = gameState.playCard(playPayload);
+  const wasPlayed = gameState.playCard(playPayload, gameManager);
 
   expect(wasPlayed).toBe(false);
 });
@@ -397,7 +397,7 @@ test("Build pile single card (4-diamonds) to empty build pile (played)", () => {
     playerId: examplePlayerId,
     lobbyId: lobbyId,
   };
-  const wasPlayed = gameState.playCard(playPayload);
+  const wasPlayed = gameState.playCard(playPayload, gameManager);
 
   expect(wasPlayed).toBe(true);
 });
@@ -429,7 +429,7 @@ test("Nerts pile (4-diamonds) to (13-hearts) build pile (not played)", () => {
     playerId: examplePlayerId,
     lobbyId: lobbyId,
   };
-  const wasPlayed = gameState.playCard(playPayload);
+  const wasPlayed = gameState.playCard(playPayload, gameManager);
 
   expect(wasPlayed).toBe(false);
 });
@@ -466,7 +466,7 @@ test("Draw pile (4-diamonds) to (13-hearts) build pile (not played)", () => {
     playerId: examplePlayerId,
     lobbyId: lobbyId,
   };
-  const wasPlayed = gameState.playCard(playPayload);
+  const wasPlayed = gameState.playCard(playPayload, gameManager);
 
   expect(wasPlayed).toBe(false);
 });
@@ -502,7 +502,7 @@ test("Multi-card build pile (4-diamonds, 3-clubs, 2-hearts) to multi-card build 
     playerId: examplePlayerId,
     lobbyId: lobbyId,
   };
-  const wasPlayed = gameState.playCard(playPayload);
+  const wasPlayed = gameState.playCard(playPayload, gameManager);
 
   expect(wasPlayed).toBe(true);
 });
@@ -538,7 +538,7 @@ test("Multi-card build pile (4-clubs, 3-diamonds, 2-spades) to multi-card build 
     playerId: examplePlayerId,
     lobbyId: lobbyId,
   };
-  const wasPlayed = gameState.playCard(playPayload);
+  const wasPlayed = gameState.playCard(playPayload, gameManager);
 
   expect(wasPlayed).toBe(false);
 });
@@ -574,7 +574,7 @@ test("Multi-card build pile (4-clubs, 3-diamonds, 2-spades) to foundation pile (
     playerId: examplePlayerId,
     lobbyId: lobbyId,
   };
-  const wasPlayed = gameState.playCard(playPayload);
+  const wasPlayed = gameState.playCard(playPayload, gameManager);
 
   expect(wasPlayed).toBe(false);
 });
