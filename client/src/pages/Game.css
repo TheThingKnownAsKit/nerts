@@ -1,58 +1,99 @@
 .start-game-button {
-  z-index: 999;
+    z-index: 999;
 }
 .player-count-selector {
-  z-index: 999;
+    z-index: 999;
 }
 .menu {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background-color: #222;
-  color: #fff;
-  padding: 2rem 3rem;
-  border-radius: 16px;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-  z-index: 999;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1.5rem;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #222;
+    color: #fff;
+    padding: 2rem 3rem;
+    border-radius: 16px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
 }
 
 .menu label {
-  font-size: 1.2rem;
-  margin-bottom: 0.5rem;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
 }
 
 .menu h3 {
-  margin: 0px;
-  font-size: 2.5vw;
+    margin: 0px;
+    font-size: 2.5vw;
 }
 
 .player-count-selector {
-  font-size: 1rem;
-  padding: 0.4rem 1rem;
-  border-radius: 8px;
-  border: none;
-  background-color: #444;
-  color: #fff;
-  width: 150px;
-  text-align: center;
+    font-size: 1rem;
+    padding: 0.4rem 1rem;
+    border-radius: 8px;
+    border: none;
+    background-color: #444;
+    color: #fff;
+    width: 150px;
+    text-align: center;
 }
 
 .start-game-button {
-  font-size: 1rem;
-  padding: 0.5rem 1.2rem;
-  border: none;
-  border-radius: 8px;
-  background-color: #4caf50;
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.3s;
+    font-size: 1rem;
+    padding: 0.5rem 1.2rem;
+    border: none;
+    border-radius: 8px;
+    background-color: #4caf50;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
 .start-game-button:hover {
-  background-color: #45a049;
+    background-color: #45a049;
+}
+
+.player-list {
+    position: absolute;
+    bottom: 10vw;
+    left: 50%;
+    transform: translateX(-50%);
+    color: white;
+    justify-content: center;
+}
+.player-list h3 {
+    font-size: 3vw;
+    justify-self: center;
+    text-decoration: underline;
+    margin-bottom: 0.5vw;
+}
+.player-list ul li {
+    font-size: 2vw;
+    justify-self: left;
+    margin-right: 2vw;
+}
+
+.shuffle-warning {
+    position: absolute;
+    top: 37vh;
+    left: 50vw;
+    transform: translateX(-50%);
+    font-size: 1.5vw;
+    color: red;
+    font-weight: bold;
+    width: 60vw;
+    text-align: center;
+    background-color: white;
+    border-radius: 1vw;
+    padding: 0.3vw;
+    opacity: 1;
+    transition: opacity 0.6s ease;
+}
+.shuffle-warning.hidden {
+    opacity: 0;
+    pointer-events: none;
 }

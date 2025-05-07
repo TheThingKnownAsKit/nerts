@@ -1,37 +1,54 @@
 export default (io, gameManager) => {
-  io.on("connect", (socket) => {
-    // Listen for client requesting to create a lobby
-    socket.on("createLobby", ({ userID }) => {
-      const lobbyID = gameManager.createLobby(); // Get unique lobby ID
-      socket.join(lobbyID); // Add client to a "room" with this lobby ID
-      socket.data.userID = userID; // ✅ Fix: associate userID with socket
+    const lobbies = {};
 
-      // Tell client the lobby has been created and log the lobby creation
-      socket.emit("lobbyCreated", { lobbyID });
-      console.log(`Player ${userID} created lobby ${lobbyID}.`);
-    });
+    io.on("connect", (socket) => {
+        // Listen for client requesting to create a lobby
+        socket.on("createLobby", async ({ userID }) => {
+            const lobbyID = gameManager.createLobby(); // Get unique lobby ID
+            socket.join(lobbyID); // Add client to a "room" with this lobby ID
+            socket.data.userID = userID; // ✅ Fix: associate userID with socket
 
-    // Listen for client requesting to join a lobby
-    socket.on("joinLobby", ({ lobbyID, userID }) => {
-      const room = io.sockets.adapter.rooms.get(lobbyID); // Get requested lobby ID room (undefined if it doesn't exitst)
+            lobbies[lobbyID] = userID;
 
-      // Check if room exists
-      if (room) {
-        socket.join(lobbyID); // Add client to lobby room
-        socket.data.userID = userID; // Store userID on the socket
+            // Tell client the lobby has been created and log the lobby creation
+            socket.emit("lobbyCreated", { lobbyID, host: userID });
+            console.log(`Player ${userID} created lobby ${lobbyID}.`);
 
-        // Tell client the lobby has been joined, tell the lobby a new client has joined, and log the join
-        socket.emit("lobbyJoined", { lobbyID });
-        socket.broadcast.to(lobbyID).emit("playerJoined", {
-          playerID: userID,
-          message: `Player ${userID} has joined the lobby.`,
+            const players = await getUserIDsInLobby(io, lobbyID);
+            io.to(lobbyID).emit("lobbyUpdated", { players });
         });
-        console.log(`Player ${userID} joined lobby ${lobbyID}.`);
-      } else {
-        socket.emit("lobbyNotFound", {
-          message: `Error: lobby ${lobbyID} not found.`,
-        }); // Tell client the lobby was not found
-      }
+
+        // Listen for client requesting to join a lobby
+        socket.on("joinLobby", async ({ lobbyID, userID }) => {
+            const room = io.sockets.adapter.rooms.get(lobbyID); // Get requested lobby ID room (undefined if it doesn't exitst)
+
+            // Check if room exists
+            if (room) {
+                socket.join(lobbyID); // Add client to lobby room
+                socket.data.userID = userID; // Store userID on the socket
+
+                // Tell client the lobby has been joined, tell the lobby a new client has joined, and log the join
+                const host = lobbies[lobbyID];
+                socket.emit("lobbyJoined", { lobbyID, host });
+                socket.broadcast.to(lobbyID).emit("playerJoined", {
+                    playerID: userID,
+                    message: `Player ${userID} has joined the lobby.`,
+                });
+                console.log(`Player ${userID} joined lobby ${lobbyID}.`);
+
+                // ✅ Get current list of userIDs in lobby
+                const players = await getUserIDsInLobby(io, lobbyID);
+                io.to(lobbyID).emit("lobbyUpdated", { players });
+            } else {
+                socket.emit("lobbyNotFound", {
+                    message: `Error: lobby ${lobbyID} not found.`,
+                }); // Tell client the lobby was not found
+            }
+        });
+
+        const getUserIDsInLobby = async (io, lobbyID) => {
+            const sockets = await io.in(lobbyID).fetchSockets();
+            return sockets.map((s) => s.data.userID);
+        };
     });
-  });
 };

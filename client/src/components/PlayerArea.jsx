@@ -1,5 +1,6 @@
 import Card from "./Card";
 import "./PlayerArea.css";
+import nertsButton from "../assets/images/nerts_button.png";
 
 function PlayerArea({
   corner,
@@ -75,7 +76,12 @@ function PlayerArea({
     <div className={`player-area ${corner}`}>
       {/* Column 1: Nerts + Stock */}
       <div className="left-column">
-        <div className="nerts-pile dashed-outline">{renderNertsPile()}</div>
+      <div className="nerts-pile dashed-outline">
+        {renderNertsPile()}
+        {hand?.nertsPile?.cards?.length === 0 && (
+          <img className="nerts-button" src={nertsButton} alt="nerts button" />
+        )}
+      </div>
         <div className="stock-pile dashed-outline">
           <div className="stock">{renderStockPile()}</div>
           <div className="flipped">

@@ -11,7 +11,7 @@ import "./Host.css";
 
 function Host() {
   const navigate = useNavigate();
-  const { socket, userID } = useSocket();
+  const { socket, userID, setHost } = useSocket();
 
   const [lobbyID, setLobbyID] = useState("");
   const [popup, setPopup] = useState(null);
@@ -30,11 +30,13 @@ function Host() {
   useEffect(() => {
     if (!socket) return;
 
-    socket.on("lobbyCreated", ({ lobbyID }) => {
+    socket.on("lobbyCreated", ({ lobbyID, host }) => {
+      setHost(host);
       navigate(`/game/${lobbyID}`);
     });
 
-    socket.on("lobbyJoined", ({ lobbyID }) => {
+    socket.on("lobbyJoined", ({ lobbyID, host }) => {
+      setHost(host);
       navigate(`/game/${lobbyID}`);
     });
 

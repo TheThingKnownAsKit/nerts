@@ -18,11 +18,30 @@ import flip_one from "../assets/sounds/flip_card.mp3";
 
 function Game() {
   const { lobbyID } = useParams();
-  const { socket, gameState, userID } = useSocket();
+  const { socket, gameState, userID, host } = useSocket();
   const [selectedCard, setSelectedCard] = useState(null);
   const [gameStarted, setGameStarted] = useState(false);
   const [popup, setPopup] = useState(null);
-  const [playerCount, setPlayerCount] = useState(2);
+  const [playerCount, setPlayerCount] = useState(0);
+  const [playerList, setPlayerList] = useState([]);
+  const [seconds, setSeconds] = useState(10);
+
+  useEffect(() => {
+    if (!socket) return;
+  
+    socket.on("lobbyUpdated", ({ players }) => {
+      setPlayerList(players);
+    });
+  
+    return () => {
+      socket.off("lobbyUpdated");
+    };
+  }, [socket]);
+
+  const currentPlayerCount = Object.keys(gameState?.gameState?.players || {}).length || 0;
+  useEffect(() => {
+    setPlayerCount(currentPlayerCount);
+  }, [currentPlayerCount]);
 
   soundManager.loadSound("flips", flips);
   soundManager.loadSound("flip_one", flip_one);
@@ -33,21 +52,9 @@ function Game() {
     soundManager.playSound("flip_one");
   }
 
-  useEffect(() => {
-    socket.on("playerJoined", ({ message }) => {
-      setPopup({
-        title: "New Player Joined",
-        message,
-      });
-    });
-    return () => {
-      socket.off("playerJoined");
-    };
-  }, [socket]);
-
   const startButtonPress = () => {
     if (socket) {
-      socket.emit("startGame", lobbyID, playerCount);
+      socket.emit("startGame", lobbyID);
     }
   };
 
@@ -58,13 +65,36 @@ function Game() {
       setGameStarted(true);
     };
 
+    const handleshuffleWarning = () => {
+      setSeconds(10); // ✅ initialize countdown
+      const warningEl = document.querySelector(".shuffle-warning");
+      if (warningEl) {
+        warningEl.classList.remove("hidden");
+      }
+    
+      const interval = setInterval(() => {
+        setSeconds((prev) => {
+          const next = prev - 1;
+          if (next <= 0) {
+            clearInterval(interval);
+            playFlips();
+    
+            if (warningEl) {
+              warningEl.classList.add("hidden");
+            }
+          }
+          return next;
+        });
+      }, 1000);
+    };
+
     const handleCardPlayAccepted = (moveWasMade) => {
       if (moveWasMade) {
         // Update the number of cards played in user statistics
-        const auth = getAuth();
-        const uid = auth.currentUser.uid;
-        const statsRef = doc(db, "users", uid, "statistics", "data");
-        updateDoc(statsRef, { cards_played: increment(1) });
+        // const auth = getAuth();
+        // const uid = auth.currentUser.uid;
+        // const statsRef = doc(db, "users", uid, "statistics", "data");
+        // updateDoc(statsRef, { cards_played: increment(1) });
 
         playPlay();
       }
@@ -77,11 +107,13 @@ function Game() {
     socket.on("gameStarted", handleGameStarted);
     socket.on("cardPlayAccepted", handleCardPlayAccepted);
     socket.on("newDrawCard", handleNewDrawCard);
+    socket.on("shuffleWarning", handleshuffleWarning);
 
     return () => {
       socket.off("gameStarted", handleGameStarted);
       socket.off("cardPlayAccepted", handleCardPlayAccepted);
       socket.off("newDrawCard", handleNewDrawCard);
+      socket.off("shuffleWarning", handleshuffleWarning);
     };
   }, [socket]);
 
@@ -170,128 +202,98 @@ function Game() {
       lobbyId: lobbyID,
     };
 
+    console.log(payload)
     socket.emit("cardPlayed", payload);
     setSelectedCard(null);
   };
 
   function createCards() {
-    if (!gameStarted) {
-      // BEFORE game starts — show placeholders based on selected playerCount
-      const layoutMap =
-        playerCount === 1
-          ? [{ id: "Player1", corner: "bm" }]
-          : playerCount === 2
-          ? [
-              { id: "Player1", corner: "bm" },
-              { id: "Player2", corner: "tm" },
-            ]
-          : playerCount === 3
-          ? [
-              { id: "Player1", corner: "bm" },
-              { id: "Player2", corner: "tl" },
-              { id: "Player3", corner: "tr" },
-            ]
-          : [
-              { id: "Player1", corner: "tl" },
-              { id: "Player2", corner: "tr" },
-              { id: "Player3", corner: "bl" },
-              { id: "Player4", corner: "br" },
-            ];
+    const gs = gameState?.gameState;
+    if (!gs || !gs.players) return null;
 
-      return layoutMap.map(({ id, corner }) => (
-        <PlayerArea
-          key={id}
-          corner={corner}
-          playerId={id}
-          hand={null}
-          userID={userID}
-          onPlaySpotClick={() => {}}
-          onCardClick={() => {}}
-        />
-      ));
-    } else {
-      // AFTER game starts — use real player IDs from backend
-      const gs = gameState?.gameState;
-      if (!gs || !gs.players) return null;
+    const allPlayerIDs = Object.keys(gs.players);
+    const otherPlayerIDs = allPlayerIDs.filter((id) => id !== userID);
 
-      const allPlayerIDs = Object.keys(gs.players);
-      const otherPlayerIDs = allPlayerIDs.filter((id) => id !== userID);
+    let layoutMap = [];
 
-      let layoutMap = [];
-
-      if (allPlayerIDs.length === 1) {
-        layoutMap = [{ id: userID, corner: "bm" }];
-      } else if (allPlayerIDs.length === 2) {
-        layoutMap = [
-          { id: userID, corner: "bm" },
-          { id: otherPlayerIDs[0], corner: "tm" },
-        ];
-      } else if (allPlayerIDs.length === 3) {
-        layoutMap = [
-          { id: userID, corner: "bm" },
-          { id: otherPlayerIDs[0], corner: "tl" },
-          { id: otherPlayerIDs[1], corner: "tr" },
-        ];
-      } else if (allPlayerIDs.length === 4) {
-        layoutMap = [
-          { id: otherPlayerIDs[0], corner: "tl" },
-          { id: otherPlayerIDs[1], corner: "tr" },
-          { id: otherPlayerIDs[2], corner: "bl" },
-          { id: userID, corner: "br" },
-        ];
-      }
-
-      return layoutMap.map(({ id, corner }) => (
-        <PlayerArea
-          key={id}
-          corner={corner}
-          playerId={id}
-          hand={gs.players[id]?.hand}
-          userID={userID}
-          onPlaySpotClick={id === userID ? handlePlaySpotClick : () => {}}
-          onCardClick={id === userID ? handleCardClick : () => {}}
-        />
-      ));
+    if (allPlayerIDs.length === 1) {
+      layoutMap = [{ id: userID, corner: "bm" }];
+    } else if (allPlayerIDs.length === 2) {
+      layoutMap = [
+        { id: userID, corner: "bm" },
+        { id: otherPlayerIDs[0], corner: "tm" },
+      ];
+    } else if (allPlayerIDs.length === 3) {
+      layoutMap = [
+        { id: userID, corner: "bm" },
+        { id: otherPlayerIDs[0], corner: "tl" },
+        { id: otherPlayerIDs[1], corner: "tr" },
+      ];
+    } else if (allPlayerIDs.length === 4) {
+      layoutMap = [
+        { id: otherPlayerIDs[0], corner: "tl" },
+        { id: otherPlayerIDs[1], corner: "tr" },
+        { id: otherPlayerIDs[2], corner: "bl" },
+        { id: userID, corner: "br" },
+      ];
     }
-  }
 
-  const np = Object.keys(gameState?.gameState?.players || {}).length || 0;
+    return layoutMap.map(({ id, corner }) => (
+      <PlayerArea
+        key={id}
+        corner={corner}
+        playerId={id}
+        hand={gs.players[id]?.hand}
+        userID={userID}
+        onPlaySpotClick={id === userID ? handlePlaySpotClick : () => {}}
+        onCardClick={id === userID ? handleCardClick : () => {}}
+      />
+    ));
+  }
 
   return (
     <div className="game-container">
       {!gameStarted && (
-        <div className="menu">
-          <h3>Game: {lobbyID}</h3>
-          <label className="player-count" htmlFor="player-count">
-            Number of Players:
-          </label>
-          <select
-            id="player-count"
-            value={playerCount}
-            onChange={(e) => setPlayerCount(Number(e.target.value))}
-            className="player-count-selector"
-          >
-            {[2, 3, 4].map((num) => (
-              <option key={num} value={num}>
-                {num}
-              </option>
-            ))}
-          </select>
-          <CustomButton onClick={startButtonPress} text="Start Game" />
-        </div>
+        <>
+          <div className="menu">
+            <h3>Game: {lobbyID}</h3>
+            <label className="player-count" htmlFor="player-count">
+              Invite up to 4 players to join your game!
+            </label>
+          
+            {userID === host && (
+              <CustomButton onClick={startButtonPress} text="Start Game" />
+            )}
+          </div>
+          <div className="player-list">
+            <h3>Players:</h3>
+            <ul>
+              {playerList.map((id) => (
+                <li key={id}>{id}</li>
+              ))}
+            </ul>
+          </div>
+        </>
       )}
 
-      <CommonArea
-        numberOfPlayers={np}
-        foundation={gameState?.gameState?.foundation}
-        onPlaySpotClick={handlePlaySpotClick}
-      />
 
-      {/* render the popup component
-        - `title` and `message` come from the lobby socket handling
-        - `onClose`hides the popup and sets to null
-      */}
-      {createCards()}
+      {gameStarted && (
+        <>
+          <CommonArea
+            numberOfPlayers={currentPlayerCount}
+            foundation={gameState?.gameState?.foundation}
+            onPlaySpotClick={handlePlaySpotClick}
+          />
+          <div className="shuffle-warning hidden">DRAW PILES WILL BE SHUFFLED IN {seconds} SECONDS DUE TO INACTIVITY</div>
+        </>
+      )}
+
+      {gameStarted && (
+        <>
+         {createCards()}
+        </>
+      )}
+
       {popup && (
         <Popup
           title={popup.title}

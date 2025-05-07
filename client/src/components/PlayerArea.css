@@ -1,129 +1,137 @@
 .nerts-pile {
-  position: relative;
-  width: 12vw;
-  height: 6vw;
-  margin: 0.5vw;
-  padding: 0.25vw;
+    position: relative;
+    width: 12vw;
+    height: 6vw;
+    margin: 0.5vw;
+    padding: 0.25vw;
 }
 
 /* Offset each card horizontally using --i */
 .nerts-pile .card {
-  position: absolute;
-  top: 50%;
-  left: calc(var(--i) * 0.6vw + 0.6vw); /* center horizontally */
-  z-index: var(--i); /* Optional: makes top card appear on top */
-  transform: translateY(-50%);
+    position: absolute;
+    top: 50%;
+    left: calc(var(--i) * 0.6vw + 0.6vw); /* center horizontally */
+    z-index: var(--i); /* Optional: makes top card appear on top */
+    transform: translateY(-50%);
 }
 .nerts-pile .card:hover {
-  transform: translateY(-50%) scale(1.05);
+    transform: translateY(-50%) scale(1.05);
+}
+.nerts-pile .nerts-button {
+    width: 100%;
+    margin-top: 1vw;
+}
+.nerts-pile .nerts-button:hover {
+    transform: scale(1.05);
+    filter: brightness(0.8);
 }
 
 .work-pile {
-  display: flex;
-  width: 25vw;
-  height: 14.5vw;
-  margin: 0.5vw;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 0.25vw;
-  padding-top: 0.5vw;
+    display: flex;
+    width: 25vw;
+    height: 14.5vw;
+    margin: 0.5vw;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 0.25vw;
+    padding-top: 0.5vw;
 }
 
 .work-spot {
-  position: relative;
-  width: 6vw;
-  height: 14vw;
+    position: relative;
+    width: 6vw;
+    height: 14vw;
 }
 
 /* Staggered card stacking */
 .work-spot .card {
-  position: absolute;
-  top: 0;
-  left: 50%; /* center horizontally */
-  transition: transform 0.2s;
-  transform: translate(-50%, calc(var(--i) * 1.6vw));
+    position: absolute;
+    top: 0;
+    left: 50%; /* center horizontally */
+    transition: transform 0.2s;
+    transform: translate(-50%, calc(var(--i) * 1.6vw));
 }
 .work-spot .card:hover {
-  transform: translate(-50%, calc(var(--i) * 1.6vw)) scale(1.05);
+    transform: translate(-50%, calc(var(--i) * 1.6vw)) scale(1.05);
 }
 
 .stock-pile {
-  display: flex;
-  width: 12vw;
-  height: 6vw;
-  margin: 0.5vw;
-  padding: 0.25vw;
-  gap: 1vw;
-  align-items: center;
-  justify-content: space-around;
+    display: flex;
+    width: 12vw;
+    height: 6vw;
+    margin: 0.5vw;
+    padding: 0.25vw;
+    gap: 1vw;
+    align-items: center;
+    justify-content: space-around;
 }
 
 .stock,
 .flipped {
-  position: relative;
-  display: flex;
-  align-items: center;
-  width: 4vw;
-  height: 6vw;
+    position: relative;
+    display: flex;
+    align-items: center;
+    width: 4vw;
+    height: 6vw;
 }
 
 .stock-pile .card {
-  position: absolute;
+    position: absolute;
 }
 
 .dashed-outline {
-  outline: 3px dashed white;
-  border-radius: 1vw;
+    outline: 3px dashed white;
+    border-radius: 1vw;
 }
 
 .left-column {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1vw;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1vw;
 }
 
 .right-column {
-  width: 8vw;
-  height: 14.5vw;
-  margin: 0.5vw;
-  outline: 2px solid white;
-  padding: 0.25vw;
+    width: 8vw;
+    height: 14.5vw;
+    margin: 0.5vw;
+    outline: 2px solid white;
+    padding: 0.25vw;
 }
 
 .player-area {
-  position: absolute;
-  display: flex;
-  flex-direction: row;
-  align-items: flex-start;
-  gap: 1vw; /* space between columns */
-  max-width: 48vw;
-  max-height: 30vh;
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 1vw; /* space between columns */
+    max-width: 48vw;
+    max-height: 30vh;
 }
 
 .player-area.tl {
-  top: 4vw;
-  left: 1vw;
+    top: 4vw;
+    left: 1vw;
 }
 .player-area.tr {
-  top: 4vw;
-  right: 1vw;
+    top: 4vw;
+    right: 1vw;
 }
 .player-area.bl {
-  bottom: 4vw;
-  left: 1vw;
+    bottom: 4vw;
+    left: 1vw;
 }
 .player-area.br {
-  bottom: 4vw;
-  right: 1vw;
+    bottom: 4vw;
+    right: 1vw;
 }
 
 .player-area.tm {
-  top: 4vw;
-  right: 26vw;
+    top: 4vw;
+    right: 26vw;
 }
 .player-area,
 .player-area.bm {
-  bottom: 4vw;
-  right: 26vw;
+    bottom: 4vw;
+    right: 26vw;
 }

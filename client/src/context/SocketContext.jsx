@@ -19,6 +19,7 @@ export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null); // Socket values to be provided on use
   const [gameState, setGameState] = useState(null); // Store the gamestate for global use
   const [userID, setUserID] = useState(null);
+  const [host, setHost] = useState(null);
 
   // Starts socket once a user has logged in and gets userID from Firebase Authenticate
   const initializeSocket = (uid) => {
@@ -72,7 +73,7 @@ export const SocketProvider = ({ children }) => {
   // Return provider values that can be used by children wrapped within SocketContext
   return (
     <SocketContext.Provider
-      value={{ socket, initializeSocket, disconnectSocket, gameState, userID }}
+      value={{ socket, initializeSocket, disconnectSocket, gameState, userID, host, setHost }}
     >
       {children}
     </SocketContext.Provider>
