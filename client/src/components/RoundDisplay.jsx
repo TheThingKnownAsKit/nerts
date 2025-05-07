@@ -1,4 +1,4 @@
-import "./roundDisplay.css";
+import "./RoundDisplay.css";
 import { useState } from "react";
 import CustomButton from "./CustomButton";
 import { useSocket } from "../context/SocketContext.jsx";

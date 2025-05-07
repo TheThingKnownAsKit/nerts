@@ -6,7 +6,7 @@ class GameManager {
   constructor(io) {
     this.io = io;
     this.games = {}; // Dictionary of running games { lobbyId: gameState }
-    this.inactivityTimers = {}; // Dictionary of 50s timers for inavtivity for draw pile shuffle { lobbyId: interval object }
+    this.inactivityTimers = {}; // Dictionary of 50s timers for inavtivity for draw pile shuffle { lobbyId: timeout object }
     this.shuffleTimers = {}; // Dictionary of 10s timers for draw pile shuffle { lobbyId: timeout object}
   }
 
@@ -47,12 +47,13 @@ class GameManager {
   // Resets timers related to draw pile shuffling for inactivity
   resetShuffleTimers(lobbyId) {
     // Clear both timers
-    clearInterval(this.inactivityTimers[lobbyId]);
+    clearTimeout(this.inactivityTimers[lobbyId]);
     clearTimeout(this.shuffleTimers[lobbyId]);
 
     // Set long timer that warns players about incoming shuffle
-    this.inactivityTimers[lobbyId] = setInterval(() => {
+    this.inactivityTimers[lobbyId] = setTimeout(() => {
       this.io.to(lobbyId).emit("shuffleWarning");
+      console.log("shuffling in 10");
 
       // Set 10 second timer to let players know the draw pile is about to be shuffled
       this.shuffleTimers[lobbyId] = setTimeout(() => {
@@ -63,8 +64,10 @@ class GameManager {
           player.shuffleDrawPile();
         });
         this.io.to(lobbyId).emit("drawPileShuffled", { gameState }); // Emit changes to front end
+        console.log("shuffled");
+        this.resetShuffleTimers(lobbyId);
       }, 10000);
-    }, 20000);
+    }, 30000);
   }
 }
 
