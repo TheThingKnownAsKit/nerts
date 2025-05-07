@@ -9,7 +9,6 @@ import CustomButton from "../components/CustomButton.jsx";
 import "./Game.css";
 import { db } from "../firebase/config";
 import { doc, updateDoc, increment } from "firebase/firestore";
-import { getAuth } from "firebase/auth";
 
 // Sounds
 import soundManager from "../logic/soundManager.js";
@@ -18,7 +17,7 @@ import flip_one from "../assets/sounds/flip_card.mp3";
 
 function Game() {
   const { lobbyID } = useParams();
-  const { socket, gameState, userID } = useSocket();
+  const { socket, gameState, userID } = useSocket(); // Need this for database stuff
   const [selectedCard, setSelectedCard] = useState(null);
   const [gameStarted, setGameStarted] = useState(false);
   const [popup, setPopup] = useState(null);
@@ -61,9 +60,7 @@ function Game() {
     const handleCardPlayAccepted = (moveWasMade) => {
       if (moveWasMade) {
         // Update the number of cards played in user statistics
-        const auth = getAuth();
-        const uid = auth.currentUser.uid;
-        const statsRef = doc(db, "users", uid, "statistics", "data");
+        const statsRef = doc(db, "users", userID, "statistics", "data");
         updateDoc(statsRef, { cards_played: increment(1) });
 
         playPlay();

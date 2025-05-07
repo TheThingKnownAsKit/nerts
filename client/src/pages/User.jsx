@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import CustomButton from "../components/CustomButton";
 import profile from "../assets/images/user.png";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../firebase/config";
 
 import "./User.css";
 
