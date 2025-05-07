@@ -98,14 +98,6 @@ const SettingsBox = () => {
           {deckHotkey ? "ON" : "OFF"}
         </button>
       </div>
-
-      {/* toggly button for colorblind friendly palette */}
-      <div className="settings-item">
-        <label>Colorblind Palette:</label>
-        <button onClick={() => setColorblind(!colorblind)}>
-          {colorblind ? "ON" : "OFF"}
-        </button>
-      </div>
     </div>
   );
 };

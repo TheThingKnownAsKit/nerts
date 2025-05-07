@@ -117,7 +117,7 @@ function Landing() {
           {/* username/email input */}
           <CustomTextInput
             type="text"
-            placeholder="Email/Username"
+            placeholder="Email"
             value={username}
             centered={false}
             onChange={(e) => setUsername(e.target.value)}
