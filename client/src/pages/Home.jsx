@@ -13,7 +13,10 @@ function Home() {
   const navigate = useNavigate();
 
   soundManager.loadSound("click", click);
-  if (!soundManager.backgroundMusic && localStorage.getItem("isMusicOn") == "true") {
+  if (
+    !soundManager.backgroundMusic &&
+    localStorage.getItem("isMusicOn") == "true"
+  ) {
     soundManager.playBackgroundMusic(backgroundMusic);
   }
   function playClick() {

@@ -1,7 +1,14 @@
 import Card from "./Card";
 import "./PlayerArea.css";
 
-function PlayerArea({ corner, playerId, hand, userID, onPlaySpotClick, onCardClick }) {
+function PlayerArea({
+  corner,
+  playerId,
+  hand,
+  userID,
+  onPlaySpotClick,
+  onCardClick,
+}) {
   const isCurrentPlayer = playerId === userID;
 
   const renderNertsPile = () => {
@@ -13,8 +20,10 @@ function PlayerArea({ corner, playerId, hand, userID, onPlaySpotClick, onCardCli
         rank={card.rank}
         faceDown={index !== pile.length - 1}
         locked={index !== pile.length - 1 || !isCurrentPlayer}
-        style={{ '--i': index }}
-        onClick={onCardClick ? () => onCardClick(card, true, playerId) : undefined}
+        style={{ "--i": index }}
+        onClick={
+          onCardClick ? () => onCardClick(card, true, playerId) : undefined
+        }
         playerid={playerId}
       />
     ));
@@ -29,8 +38,10 @@ function PlayerArea({ corner, playerId, hand, userID, onPlaySpotClick, onCardCli
         rank={card.rank}
         faceDown={false}
         locked={false || !isCurrentPlayer}
-        style={{ '--i': i }}
-        onClick={onCardClick ? () => onCardClick(card, true, playerId) : undefined}
+        style={{ "--i": i }}
+        onClick={
+          onCardClick ? () => onCardClick(card, true, playerId) : undefined
+        }
         playerid={playerId}
       />
     ));
@@ -39,11 +50,11 @@ function PlayerArea({ corner, playerId, hand, userID, onPlaySpotClick, onCardCli
   const renderStockPile = () => {
     const pile = hand?.drawPile?.cards || [];
     const visibleIndex = hand?.drawPile?.currentIndex ?? -1;
-  
+
     return pile.map((card, index) => {
       // Skip rendering the visible (flipped) card
       if (index === visibleIndex) return null;
-  
+
       return (
         <Card
           key={`stock-${index}`}
@@ -51,7 +62,9 @@ function PlayerArea({ corner, playerId, hand, userID, onPlaySpotClick, onCardCli
           rank={card.rank}
           faceDown={true}
           locked={false || !isCurrentPlayer}
-          onClick={onCardClick ? () => onCardClick(card, true, playerId) : undefined}
+          onClick={
+            onCardClick ? () => onCardClick(card, true, playerId) : undefined
+          }
           playerid={playerId}
         />
       );
@@ -64,9 +77,7 @@ function PlayerArea({ corner, playerId, hand, userID, onPlaySpotClick, onCardCli
       <div className="left-column">
         <div className="nerts-pile dashed-outline">{renderNertsPile()}</div>
         <div className="stock-pile dashed-outline">
-          <div className="stock">
-            {renderStockPile()}
-          </div>
+          <div className="stock">{renderStockPile()}</div>
           <div className="flipped">
             {(() => {
               const visibleIndex = hand?.drawPile?.currentIndex ?? -1;
@@ -79,7 +90,11 @@ function PlayerArea({ corner, playerId, hand, userID, onPlaySpotClick, onCardCli
                   rank={card.rank}
                   faceDown={false}
                   locked={false || !isCurrentPlayer}
-                  onClick={onCardClick ? () => onCardClick(card, false, playerId) : undefined}
+                  onClick={
+                    onCardClick
+                      ? () => onCardClick(card, false, playerId)
+                      : undefined
+                  }
                   playerid={playerId}
                 />
               ) : null;
@@ -87,7 +102,7 @@ function PlayerArea({ corner, playerId, hand, userID, onPlaySpotClick, onCardCli
           </div>
         </div>
       </div>
-  
+
       {/* Column 2: Work pile */}
       <div className="middle-column">
         <div className="work-pile dashed-outline">
@@ -104,7 +119,7 @@ function PlayerArea({ corner, playerId, hand, userID, onPlaySpotClick, onCardCli
           ))}
         </div>
       </div>
-  
+
       {/* Column 3: Profile */}
       <div className="right-column">
         <div className="profile-info">Profile</div>

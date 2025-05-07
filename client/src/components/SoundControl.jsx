@@ -26,7 +26,7 @@ const SoundControl = () => {
   useEffect(() => {
     localStorage.setItem("isSoundOn", JSON.stringify(isSoundOn));
     localStorage.setItem("isMusicOn", JSON.stringify(isMusicOn));
-    
+
     if (isSoundOn) {
       soundManager.enableSounds();
     } else {

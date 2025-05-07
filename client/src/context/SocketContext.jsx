@@ -57,13 +57,13 @@ export const SocketProvider = ({ children }) => {
 
   useEffect(() => {
     if (!socket) return;
-  
+
     const handleGameStateUpdate = ({ gameState }) => {
       setGameState({ gameState });
     };
-  
+
     socket.on("gameStateUpdated", handleGameStateUpdate);
-  
+
     return () => {
       socket.off("gameStateUpdated", handleGameStateUpdate);
     };

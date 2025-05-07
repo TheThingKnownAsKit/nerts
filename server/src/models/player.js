@@ -46,6 +46,16 @@ class Player {
     this.visibleHand = visibleHand;
     return visibleHand;
   }
+
+  // Create a new hand for the player
+  createNewHand() {
+    this.hand = new Hand();
+  }
+
+  // Shuffles draw pile
+  shuffleDrawPile() {
+    this.hand.drawPile.shuffle();
+  }
 }
 
 export default Player;

@@ -64,7 +64,7 @@ function Host() {
 
   // Lobby actions
   const handleCreateLobby = () => {
-    socket.emit("createLobby", {userID});
+    socket.emit("createLobby", { userID });
   };
 
   const handleJoinLobby = () => {
