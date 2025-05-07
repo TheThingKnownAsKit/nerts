@@ -36,11 +36,11 @@ io.on("connect", (socket) => {
   });
 });
 
+const gameManager = new GameManager(io); // Initialize game manager
+
 // Pass the socket server to lobbySocket and gameSocket
 lobbySocket(io, gameManager);
 gameSocket(io, gameManager);
-
-const gameManager = new GameManager(io); // Initialize game manager
 
 // Check if dist folder exists
 if (fs.existsSync(path.join(__dirname, "dist"))) {
