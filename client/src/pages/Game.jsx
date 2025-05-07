@@ -9,7 +9,7 @@ import CustomButton from "../components/CustomButton.jsx";
 import RoundDisplay from "../components/RoundDisplay.jsx";
 import "./Game.css";
 import { db } from "../firebase/config";
-import { doc, updateDoc, increment } from "firebase/firestore";
+import { doc, updateDoc, increment, getDoc } from "firebase/firestore";
 
 // Sounds
 import soundManager from "../logic/soundManager.js";
@@ -29,19 +29,35 @@ function Game() {
   const [round, setRound] = useState(1);
   const [roundEnded, setRoundEnded] = useState(false);
 
+  const fetchUsername = async (uid) => {
+    const userDoc = await getDoc(doc(db, "users", uid));
+    return userDoc.exists() ? userDoc.data().username : "Anonymous";
+  };
+
   useEffect(() => {
     if (!socket) return;
-  
-    socket.on("lobbyUpdated", ({ players }) => {
-      setPlayerList(players);
+
+    socket.on("lobbyUpdated", async ({ players: uids }) => {
+      const usernames = await Promise.all(uids.map(fetchUsername));
+      setPlayerList(usernames);
     });
-  
+
+    socket.on("playerJoined", async ({ playerID: uid }) => {
+      const username = await fetchUsername(uid);
+      setPopup({
+        title: "Player Joined",
+        message: `${username} has joined the lobby!`,
+      });
+    });
+
     return () => {
       socket.off("lobbyUpdated");
+      socket.off("playerJoined");
     };
   }, [socket]);
 
-  const currentPlayerCount = Object.keys(gameState?.gameState?.players || {}).length || 0;
+  const currentPlayerCount =
+    Object.keys(gameState?.gameState?.players || {}).length || 0;
   useEffect(() => {
     setPlayerCount(currentPlayerCount);
   }, [currentPlayerCount]);
@@ -78,14 +94,14 @@ function Game() {
       if (warningEl) {
         warningEl.classList.remove("hidden");
       }
-    
+
       const interval = setInterval(() => {
         setSeconds((prev) => {
           const next = prev - 1;
           if (next <= 0) {
             clearInterval(interval);
             playFlips();
-    
+
             if (warningEl) {
               warningEl.classList.add("hidden");
             }
@@ -207,7 +223,7 @@ function Game() {
       lobbyId: lobbyID,
     };
 
-    console.log(payload)
+    console.log(payload);
     socket.emit("cardPlayed", payload);
     setSelectedCard(null);
   };
@@ -266,7 +282,7 @@ function Game() {
             <label className="player-count" htmlFor="player-count">
               Invite up to 4 players to join your game!
             </label>
-          
+
             {userID === host && (
               <CustomButton onClick={startButtonPress} text="Start Game" />
             )}
@@ -274,14 +290,13 @@ function Game() {
           <div className="player-list">
             <h3>Players:</h3>
             <ul>
-              {playerList.map((id) => (
-                <li key={id}>{id}</li>
+              {playerList.map((playerName, index) => (
+                <li key={index}>{playerName}</li>
               ))}
             </ul>
           </div>
         </>
       )}
-
 
       {gameStarted && (
         <>
@@ -290,15 +305,13 @@ function Game() {
             foundation={gameState?.gameState?.foundation}
             onPlaySpotClick={handlePlaySpotClick}
           />
-          <div className="shuffle-warning hidden">DRAW PILES WILL BE SHUFFLED IN {seconds} SECONDS DUE TO INACTIVITY</div>
+          <div className="shuffle-warning hidden">
+            DRAW PILES WILL BE SHUFFLED IN {seconds} SECONDS DUE TO INACTIVITY
+          </div>
         </>
       )}
 
-      {gameStarted && (
-        <>
-         {createCards()}
-        </>
-      )}
+      {gameStarted && <>{createCards()}</>}
 
       {roundEnded && (
         <>
