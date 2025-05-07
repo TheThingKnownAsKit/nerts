@@ -9,6 +9,7 @@ function PlayerArea({
   userID,
   onPlaySpotClick,
   onCardClick,
+  handleNerts
 }) {
   const isCurrentPlayer = playerId === userID;
 
@@ -79,7 +80,7 @@ function PlayerArea({
       <div className="nerts-pile dashed-outline">
         {renderNertsPile()}
         {hand?.nertsPile?.cards?.length === 0 && (
-          <img className="nerts-button" src={nertsButton} alt="nerts button" />
+          <img className="nerts-button" src={nertsButton} alt="nerts button" onClick={handleNerts}/>
         )}
       </div>
         <div className="stock-pile dashed-outline">

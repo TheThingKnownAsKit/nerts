@@ -6,6 +6,7 @@ import { useSocket } from "../context/SocketContext.jsx";
 import { useEffect, useState } from "react";
 import Popup from "../components/Popup.jsx";
 import CustomButton from "../components/CustomButton.jsx";
+import RoundDisplay from "../components/RoundDisplay.jsx";
 import "./Game.css";
 import { db } from "../firebase/config";
 import { doc, updateDoc, increment } from "firebase/firestore";
@@ -17,13 +18,16 @@ import flip_one from "../assets/sounds/flip_card.mp3";
 
 function Game() {
   const { lobbyID } = useParams();
-  const { socket, gameState, userID } = useSocket(); // Need this for database stuff
+  const { socket, gameState, userID, host } = useSocket(); // Need this for database stuff
   const [selectedCard, setSelectedCard] = useState(null);
   const [gameStarted, setGameStarted] = useState(false);
   const [popup, setPopup] = useState(null);
   const [playerCount, setPlayerCount] = useState(0);
   const [playerList, setPlayerList] = useState([]);
   const [seconds, setSeconds] = useState(10);
+
+  const [round, setRound] = useState(1);
+  const [roundEnded, setRoundEnded] = useState(false);
 
   useEffect(() => {
     if (!socket) return;
@@ -55,6 +59,10 @@ function Game() {
     if (socket) {
       socket.emit("startGame", lobbyID);
     }
+  };
+
+  const handleNerts = () => {
+    /// Blah blah blah
   };
 
   useEffect(() => {
@@ -244,6 +252,7 @@ function Game() {
         userID={userID}
         onPlaySpotClick={id === userID ? handlePlaySpotClick : () => {}}
         onCardClick={id === userID ? handleCardClick : () => {}}
+        handleNerts={handleNerts}
       />
     ));
   }
@@ -288,6 +297,17 @@ function Game() {
       {gameStarted && (
         <>
          {createCards()}
+        </>
+      )}
+
+      {roundEnded && (
+        <>
+          <RoundDisplay
+            round={round}
+            players={playerList}
+            userID={userID}
+            host={host}
+          />
         </>
       )}
 

@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import CustomButton from "../components/CustomButton";
+import RoundDisplay from "../components/RoundDisplay";
 import profile from "../assets/images/user.png";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase/config";
@@ -118,7 +119,7 @@ function User() {
       </div>
 
       {showPopup && (
-  <div className="settings-box">
+  <div className="update-box">
     <h2>Edit Profile</h2>
 
     <label htmlFor="username-input">Username:</label>
