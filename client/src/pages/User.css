@@ -27,6 +27,9 @@
 
     margin-top: 1vw;
 }
+.user-edit:hover {
+    cursor: pointer;
+}
 .edit-profile {
     color: white;
     margin-top: 0px;
