@@ -53,7 +53,6 @@ class GameManager {
     // Set long timer that warns players about incoming shuffle
     this.inactivityTimers[lobbyId] = setTimeout(() => {
       this.io.to(lobbyId).emit("shuffleWarning");
-      console.log("shuffling in 10");
 
       // Set 10 second timer to let players know the draw pile is about to be shuffled
       this.shuffleTimers[lobbyId] = setTimeout(() => {
@@ -64,7 +63,6 @@ class GameManager {
           player.shuffleDrawPile();
         });
         this.io.to(lobbyId).emit("drawPileShuffled", { gameState }); // Emit changes to front end
-        console.log("shuffled");
         this.resetShuffleTimers(lobbyId);
       }, 10000);
     }, 30000);
