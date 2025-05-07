@@ -18,8 +18,6 @@ const server = createServer(app);
 
 const port = process.env.PORT || 3000; // Get port being run on or default to 3000
 
-const gameManager = new GameManager(); // Initialize game manager
-
 // Create Socket.IO server on the provided HTTP server and allow communication from front-end port
 const io = new Server(server, {
   cors: {
@@ -41,6 +39,8 @@ io.on("connect", (socket) => {
 // Pass the socket server to lobbySocket and gameSocket
 lobbySocket(io, gameManager);
 gameSocket(io, gameManager);
+
+const gameManager = new GameManager(io); // Initialize game manager
 
 // Check if dist folder exists
 if (fs.existsSync(path.join(__dirname, "dist"))) {
