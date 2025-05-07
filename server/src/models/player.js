@@ -14,13 +14,18 @@ class Player {
   updateVisibleHand() {
     const visibleHand = {}; // Initialize dictionary where key is card string and value is card/pile info
 
-    // Get the top nerts card and add to visible hand
+    // Get the top nerts card and add to visible hand if not undefined
     const nertsCard = this.hand.nertsPile.seeCard();
-    visibleHand[nertsCard.toString()] = { pileName: "nertsPile" };
+    if (nertsCard) {
+      visibleHand[nertsCard.toString()] = { pileName: "nertsPile" };
+    }
 
+    // Get visible draw card (if exists) and add to visible hand
     if (this.hand.drawPile.currentIndex != -1) {
       const drawCard = this.hand.drawPile.seeCard();
-      visibleHand[drawCard.toString()] = { pileName: "drawPile" };
+      if (drawCard) {
+        visibleHand[drawCard.toString()] = { pileName: "drawPile" };
+      }
     }
 
     // Loop through each build pile and pile card to add to visible hand
