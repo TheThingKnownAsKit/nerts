@@ -81,8 +81,9 @@ function Leaderboard() {
         <CustomButton back={true} absolute={true} text={"Back"} />
       <UserBox />
       <SoundControl />
+      <h3 className="leaderboard-title">RANKINGS</h3>
+
       <div className="leaderboard-container">
-        <h3>RANKINGS</h3>
         <div className="scroll-box">
           <LeaderboardSection
             title="Top Cards Played"

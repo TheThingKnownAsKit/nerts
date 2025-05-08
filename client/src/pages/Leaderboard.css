@@ -1,11 +1,24 @@
 .leaderboard-container {
-    width: 90%;
-    max-height: 70vh;
+    width: 90vw;
+    max-height: 60vh;
     overflow-y: auto;
-    margin-top: 10vw;
+    margin-top: 15vw;
     padding: 20px;
+    bottom: 8vw;
+    left: 3.5vw;
+    position: absolute;
     border-radius: 12px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+.leaderboard-title {
+    font-size: 4vw;
+    color: white;
+    text-decoration: underline;
+    position: absolute;
+    top: 5vw;
+    margin: 0px;
+    left: 50%;
+    transform: translateX(-50%);
 }
 
 .scroll-box {

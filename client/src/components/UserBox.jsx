@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import "./UserBox.css";
-import profile from "../assets/images/user.png";
 import { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase/config";
@@ -14,6 +13,7 @@ const UserBox = () => {
   const navigate = useNavigate();
   const { userID } = useSocket();
   const [username, setUsername] = useState("Loading...");
+  const [profilePic, setProfilePic] = useState("/icons/pic0.png");
 
   soundManager.loadSound("click", click);
   function playClick() {
@@ -21,15 +21,25 @@ const UserBox = () => {
   }
 
   useEffect(() => {
-    const fetchUsername = async () => {
+    const fetchUserData = async () => {
       try {
         if (!userID) return;
 
         const userRef = doc(db, "users", userID);
-        const [userSnap] = await Promise.all([getDoc(userRef)]);
+        const settingsRef = doc(db, "users", userID, "settings", "data");
+
+        const [userSnap, settingsSnap] = await Promise.all([
+          getDoc(userRef),
+          getDoc(settingsRef),
+        ]);
 
         if (userSnap.exists()) {
           setUsername(userSnap.data().username);
+        }
+
+        if (settingsSnap.exists()) {
+          const picIndex = settingsSnap.data().profile_picture ?? 0;
+          setProfilePic(`/icons/pic${picIndex}.png`);
         }
       } catch (error) {
         console.error("Error fetching user data:", error);
@@ -37,7 +47,7 @@ const UserBox = () => {
       }
     };
 
-    fetchUsername();
+    fetchUserData();
   }, [userID]);
 
   const handleUserClick = () => {
@@ -56,7 +66,7 @@ const UserBox = () => {
       }}
     >
       <div className="icon" onClick={handleUserClick}>
-        <img src={profile} alt="User Profile" />
+        <img src={profilePic} alt="User Profile" />
       </div>
 
       <div className="username" onClick={handleUserClick}>

@@ -96,7 +96,7 @@
     height: 14.5vw;
     margin: 0.5vw;
     outline: 2px solid white;
-    padding: 0.25vw;
+    padding: 0.25vw 1vw;
 }
 
 .player-area {
@@ -134,4 +134,10 @@
 .player-area.bm {
     bottom: 4vw;
     right: 26vw;
+}
+
+.profile-pic {
+    width: 100%;
+    border-radius: 50%;
+    object-fit: cover;
 }

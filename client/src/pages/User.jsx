@@ -1,8 +1,7 @@
 import { useEffect, useState } from "react";
 import CustomButton from "../components/CustomButton";
-import RoundDisplay from "../components/RoundDisplay";
-import profile from "../assets/images/user.png";
-import { doc, getDoc } from "firebase/firestore";
+import profile from "/icons/pic0.png"; // default image
+import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase/config";
 import { useSocket } from "../context/SocketContext";
 import "./User.css";
@@ -13,8 +12,8 @@ function User() {
 
   const [showPopup, setShowPopup] = useState(false);
   const [editedUsername, setEditedUsername] = useState(username);
-  const [selectedProfile, setSelectedProfile] = useState(profile); // default image
-  const [editedProfile, setEditedProfile] = useState(profile);
+  const [selectedProfile, setSelectedProfile] = useState(profile); // path string
+  const [editedProfile, setEditedProfile] = useState(0); // numeric index
 
   const [stats, setStats] = useState({
     cardsPlayed: 0,
@@ -32,10 +31,12 @@ function User() {
 
         const userRef = doc(db, "users", userID);
         const statsRef = doc(db, "users", userID, "statistics", "data");
+        const settingsRef = doc(db, "users", userID, "settings", "data");
 
-        const [userDoc, statsDoc] = await Promise.all([
+        const [userDoc, statsDoc, settingsDoc] = await Promise.all([
           getDoc(userRef),
           getDoc(statsRef),
+          getDoc(settingsRef),
         ]);
 
         if (userDoc.exists()) {
@@ -43,6 +44,13 @@ function User() {
           setEditedUsername(userDoc.data().username);
         }
 
+        if (settingsDoc.exists()) {
+          const profileIndex = settingsDoc.data().profile_picture ?? 0;
+          setSelectedProfile(`/icons/pic${profileIndex}.png`);
+          setEditedProfile(profileIndex);
+          console.log("Profile picture index:", profileIndex);
+        }
+        
         if (statsDoc.exists()) {
           console.log("Raw stats data:", statsDoc.data());
           setStats({
@@ -79,7 +87,8 @@ function User() {
         className="user-edit"
         onClick={() => {
           setEditedUsername(username);
-          setEditedProfile(selectedProfile); // sync current
+          const picIndex = parseInt(selectedProfile.match(/pic(\d+)/)?.[1] || "0");
+          setEditedProfile(picIndex);
           setShowPopup(true);
         }}
       >
@@ -137,31 +146,46 @@ function User() {
               {Array.from({ length: 5 }, (_, i) => (
                 <img
                   key={i}
-                  src={`/icons/pic${i + 1}.png`} // <-- adjust paths as needed
+                  src={`/icons/pic${i + 1}.png`}
                   alt={`Profile ${i + 1}`}
                   className={`profile-pic-option ${
-                    editedProfile.includes(`pic${i + 1}`) ? "selected" : ""
+                    editedProfile === i + 1 ? "selected" : ""
                   }`}
-                  onClick={() => setEditedProfile(`/icons/pic${i + 1}.png`)}
+                  onClick={() => setEditedProfile(i + 1)}
                 />
               ))}
-            </div>
+            </div> 
           </div>
 
           <div className="popup-buttons">
             <CustomButton
               text="Save"
-              onClick={() => {
-                setUsername(editedUsername);
-                setSelectedProfile(editedProfile); // ✅ Commit profile
-                setShowPopup(false);
+              onClick={async () => {
+                try {
+                  const userRef = doc(db, "users", userID);
+                  const settingsRef = doc(db, "users", userID, "settings", "data");
+
+                  await updateDoc(userRef, {
+                    username: editedUsername,
+                  });
+
+                  await updateDoc(settingsRef, {
+                    profile_picture: editedProfile,
+                  });
+
+                  setUsername(editedUsername);
+                  setSelectedProfile(`/icons/pic${editedProfile}.png`);
+                  setShowPopup(false);
+                } catch (error) {
+                  console.error("Failed to update user profile:", error);
+                }
               }}
             />
             <CustomButton
               text="Cancel"
               onClick={() => {
                 setEditedUsername(username); // Reset username field
-                setEditedProfile(selectedProfile); // Reset profile picker
+                setEditedProfile(parseInt(selectedProfile.match(/pic(\d+)/)?.[1] || "0"));
                 setShowPopup(false);
               }}
             />

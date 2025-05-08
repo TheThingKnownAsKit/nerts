@@ -17,22 +17,34 @@ function PlayerArea({
   const isCurrentPlayer = playerId === userID;
   const [username, setUsername] = useState("Player");
 
-  // Fetch username from Firestore
+  const [profilePicIndex, setProfilePicIndex] = useState(0);
+
   useEffect(() => {
-    const fetchUsername = async () => {
+    const fetchUserData = async () => {
       if (!playerId) return;
 
       try {
-        const userDoc = await getDoc(doc(db, "users", playerId));
+        const userRef = doc(db, "users", playerId);
+        const settingsRef = doc(db, "users", playerId, "settings", "data");
+
+        const [userDoc, settingsDoc] = await Promise.all([
+          getDoc(userRef),
+          getDoc(settingsRef),
+        ]);
+
         if (userDoc.exists()) {
           setUsername(userDoc.data().username || "Player");
         }
+
+        if (settingsDoc.exists()) {
+          setProfilePicIndex(settingsDoc.data().profile_picture ?? 0);
+        }
       } catch (error) {
-        console.error("Error fetching username:", error);
+        console.error("Error fetching user data:", error);
       }
     };
 
-    fetchUsername();
+    fetchUserData();
   }, [playerId]);
 
   const renderNertsPile = () => {
@@ -155,9 +167,14 @@ function PlayerArea({
 
       {/* Column 3: Profile */}
       <div className="right-column">
-        <div className="profile-info">
-          <div className="username">{username}</div>
-        </div>
+      <div className="profile-info">
+        <img
+          src={`/icons/pic${profilePicIndex}.png`}
+          alt="profile"
+          className="profile-pic"
+        />
+        <div className="username">{username}</div>
+      </div>
       </div>
     </div>
   );
