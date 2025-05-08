@@ -59,9 +59,8 @@ export const SocketProvider = ({ children }) => {
   useEffect(() => {
     if (!socket) return;
 
-    const handleGameStateUpdate = ( gameState ) => {
-      setGameState( gameState );
-      console.log("Game state updated:", gameState, userID);
+    const handleGameStateUpdate = ({ gameState }) => {
+      setGameState({ gameState });
     };
 
     socket.on("gameStateUpdated", handleGameStateUpdate);
@@ -74,7 +73,15 @@ export const SocketProvider = ({ children }) => {
   // Return provider values that can be used by children wrapped within SocketContext
   return (
     <SocketContext.Provider
-      value={{ socket, initializeSocket, disconnectSocket, gameState, userID, host, setHost }}
+      value={{
+        socket,
+        initializeSocket,
+        disconnectSocket,
+        gameState,
+        userID,
+        host,
+        setHost,
+      }}
     >
       {children}
     </SocketContext.Provider>
