@@ -62,7 +62,7 @@ function Game() {
   }, [socket]);
 
   const currentPlayerCount =
-    Object.keys(gameState?.gameState?.players || {}).length || 0;
+    Object.keys(gameState?.players || {}).length || 0;
   useEffect(() => {
     setPlayerCount(currentPlayerCount);
   }, [currentPlayerCount]);
@@ -173,7 +173,7 @@ function Game() {
   };
 
   const handleCardClick = (card, stockCard = true, playerId) => {
-    const drawPile = gameState?.gameState?.players?.[userID]?.hand?.drawPile;
+    const drawPile = gameState?.players?.[userID]?.hand?.drawPile;
     const visibleIndex = drawPile?.currentIndex ?? -1;
     const visibleCard = drawPile?.cards?.[visibleIndex];
 
@@ -251,16 +251,14 @@ function Game() {
       lobbyId: lobbyID,
     };
 
-    console.log(payload);
     socket.emit("cardPlayed", payload);
     setSelectedCard(null);
   };
 
   function createCards() {
-    const gs = gameState?.gameState;
-    if (!gs || !gs.players) return null;
+    if (!gameState || !gameState.players) return null;
 
-    const allPlayerIDs = Object.keys(gs.players);
+    const allPlayerIDs = Object.keys(gameState.players);
     const otherPlayerIDs = allPlayerIDs.filter((id) => id !== userID);
 
     let layoutMap = [];
@@ -292,7 +290,7 @@ function Game() {
         key={id}
         corner={corner}
         playerId={id}
-        hand={gs.players[id]?.hand}
+        hand={gameState.players[id]?.hand}
         userID={userID}
         onPlaySpotClick={id === userID ? handlePlaySpotClick : () => {}}
         onCardClick={id === userID ? handleCardClick : () => {}}
@@ -330,7 +328,7 @@ function Game() {
         <>
           <CommonArea
             numberOfPlayers={currentPlayerCount}
-            foundation={gameState?.gameState?.foundation}
+            foundation={gameState?.foundation}
             onPlaySpotClick={handlePlaySpotClick}
           />
           <div className="shuffle-warning hidden">

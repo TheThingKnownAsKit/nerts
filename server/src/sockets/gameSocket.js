@@ -15,7 +15,7 @@ export default (io, gameManager) => {
             if (players.length > 4 || players.length < 1) return; // Not enough players to start the game)
 
             const gameState = gameManager.startGame(lobbyId, players); // Now using userIDs
-            io.to(lobbyId).emit("gameStarted", { gameState });
+            io.to(lobbyId).emit("gameStarted", gameState);
         });
 
         // Event listener for playing a card
@@ -43,9 +43,7 @@ export default (io, gameManager) => {
             socket.emit("cardPlayAccepted", moveWasMade);
 
             if (moveWasMade) {
-                io.to(payload.lobbyId).emit("gameStateUpdated", {
-                    gameState,
-                });
+                io.to(payload.lobbyId).emit("gameStateUpdated", gameState);
             }
         });
 
@@ -67,7 +65,7 @@ export default (io, gameManager) => {
             });
             // Trigger refresh manually because the flip function only modifies a primitive type
             const safeState = JSON.parse(JSON.stringify(gameManager.games[payload.lobbyId]));
-            io.to(payload.lobbyId).emit("gameStateUpdated", { gameState: safeState });
+            io.to(payload.lobbyId).emit("gameStateUpdated", safeState);
         });
 
         // Event listener for calling nerts
@@ -101,8 +99,8 @@ export default (io, gameManager) => {
             gameState.startRound();
 
             // Trigger refresh manually because the flip function only modifies a primitive type
-            const safeState = JSON.parse(JSON.stringify(gameManager.games[lobbyId]));
-            io.to(lobbyId).emit("gameStateUpdated", { gameState: safeState });
+            const safeState = JSON.parse(JSON.stringify(gameState));
+            io.to(lobbyId).emit("gameStateUpdated", safeState);
 
             io.to(lobbyId).emit("roundStarted");
         });

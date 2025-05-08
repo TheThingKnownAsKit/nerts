@@ -59,8 +59,9 @@ export const SocketProvider = ({ children }) => {
   useEffect(() => {
     if (!socket) return;
 
-    const handleGameStateUpdate = ({ gameState }) => {
-      setGameState({ gameState });
+    const handleGameStateUpdate = ( gameState ) => {
+      setGameState( gameState );
+      console.log("Game state updated:", gameState, userID);
     };
 
     socket.on("gameStateUpdated", handleGameStateUpdate);

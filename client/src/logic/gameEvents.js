@@ -5,7 +5,6 @@ export const gameEvents = (socket, setGameState) => {
     });
 
     socket.on("drawPileShuffled", (gameState) => {
-        console.log(gameState);
         setGameState(gameState);
     });
 };

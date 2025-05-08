@@ -6,11 +6,9 @@ import { useSocket } from "../context/SocketContext.jsx";
 const RoundDisplay = ({ round, playerList, lobbyID }) => {
     const { socket, gameState, userID, host } = useSocket(); // Need this for database stuff
 
-    const gs = gameState?.gameState;
-
     // Extract scores for each player
-    const rankedPlayers = gs?.players
-    ? Object.entries(gs.players)
+    const rankedPlayers = gameState?.players
+    ? Object.entries(gameState.players)
         .map(([id, playerData]) => ({
           id,
           score: playerData?.score ?? 0,

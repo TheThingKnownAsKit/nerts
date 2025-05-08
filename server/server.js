@@ -20,20 +20,20 @@ const port = process.env.PORT || 3000; // Get port being run on or default to 30
 
 // Create Socket.IO server on the provided HTTP server and allow communication from front-end port
 const io = new Server(server, {
-  cors: {
-    origin: ["https://nerts-web-app.onrender.com", "http://localhost:5173"],
-    methods: ["GET", "POST"],
-  },
+    cors: {
+        origin: ["https://nerts-web-app.onrender.com", "http://localhost:5173"],
+        methods: ["GET", "POST"],
+    },
 });
 
 // When a client connects, run this code with their specific socket instance
 io.on("connect", (socket) => {
-  console.log(`User ${socket.id} connected.`); // Report client connection to server log
+    console.log(`User ${socket.id} connected.`); // Report client connection to server log
 
-  // Log a client disconnecting
-  socket.on("disconnect", () => {
-    console.log(`User ${socket.id} disconnected.`);
-  });
+    // Log a client disconnecting
+    socket.on("disconnect", () => {
+        console.log(`User ${socket.id} disconnected.`);
+    });
 });
 
 const gameManager = new GameManager(io); // Initialize game manager
@@ -44,12 +44,12 @@ gameSocket(io, gameManager);
 
 // Check if dist folder exists
 if (fs.existsSync(path.join(__dirname, "dist"))) {
-  app.use(express.static(path.join(__dirname, "dist"))); // Serve static front-end compiled files
+    app.use(express.static(path.join(__dirname, "dist"))); // Serve static front-end compiled files
 
-  // For any requests not found in compiled static files, revert to index.html
-  app.get("*", (request, response) => {
-    response.sendFile(path.join(__dirname, "dist", "index.html"));
-  });
+    // For any requests not found in compiled static files, revert to index.html
+    app.get("*", (request, response) => {
+        response.sendFile(path.join(__dirname, "dist", "index.html"));
+    });
 }
 
 // Start HTTP server on port 3000 and log

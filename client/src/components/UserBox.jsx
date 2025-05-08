@@ -29,7 +29,6 @@ const UserBox = () => {
         const [userSnap] = await Promise.all([getDoc(userRef)]);
 
         if (userSnap.exists()) {
-          console.log("Username update");
           setUsername(userSnap.data().username);
         }
       } catch (error) {
