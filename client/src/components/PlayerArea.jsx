@@ -1,6 +1,9 @@
 import Card from "./Card";
 import "./PlayerArea.css";
 import nertsButton from "../assets/images/nerts_button.png";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "../firebase/config";
+import { useState, useEffect } from "react";
 
 function PlayerArea({
   corner,
@@ -9,9 +12,28 @@ function PlayerArea({
   userID,
   onPlaySpotClick,
   onCardClick,
-  handleNerts
+  handleNerts,
 }) {
   const isCurrentPlayer = playerId === userID;
+  const [username, setUsername] = useState("Player");
+
+  // Fetch username from Firestore
+  useEffect(() => {
+    const fetchUsername = async () => {
+      if (!playerId) return;
+
+      try {
+        const userDoc = await getDoc(doc(db, "users", playerId));
+        if (userDoc.exists()) {
+          setUsername(userDoc.data().username || "Player");
+        }
+      } catch (error) {
+        console.error("Error fetching username:", error);
+      }
+    };
+
+    fetchUsername();
+  }, [playerId]);
 
   const renderNertsPile = () => {
     const pile = hand?.nertsPile?.cards || [];
@@ -76,12 +98,17 @@ function PlayerArea({
     <div className={`player-area ${corner}`}>
       {/* Column 1: Nerts + Stock */}
       <div className="left-column">
-      <div className="nerts-pile dashed-outline">
-        {renderNertsPile()}
-        {hand?.nertsPile?.cards?.length === 0 && isCurrentPlayer && (
-          <img className="nerts-button" src={nertsButton} alt="nerts button" onClick={handleNerts}/>
-        )}
-      </div>
+        <div className="nerts-pile dashed-outline">
+          {renderNertsPile()}
+          {hand?.nertsPile?.cards?.length === 0 && isCurrentPlayer && (
+            <img
+              className="nerts-button"
+              src={nertsButton}
+              alt="nerts button"
+              onClick={handleNerts}
+            />
+          )}
+        </div>
         <div className="stock-pile dashed-outline">
           <div className="stock">{renderStockPile()}</div>
           <div className="flipped">
@@ -128,7 +155,9 @@ function PlayerArea({
 
       {/* Column 3: Profile */}
       <div className="right-column">
-        <div className="profile-info">Profile</div>
+        <div className="profile-info">
+          <div className="username">{username}</div>
+        </div>
       </div>
     </div>
   );
