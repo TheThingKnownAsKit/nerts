@@ -62,8 +62,7 @@ function Game() {
     };
   }, [socket]);
 
-  const currentPlayerCount =
-    Object.keys(gameState?.players || {}).length || 0;
+  const currentPlayerCount = Object.keys(gameState?.players || {}).length || 0;
   useEffect(() => {
     setPlayerCount(currentPlayerCount);
   }, [currentPlayerCount]);
@@ -144,12 +143,16 @@ function Game() {
       setRoundEnded(false);
       setRound((prevRound) => prevRound + 1);
       playFlips();
-    }
+    };
 
     const handleEndGame = () => {
+      // Update the number of games played in user statistics
+      const statsRef = doc(db, "users", userID, "statistics", "data");
+      updateDoc(statsRef, { gamesPlayed: increment(1) });
+
       setRoundEnded(true);
       setGameEnded("won");
-    }
+    };
 
     socket.on("gameStarted", handleGameStarted);
     socket.on("cardPlayAccepted", handleCardPlayAccepted);
