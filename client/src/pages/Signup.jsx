@@ -99,8 +99,8 @@ function Signup() {
       const userSettings = {
         music_on: 1,
         sfx_on: 1,
-        volume: 100,
-        background_color: 1,
+        volume: 50,
+        background_color: 0,
         tab_hotkey: 1,
         profile_picture: 0,
       };

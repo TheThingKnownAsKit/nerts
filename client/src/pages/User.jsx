@@ -33,25 +33,25 @@ function User() {
         const userRef = doc(db, "users", userID);
         const statsRef = doc(db, "users", userID, "statistics", "data");
 
-        const [userSnap, statsSnap] = await Promise.all([
+        const [userDoc, statsDoc] = await Promise.all([
           getDoc(userRef),
           getDoc(statsRef),
         ]);
 
-        if (userSnap.exists()) {
-          setUsername(userSnap.data().username);
-          setEditedUsername(userSnap.data().username);
+        if (userDoc.exists()) {
+          setUsername(userDoc.data().username);
+          setEditedUsername(userDoc.data().username);
         }
 
-        if (statsSnap.exists()) {
-          console.log("Raw stats data:", statsSnap.data());
+        if (statsDoc.exists()) {
+          console.log("Raw stats data:", statsDoc.data());
           setStats({
-            cardsPlayed: statsSnap.data().cards_played || 0,
-            gamesPlayed: statsSnap.data().games_played || 0,
-            gamesLost: statsSnap.data().losses || 0,
-            nertsCalled: statsSnap.data().nerts_called || 0,
-            timePlayed: statsSnap.data().time_played || 0,
-            gamesWon: statsSnap.data().wins || 0,
+            cardsPlayed: statsDoc.data().cards_played || 0,
+            gamesPlayed: statsDoc.data().games_played || 0,
+            gamesLost: statsDoc.data().losses || 0,
+            nertsCalled: statsDoc.data().nerts_called || 0,
+            timePlayed: statsDoc.data().time_played || 0,
+            gamesWon: statsDoc.data().wins || 0,
           });
         }
       } catch (error) {
@@ -68,11 +68,11 @@ function User() {
       <CustomButton back={true} absolute={true} text={"Back"} />
 
       <div className="user-header">
-      <img
-        className="user-image no-select"
-        src={selectedProfile}
-        alt="Profile picture"
-      />
+        <img
+          className="user-image no-select"
+          src={selectedProfile}
+          alt="Profile picture"
+        />
         <h3 className="user-name no-select">{username}</h3>
       </div>
       <div
@@ -119,55 +119,55 @@ function User() {
       </div>
 
       {showPopup && (
-  <div className="update-box">
-    <h2>Edit Profile</h2>
+        <div className="update-box">
+          <h2>Edit Profile</h2>
 
-    <label htmlFor="username-input">Username:</label>
-    <input
-      id="username-input"
-      type="text"
-      value={editedUsername}
-      onChange={(e) => setEditedUsername(e.target.value)}
-      className="username-input"
-    />
-
-    <div className="profile-pic-selection">
-      <p>Select a profile picture:</p>
-      <div className="profile-pic-grid">
-        {Array.from({ length: 5 }, (_, i) => (
-          <img
-            key={i}
-            src={`/icons/pic${i + 1}.png`} // <-- adjust paths as needed
-            alt={`Profile ${i + 1}`}
-            className={`profile-pic-option ${
-              editedProfile.includes(`pic${i + 1}`) ? "selected" : ""
-            }`}
-            onClick={() => setEditedProfile(`/icons/pic${i + 1}.png`)}
+          <label htmlFor="username-input">Username:</label>
+          <input
+            id="username-input"
+            type="text"
+            value={editedUsername}
+            onChange={(e) => setEditedUsername(e.target.value)}
+            className="username-input"
           />
-        ))}
-      </div>
-    </div>
 
-    <div className="popup-buttons">
-      <CustomButton
-        text="Save"
-        onClick={() => {
-          setUsername(editedUsername);
-          setSelectedProfile(editedProfile); // ✅ Commit profile
-          setShowPopup(false);
-        }}
-      />
-      <CustomButton
-        text="Cancel"
-        onClick={() => {
-          setEditedUsername(username);        // Reset username field
-          setEditedProfile(selectedProfile);  // Reset profile picker
-          setShowPopup(false);
-        }}
-      />
-    </div>
-  </div>
-)}
+          <div className="profile-pic-selection">
+            <p>Select a profile picture:</p>
+            <div className="profile-pic-grid">
+              {Array.from({ length: 5 }, (_, i) => (
+                <img
+                  key={i}
+                  src={`/icons/pic${i + 1}.png`} // <-- adjust paths as needed
+                  alt={`Profile ${i + 1}`}
+                  className={`profile-pic-option ${
+                    editedProfile.includes(`pic${i + 1}`) ? "selected" : ""
+                  }`}
+                  onClick={() => setEditedProfile(`/icons/pic${i + 1}.png`)}
+                />
+              ))}
+            </div>
+          </div>
+
+          <div className="popup-buttons">
+            <CustomButton
+              text="Save"
+              onClick={() => {
+                setUsername(editedUsername);
+                setSelectedProfile(editedProfile); // ✅ Commit profile
+                setShowPopup(false);
+              }}
+            />
+            <CustomButton
+              text="Cancel"
+              onClick={() => {
+                setEditedUsername(username); // Reset username field
+                setEditedProfile(selectedProfile); // Reset profile picker
+                setShowPopup(false);
+              }}
+            />
+          </div>
+        </div>
+      )}
     </div>
   );
 }
