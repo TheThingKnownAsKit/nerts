@@ -1,112 +1,117 @@
 /* container for settings panel */
 .settings-box {
-    width: 40%;
-    height: 75vh;
-    background-color: rgba(0, 0, 0, 0.5); /* dark transparent overlay to see pattern behind it */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-    display: flex;
-    border: 4px solid #ffffff;
-    border-radius: 8px;
-    flex-direction: column;
-    align-items: center;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: #fff;
-    padding: 20px;
+  width: 40%;
+  height: 75vh;
+  background-color: rgba(
+    0,
+    0,
+    0,
+    0.5
+  ); /* dark transparent overlay to see pattern behind it */
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  display: flex;
+  border: 4px solid #ffffff;
+  border-radius: 8px;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  padding: 20px;
 }
 
 /* title at top of the settings box */
 .title {
-    font-size: 4vw;
-    font-weight: 100;
-    line-height: 0.9;
-    margin: 0.5vw 0px 1.5vw 0px;
-    border-bottom: 2px solid white;
+  font-size: 4vw;
+  font-weight: 100;
+  line-height: 0.9;
+  margin: 0.5vw 0px 1.5vw 0px;
+  border-bottom: 2px solid white;
 }
 
 /*spacing for color choice squares */
 .squares-container {
-    display: flex;
-    justify-content: space-around;
-    width: 80%;
-    margin-top: 5%;
-    margin-bottom: 3vw;
+  display: flex;
+  justify-content: space-around;
+  width: 80%;
+  margin-top: 5%;
+  margin-bottom: 3vw;
 }
 
 /* individual color squares */
 .square {
-    width: 3vw;
-    height: 3vw;
-    cursor: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfpBQQSFy8L7TYcAAACHklEQVRIx6WVvWtTYRTGf4mXpLXtvWmbNIaYagmiKH5MUhwVRUFw8A9wUCeH7G46GSh0ESEaRHSoZKgfqaItIjg4FByUFnEyShBiaFpS8SPJzeOQWhNNbpP0WV54z3t+nOc9574XNilXi32DYWCJSndYP3EWWSROoJt0N3FkyhQijrtzQJAFUymlZIoFgs6HjSZ7PQxYjAMWxQF6Nip3k9o0wNgg7ibAdwqAn6ZtdQS4YIT7/OQ5cBKYYYJ8ZxV4zCgU94EJFPfiYgI3S5TbAoh+ksB5IAlcoHiRUxi84BrZtgC+tXbCOOCj6Ov3GazswcslSh13QXiYZIognCDyfwVbsIBlZ0uH2c4Iua30/QsYJMYZ4CFpVAuF1w78XX/gadmxK9iWLFFhjvyoPslWVlmVVa5bP6ukr9ov8hxoBAzzxlRKaUWF0KgyaqVGgLveYS+nSRDt5F7XAQVmVhVjjmMkGKPaEeSPiXtUx/RM0qyO6mObFuoV4C7VnXqqqt5puQsA+LmDvUNP5KSsdokv7G5l5DZ2RGkHwGtZ4m3r53aIJHZEj1Rtml7VZSFuOX0EQ9zEDutBU8QrhcUKx507MkiCSlhT+tWQbOulDgpxveVEr8vHDSqmzumx3iujjD5oVjEFhZgm1M5cWFwlh7zapogiCqlXiAKTjX8KlwPC4BBnOUIIL1AixzzTzNceknYAtXgfJgZgs8q3rmbcWb8BPkWeQJa2BpYAAAAASUVORK5CYII="),
-        pointer;
+  width: 3vw;
+  height: 3vw;
+  cursor: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAACAAAAAgCAQAAADZc7J/AAAAAmJLR0QA/4ePzL8AAAAHdElNRQfpBQQSFy8L7TYcAAACHklEQVRIx6WVvWtTYRTGf4mXpLXtvWmbNIaYagmiKH5MUhwVRUFw8A9wUCeH7G46GSh0ESEaRHSoZKgfqaItIjg4FByUFnEyShBiaFpS8SPJzeOQWhNNbpP0WV54z3t+nOc9574XNilXi32DYWCJSndYP3EWWSROoJt0N3FkyhQijrtzQJAFUymlZIoFgs6HjSZ7PQxYjAMWxQF6Nip3k9o0wNgg7ibAdwqAn6ZtdQS4YIT7/OQ5cBKYYYJ8ZxV4zCgU94EJFPfiYgI3S5TbAoh+ksB5IAlcoHiRUxi84BrZtgC+tXbCOOCj6Ov3GazswcslSh13QXiYZIognCDyfwVbsIBlZ0uH2c4Iua30/QsYJMYZ4CFpVAuF1w78XX/gadmxK9iWLFFhjvyoPslWVlmVVa5bP6ukr9ov8hxoBAzzxlRKaUWF0KgyaqVGgLveYS+nSRDt5F7XAQVmVhVjjmMkGKPaEeSPiXtUx/RM0qyO6mObFuoV4C7VnXqqqt5puQsA+LmDvUNP5KSsdokv7G5l5DZ2RGkHwGtZ4m3r53aIJHZEj1Rtml7VZSFuOX0EQ9zEDutBU8QrhcUKx507MkiCSlhT+tWQbOulDgpxveVEr8vHDSqmzumx3iujjD5oVjEFhZgm1M5cWFwlh7zapogiCqlXiAKTjX8KlwPC4BBnOUIIL1AixzzTzNceknYAtXgfJgZgs8q3rmbcWb8BPkWeQJa2BpYAAAAASUVORK5CYII="),
+    pointer;
 }
 
 /* slightly enlarge square on hover */
 .square:hover {
-    transform: scale(1.05);
+  transform: scale(1.05);
 }
 
 /* effect when a square is selected */
 .square.selected {
-    border: 2px solid #fff;
-    box-shadow: 0 0 5px 1px #fff;
+  border: 2px solid #fff;
+  box-shadow: 0 0 5px 1px #fff;
 }
 
 /* each settings row (sound, music, deck hotkey) */
 .settings-item {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: #fff;
-    margin-top: 2vw;
-    width: 80%;
-    font-size: 2.5vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #fff;
+  margin-top: 2vw;
+  width: 80%;
+  font-size: 2.5vw;
 }
 
 /* labels of each settings row */
 .settings-item label {
-    margin-right: 10px;
-    font-weight: 500;
+  margin-right: 10px;
+  font-weight: 500;
 }
 
 /*button styling for toggles */
 button {
-    background-color: #333;
-    color: #fff;
-    border: 1px solid #ffffff;
-    border-radius: 6px;
-    padding: 0.6em 1.2em;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.25s;
+  background-color: #333;
+  color: #fff;
+  border: 1px solid #ffffff;
+  border-radius: 6px;
+  padding: 0.6em 1.2em;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.25s;
 }
 
 /* lighter on hover */
 button:hover {
-    background-color: #555;
+  background-color: #555;
 }
 
 /*slider styling */
 .slider {
-    width: 150px;
-    margin-left: 1rem;
+  width: 150px;
+  margin-left: 1rem;
 }
 
 /* percentage next to volume slider */
 .volume-label {
-    margin-left: 0.5rem;
-    font-size: 2rem;
-    color: #fff;
+  margin-left: 0.5rem;
+  font-size: 2rem;
+  color: #fff;
 }
 
 /* center the background color heading */
 .settings-box .settings-item:first-of-type {
-    display: flex;
-    justify-content: center;
+  display: flex;
+  justify-content: center;
 }
 
 .settings-box .settings-item:first-of-type label {
-    margin: 0;
+  margin: 0;
 }
