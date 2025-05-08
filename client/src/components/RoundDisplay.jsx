@@ -3,7 +3,7 @@ import { useState } from "react";
 import CustomButton from "./CustomButton";
 import { useSocket } from "../context/SocketContext.jsx";
 
-const RoundDisplay = ({ round, players, nextRoundPress }) => {
+const RoundDisplay = ({ round, players }) => {
     const { socket, gameState, userID, host } = useSocket(); // Need this for database stuff
 
     // Extract scores for each player
@@ -13,6 +13,12 @@ const RoundDisplay = ({ round, players, nextRoundPress }) => {
         return { id, score };
       })
       .sort((a, b) => b.score - a.score); // Sort descending by score
+
+    const handleNerts = () => {
+      if (socket) {
+        socket.emit("nextRound");
+      }
+    }
 
     return (
       <div className="round-display">
@@ -26,7 +32,7 @@ const RoundDisplay = ({ round, players, nextRoundPress }) => {
           ))}
         </ul>
         {userID === host && (
-              <CustomButton onClick={nextRoundPress} text="Next Round" />
+              <CustomButton onClick={handleNerts} text="Next Round" />
             )}
       </div>
     );
