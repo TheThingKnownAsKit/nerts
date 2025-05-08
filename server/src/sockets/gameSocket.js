@@ -99,7 +99,12 @@ export default (io, gameManager) => {
         socket.on("startRound", (lobbyId) => {
             const gameState = gameManager.games[lobbyId];
             gameState.startRound();
-            io.to(lobbyId).emit("roundStarted", { gameState });
+
+            // Trigger refresh manually because the flip function only modifies a primitive type
+            const safeState = JSON.parse(JSON.stringify(gameManager.games[lobbyId]));
+            io.to(lobbyId).emit("gameStateUpdated", { gameState: safeState });
+
+            io.to(lobbyId).emit("roundStarted");
         });
     });
 };

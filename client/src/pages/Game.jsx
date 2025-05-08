@@ -78,9 +78,12 @@ function Game() {
   };
 
   const handleNerts = () => {
-    /// Blah blah blah
-    setRoundEnded(true)
-    socket.emit("roundEnded", lobbyID);
+    const payload = {
+      playerId: userID,
+      lobbyId: lobbyID
+    };
+
+    socket.emit("callNerts", payload);
   };
 
   useEffect(() => {
@@ -127,28 +130,29 @@ function Game() {
       playFlips();
     };
 
-    const handleNextRound = () => {
-      setRoundEnded(false);
+    const handleEndRound = () => {
+      setRoundEnded(true);
     }
 
-    const handleRoundEnded = (newRound) => {
-      setRoundEnded(true);
+    const handleRoundStarted = () => {
+      setRoundEnded(false);
+      setRound((prevRound) => prevRound + 1);
     }
 
     socket.on("gameStarted", handleGameStarted);
     socket.on("cardPlayAccepted", handleCardPlayAccepted);
     socket.on("newDrawCard", handleNewDrawCard);
     socket.on("shuffleWarning", handleshuffleWarning);
-    socket.on("nextRound", handleNextRound);
-    socket.on("roundEnded", handleRoundEnded);
+    socket.on("endRound", handleEndRound);
+    socket.on("roundStarted", handleRoundStarted);
 
     return () => {
       socket.off("gameStarted", handleGameStarted);
       socket.off("cardPlayAccepted", handleCardPlayAccepted);
       socket.off("newDrawCard", handleNewDrawCard);
       socket.off("shuffleWarning", handleshuffleWarning);
-      socket.off("nextRound", handleNextRound);
-      socket.off("roundEnded", handleRoundEnded);
+      socket.off("endRound", handleEndRound);
+      socket.off("roundStarted", handleRoundStarted);
     };
   }, [socket]);
 
@@ -336,6 +340,7 @@ function Game() {
           <RoundDisplay
             round={round}
             players={playerList}
+            lobbyID={lobbyID}
           />
         </>
       )}

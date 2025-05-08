@@ -2,7 +2,7 @@ import { DrawPile, NertsPile, BuildPile } from "./piles.js";
 
 // Nerts-specific hand object and utilities
 class Hand {
-    constructor(numNertsCards = 3, numBuildPiles = 4) {
+    constructor(numNertsCards = 1, numBuildPiles = 4) {
         this.nertsPile = new NertsPile();
         this.buildPiles = [];
         this.drawPile = new DrawPile();
