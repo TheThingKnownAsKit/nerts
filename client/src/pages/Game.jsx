@@ -10,6 +10,7 @@ import RoundDisplay from "../components/RoundDisplay.jsx";
 import "./Game.css";
 import { db } from "../firebase/config";
 import { doc, updateDoc, increment, getDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
 // Sounds
 import soundManager from "../logic/soundManager.js";
@@ -17,6 +18,7 @@ import flips from "../assets/sounds/flip_cards.mp3";
 import flip_one from "../assets/sounds/flip_card.mp3";
 
 function Game() {
+  const navigate = useNavigate();
   const { lobbyID } = useParams();
   const { socket, gameState, userID, host } = useSocket(); // Need this for database stuff
   const [selectedCard, setSelectedCard] = useState(null);
@@ -33,6 +35,10 @@ function Game() {
   const fetchUsername = async (uid) => {
     const userDoc = await getDoc(doc(db, "users", uid));
     return userDoc.exists() ? userDoc.data().username : "Anonymous";
+  };
+
+  const goToRules = () => {
+    navigate("/rules");
   };
 
   useEffect(() => {
@@ -311,6 +317,8 @@ function Game() {
 
   return (
     <div className="game-container">
+      <CustomButton absolute text="Rules" onClick={goToRules} />
+
       {!gameStarted && (
         <>
           <div className="menu">
