@@ -64,7 +64,6 @@ class GameManager {
         });
         const safeState = JSON.parse(JSON.stringify(gameState));
         this.io.to(lobbyId).emit("drawPileShuffled", safeState);
-        console.log("Safe state", safeState);
 
         this.resetShuffleTimers(lobbyId); // Restart timers
       }, 10000);
