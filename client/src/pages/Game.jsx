@@ -79,7 +79,7 @@ function Game() {
 
   const handleNerts = () => {
     /// Blah blah blah
-    setRoundEnded(true)
+    setRoundEnded(true);
     socket.emit("roundEnded", lobbyID);
   };
 
@@ -129,11 +129,11 @@ function Game() {
 
     const handleNextRound = () => {
       setRoundEnded(false);
-    }
+    };
 
     const handleRoundEnded = (newRound) => {
       setRoundEnded(true);
-    }
+    };
 
     socket.on("gameStarted", handleGameStarted);
     socket.on("cardPlayAccepted", handleCardPlayAccepted);
@@ -333,10 +333,7 @@ function Game() {
 
       {roundEnded && (
         <>
-          <RoundDisplay
-            round={round}
-            players={playerList}
-          />
+          <RoundDisplay round={round} players={playerList} />
         </>
       )}
 

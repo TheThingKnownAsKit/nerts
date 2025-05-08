@@ -100,9 +100,9 @@ function Signup() {
         music_on: 1,
         sfx_on: 1,
         volume: 100,
-        card_color: 1,
+        background_color: 1,
         tab_hotkey: 1,
-        colorblind_mode: 0,
+        profile_picture: 0,
       };
       await setDoc(userSettingsRef, userSettings);
       console.log("User settings subcollection created in Firestore");
