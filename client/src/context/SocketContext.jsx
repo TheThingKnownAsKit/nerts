@@ -61,7 +61,7 @@ export const SocketProvider = ({ children }) => {
 
     const handleGameStateUpdate = ( gameState ) => {
       setGameState( gameState );
-      console.log("Game state updated:", gameState, userID);
+      //console.log("Game state updated:", gameState, userID);
     };
 
     socket.on("gameStateUpdated", handleGameStateUpdate);

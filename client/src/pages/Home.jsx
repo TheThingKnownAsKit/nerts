@@ -62,6 +62,18 @@ function Home() {
       >
         SETTINGS
       </h2>
+      <h2
+        onClick={() => navigate("/leaderboard")}
+        onMouseEnter={playClick}
+        tabIndex="0"
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            navigate("/leaderboard");
+          }
+        }}
+      >
+        RANKINGS
+      </h2>
       <UserBox />
       <SoundControl />
     </div>

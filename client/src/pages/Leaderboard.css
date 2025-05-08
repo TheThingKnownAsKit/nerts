@@ -1,0 +1,81 @@
+.leaderboard-container {
+    width: 90%;
+    max-height: 70vh;
+    overflow-y: auto;
+    margin-top: 10vw;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+}
+
+.scroll-box {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.board-section {
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.leaderboard-container h3 {
+    margin-bottom: 10px;
+    color: #ffffff;
+    font-size: 5vw;
+    text-align: center;
+    text-decoration: underline;
+}
+
+.board-section h2 {
+    margin-bottom: 10px;
+    color: #ffffff;
+}
+.board-section h3:hover {
+    transform: none;
+    cursor: default;
+}
+
+.board-section h2:hover {
+    transform: none;
+    cursor: default;
+}
+
+.board-section ol {
+    list-style: decimal inside;
+    margin: 0;
+    padding: 0;
+    color: #dddddd;
+}
+
+.board-section li {
+    padding: 5px 0;
+}
+
+.leaderboard-entry {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 2px 0;
+    font-family: monospace; /* ensures even spacing for dots */
+}
+
+.entry-name {
+    flex-shrink: 0;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 2vw;
+}
+
+.entry-value {
+    flex-shrink: 0;
+    text-align: right;
+    font-size: 2vw;
+}
+
+.entry-dots {
+    flex-grow: 1;
+    border-bottom: 3px dotted white;
+    margin: 0 10px;
+    font-family: "Times New Roman", Times, serif;
+    font-size: 2vw;
+}

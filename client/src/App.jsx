@@ -7,6 +7,7 @@ import Host from "./pages/Host.jsx";
 import Settings from "./pages/Settings.jsx";
 import Rules from "./pages/Rules.jsx";
 import User from "./pages/User.jsx";
+import Leaderboard from "./pages/Leaderboard.jsx";
 import "./App.css";
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
         <Route path="/rules" element={<Rules />} />
         <Route path="/settings" element={<Settings />} />
         <Route path="/user" element={<User />} />
+        <Route path="/leaderboard" element={<Leaderboard />} />
       </Routes>
     </Router>
   );
