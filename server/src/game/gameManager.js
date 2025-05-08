@@ -63,7 +63,7 @@ class GameManager {
           player.shuffleDrawPile();
         });
         this.io.to(lobbyId).emit("drawPileShuffled", { gameState }); // Emit changes to front end
-        this.resetShuffleTimers(lobbyId);
+        this.resetShuffleTimers(lobbyId); // Restart timers
       }, 10000);
     }, 30000);
   }
@@ -189,6 +189,11 @@ class GameState {
 
   // Initializes each player with a new random starting hand
   startRound() {
+    // Reset all cards in foundation
+    this.foundation.forEach((pile) => {
+      pile.cards = [];
+    });
+
     // Loop through each player and create a new hand
     this.getPlayers().forEach((player) => {
       player.createNewHand();
