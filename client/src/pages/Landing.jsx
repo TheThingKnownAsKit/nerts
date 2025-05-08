@@ -4,7 +4,8 @@ import Letters from "../components/Letters";
 import CustomTextInput from "../components/CustomTextInput";
 import CustomButton from "../components/CustomButton";
 import "./Landing.css";
-import { auth } from "../firebase/config";
+import { auth, db } from "../firebase/config";
+import { doc, setDoc, getDoc } from "firebase/firestore";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useSocket } from "../context/SocketContext";
 import Popup from "../components/Popup.jsx";
@@ -63,10 +64,47 @@ function Landing() {
       return;
     }
 
-    //on successful login, navigate to home page
+    // If this user has missing database information somehow, make it and initialize it to default values
     if (userCredential) {
       const uid = userCredential.user.uid;
+      const userDoc = await getDoc(doc(db, "users", uid));
 
+      if (userDoc.exists()) {
+        const settingsRef = doc(db, "users", uid, "settings", "data");
+        const statisticsRef = doc(db, "users", uid, "statistics", "data");
+
+        if (!(await getDoc(settingsRef)).exists()) {
+          const userSettings = {
+            music_on: 1,
+            sfx_on: 1,
+            volume: 50,
+            background_color: 0,
+            tab_hotkey: 1,
+            profile_picture: 0,
+          };
+          await setDoc(settingsRef, userSettings);
+          console.log(
+            "User settings subcollection created in Firestore on login"
+          );
+        }
+
+        if (!(await getDoc(statisticsRef)).exists()) {
+          const userStatistics = {
+            gamesPlayed: 0,
+            wins: 0,
+            losses: 0,
+            cards_played: 0,
+            time_played: 0,
+            nerts_called: 0,
+          };
+          await setDoc(statisticsRef, userStatistics);
+          console.log(
+            "User statistics subcollection created in Firestore on login"
+          );
+        }
+      }
+
+      //on successful login, navigate to home page
       initializeSocket(uid);
       navigate("/home");
     }

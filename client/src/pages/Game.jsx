@@ -80,7 +80,7 @@ function Game() {
   const handleNerts = () => {
     const payload = {
       playerId: userID,
-      lobbyId: lobbyID
+      lobbyId: lobbyID,
     };
 
     socket.emit("callNerts", payload);
@@ -94,7 +94,7 @@ function Game() {
     };
 
     const handleshuffleWarning = () => {
-      setSeconds(10); // ✅ initialize countdown
+      setSeconds(10); // initialize countdown
       const warningEl = document.querySelector(".shuffle-warning");
       if (warningEl) {
         warningEl.classList.remove("hidden");
@@ -132,12 +132,12 @@ function Game() {
 
     const handleEndRound = () => {
       setRoundEnded(true);
-    }
+    };
 
     const handleRoundStarted = () => {
       setRoundEnded(false);
       setRound((prevRound) => prevRound + 1);
-    }
+    };
 
     socket.on("gameStarted", handleGameStarted);
     socket.on("cardPlayAccepted", handleCardPlayAccepted);
@@ -337,11 +337,7 @@ function Game() {
 
       {roundEnded && (
         <>
-          <RoundDisplay
-            round={round}
-            players={playerList}
-            lobbyID={lobbyID}
-          />
+          <RoundDisplay round={round} players={playerList} lobbyID={lobbyID} />
         </>
       )}
 
