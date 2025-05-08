@@ -28,6 +28,7 @@ function Game() {
 
   const [round, setRound] = useState(1);
   const [roundEnded, setRoundEnded] = useState(false);
+  const [gameEnded, setGameEnded] = useState("no");
 
   const fetchUsername = async (uid) => {
     const userDoc = await getDoc(doc(db, "users", uid));
@@ -145,12 +146,18 @@ function Game() {
       playFlips();
     }
 
+    const handleEndGame = () => {
+      setRoundEnded(true);
+      setGameEnded("won");
+    }
+
     socket.on("gameStarted", handleGameStarted);
     socket.on("cardPlayAccepted", handleCardPlayAccepted);
     socket.on("newDrawCard", handleNewDrawCard);
     socket.on("shuffleWarning", handleshuffleWarning);
     socket.on("endRound", handleEndRound);
     socket.on("roundStarted", handleRoundStarted);
+    socket.on("endGame", handleEndGame);
 
     return () => {
       socket.off("gameStarted", handleGameStarted);
@@ -158,7 +165,7 @@ function Game() {
       socket.off("newDrawCard", handleNewDrawCard);
       socket.off("shuffleWarning", handleshuffleWarning);
       socket.off("endRound", handleEndRound);
-      socket.off("roundStarted", handleRoundStarted);
+      socket.off("endGame", handleEndGame);
     };
   }, [socket]);
 
@@ -345,6 +352,7 @@ function Game() {
             round={round}
             playerList={playerList}
             lobbyID={lobbyID}
+            endGame={gameEnded}
           />
         </>
       )}

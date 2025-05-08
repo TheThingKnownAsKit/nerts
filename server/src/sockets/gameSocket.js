@@ -83,7 +83,7 @@ export default (io, gameManager) => {
                 const players = gameState.getPlayers(); // Get array of all player objects
 
                 // Check if someone is above 100 points at end of round
-                const scoreAboveThreshold = players.some((player) => player.score >= 100);
+                const scoreAboveThreshold = players.some((player) => player.score >= 10);
 
                 // Broadcast that game has ended if a player won and send scores
                 if (scoreAboveThreshold) {
