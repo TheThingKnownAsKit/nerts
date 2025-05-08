@@ -23,7 +23,7 @@ function Game() {
   const [gameStarted, setGameStarted] = useState(false);
   const [popup, setPopup] = useState(null);
   const [playerCount, setPlayerCount] = useState(0);
-  const [playerList, setPlayerList] = useState([]);
+  const [playerList, setPlayerList] = useState({});
   const [seconds, setSeconds] = useState(10);
 
   const [round, setRound] = useState(1);
@@ -38,8 +38,13 @@ function Game() {
     if (!socket) return;
 
     socket.on("lobbyUpdated", async ({ players: uids }) => {
-      const usernames = await Promise.all(uids.map(fetchUsername));
-      setPlayerList(usernames);
+      const entries = await Promise.all(
+        uids.map(async (uid) => {
+          const username = await fetchUsername(uid);
+          return [uid, username];
+        })
+      );
+      setPlayerList(Object.fromEntries(entries));
     });
 
     socket.on("playerJoined", async ({ playerID: uid }) => {
@@ -137,6 +142,7 @@ function Game() {
     const handleRoundStarted = () => {
       setRoundEnded(false);
       setRound((prevRound) => prevRound + 1);
+      playFlips();
     }
 
     socket.on("gameStarted", handleGameStarted);
@@ -312,8 +318,8 @@ function Game() {
           <div className="player-list">
             <h3>Players:</h3>
             <ul>
-              {playerList.map((playerName, index) => (
-                <li key={index}>{playerName}</li>
+              {Object.entries(playerList).map(([id, username]) => (
+                <li key={id}>{username}</li>
               ))}
             </ul>
           </div>
@@ -339,7 +345,7 @@ function Game() {
         <>
           <RoundDisplay
             round={round}
-            players={playerList}
+            playerList={playerList}
             lobbyID={lobbyID}
           />
         </>

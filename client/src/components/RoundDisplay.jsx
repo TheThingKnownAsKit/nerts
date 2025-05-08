@@ -3,16 +3,20 @@ import { useState } from "react";
 import CustomButton from "./CustomButton";
 import { useSocket } from "../context/SocketContext.jsx";
 
-const RoundDisplay = ({ round, players, lobbyID }) => {
+const RoundDisplay = ({ round, playerList, lobbyID }) => {
     const { socket, gameState, userID, host } = useSocket(); // Need this for database stuff
 
+    const gs = gameState?.gameState;
+
     // Extract scores for each player
-    const rankedPlayers = players
-      .map((id) => {
-        const score = gameState?.players?.[id]?.score ?? 0;
-        return { id, score };
-      })
-      .sort((a, b) => b.score - a.score); // Sort descending by score
+    const rankedPlayers = gs?.players
+    ? Object.entries(gs.players)
+        .map(([id, playerData]) => ({
+          id,
+          score: playerData?.score ?? 0,
+        }))
+        .sort((a, b) => b.score - a.score)
+    : [];
 
     const handleStartRound = () => {
       if (socket) {
@@ -27,7 +31,7 @@ const RoundDisplay = ({ round, players, lobbyID }) => {
         <ul>
           {rankedPlayers.map((player, index) => (
             <li key={player.id}>
-              #{index + 1}: {player.id} — {player.score} pts
+              #{index + 1}: {playerList[player.id] ?? "Unknown"} — {player.score} pts
             </li>
           ))}
         </ul>

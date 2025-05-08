@@ -78,7 +78,7 @@ function PlayerArea({
       <div className="left-column">
       <div className="nerts-pile dashed-outline">
         {renderNertsPile()}
-        {hand?.nertsPile?.cards?.length === 0 && (
+        {hand?.nertsPile?.cards?.length === 0 && isCurrentPlayer && (
           <img className="nerts-button" src={nertsButton} alt="nerts button" onClick={handleNerts}/>
         )}
       </div>
