@@ -53,7 +53,7 @@ class Player {
     return visibleHand;
   }
 
-  // Create a new hand for the player
+  // Create a new, unique hand for the player
   createNewHand() {
     this.hand = new Hand();
   }
