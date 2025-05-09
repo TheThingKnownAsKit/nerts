@@ -38,6 +38,7 @@ function Game() {
   };
 
   const goToHome = () => {
+    socket.emit("leftLobby", { userID, lobbyID });
     navigate("/home");
   };
 
