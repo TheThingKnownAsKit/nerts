@@ -56,7 +56,7 @@ export default (io, gameManager) => {
     socket.on("leftLobby", (payload) => {
       console.log(`User ${payload.userID} is leaving lobby ${payload.lobbyID}`);
       socket.leave(payload.lobbyID);
-      if (io.sockets.adapter.rooms.get(roomId).size == 0) {
+      if (!io.sockets.adapter.rooms.get(payload.lobbyID)) {
         delete gameManager.games[payload.lobbyID];
       }
     });
