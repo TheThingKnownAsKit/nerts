@@ -18,16 +18,20 @@
 
 .custom-button.absolute {
   position: absolute;
-  left: 1.5vw;
-  top: 1vw;
+  top: 2vw;
+  right: 2vw;
+  left: auto;
 }
 
 .custom-button:hover {
   outline: 3px solid black;
 }
 
-/* Add custom focus outline for accessibility */
 .custom-button:focus {
   outline: 3px solid blue;
   outline-offset: 2px;
+}
+
+.game-container {
+  position: relative;
 }
