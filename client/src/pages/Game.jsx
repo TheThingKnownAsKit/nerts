@@ -10,6 +10,7 @@ import RoundDisplay from "../components/RoundDisplay.jsx";
 import "./Game.css";
 import { db } from "../firebase/config";
 import { doc, updateDoc, increment, getDoc } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
 // Sounds
 import soundManager from "../logic/soundManager.js";
@@ -17,6 +18,7 @@ import flips from "../assets/sounds/flip_cards.mp3";
 import flip_one from "../assets/sounds/flip_card.mp3";
 
 function Game() {
+  const navigate = useNavigate();
   const { lobbyID } = useParams();
   const { socket, gameState, userID, host } = useSocket(); // Need this for database stuff
   const [selectedCard, setSelectedCard] = useState(null);
@@ -33,6 +35,10 @@ function Game() {
   const fetchUsername = async (uid) => {
     const userDoc = await getDoc(doc(db, "users", uid));
     return userDoc.exists() ? userDoc.data().username : "Anonymous";
+  };
+
+  const goToRules = () => {
+    navigate("/rules");
   };
 
   useEffect(() => {
@@ -62,8 +68,7 @@ function Game() {
     };
   }, [socket]);
 
-  const currentPlayerCount =
-    Object.keys(gameState?.players || {}).length || 0;
+  const currentPlayerCount = Object.keys(gameState?.players || {}).length || 0;
   useEffect(() => {
     setPlayerCount(currentPlayerCount);
   }, [currentPlayerCount]);
@@ -145,12 +150,16 @@ function Game() {
       setRoundEnded(false);
       setRound((prevRound) => prevRound + 1);
       playFlips();
-    }
+    };
 
     const handleEndGame = () => {
+      // Update the number of games played in user statistics
+      const statsRef = doc(db, "users", userID, "statistics", "data");
+      updateDoc(statsRef, { gamesPlayed: increment(1) });
+
       setRoundEnded(true);
       setGameEnded("won");
-    }
+    };
 
     socket.on("gameStarted", handleGameStarted);
     socket.on("cardPlayAccepted", handleCardPlayAccepted);
@@ -309,6 +318,8 @@ function Game() {
 
   return (
     <div className="game-container">
+      <CustomButton absolute text="Rules" onClick={goToRules} />
+
       {!gameStarted && (
         <>
           <div className="menu">

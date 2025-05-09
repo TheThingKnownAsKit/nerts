@@ -8,6 +8,7 @@ class Player {
     this.score = score;
 
     this.updateVisibleHand();
+    this.updateScore();
   }
 
   // Initialize cards visible/playable to the player
@@ -52,9 +53,14 @@ class Player {
     return visibleHand;
   }
 
-  // Create a new hand for the player
+  // Create a new, unique hand for the player
   createNewHand() {
     this.hand = new Hand();
+  }
+
+  // Updates score based on nerts cards in hand
+  updateScore() {
+    this.score -= this.hand.nertsPile.cards.length * 2;
   }
 
   // Shuffles draw pile

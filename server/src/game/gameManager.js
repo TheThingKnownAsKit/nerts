@@ -200,6 +200,7 @@ class GameState {
     this.getPlayers().forEach((player) => {
       player.createNewHand();
       player.updateVisibleHand();
+      player.updateScore();
     });
   }
 
