@@ -111,6 +111,7 @@ function Game() {
           const next = prev - 1;
           if (next <= 0) {
             clearInterval(interval);
+            removeAllCardSelections();
             playFlips();
 
             if (warningEl) {

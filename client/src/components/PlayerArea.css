@@ -18,8 +18,8 @@
     transform: translateY(-50%) scale(1.05);
 }
 .nerts-pile .nerts-button {
-    width: 100%;
-    margin-top: 1vw;
+    width: 98%;
+    margin-left: 1%;
 }
 .nerts-pile .nerts-button:hover {
     transform: scale(1.05);

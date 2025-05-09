@@ -24,6 +24,7 @@ const RoundDisplay = ({ round, playerList, lobbyID, endGame }) => {
   };
 
   const handleReturnHome = () => {
+    socket.emit("leftLobby", {userID, lobbyID});
     navigate("/Home"); // route to Home.jsx
   };
 
