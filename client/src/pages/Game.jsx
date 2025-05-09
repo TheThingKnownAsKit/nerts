@@ -334,9 +334,15 @@ function Game() {
           </div>
           <div className="player-list">
             <h3>Players:</h3>
-            <ul>
-              {Object.entries(playerList).map(([id, username]) => (
-                <li key={id}>{username}</li>
+            <ul className="player-name-container">
+              {Object.entries(playerList).map(([id, username], index) => (
+                <li
+                  key={id}
+                  className="player-name"
+                  style={{ animationDelay: `${index * 0.2}s` }}
+                >
+                  {username}
+                </li>
               ))}
             </ul>
           </div>

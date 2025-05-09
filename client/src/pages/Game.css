@@ -58,23 +58,40 @@
 }
 
 .player-list {
-    position: absolute;
-    bottom: 10vw;
-    left: 50%;
-    transform: translateX(-50%);
+    transform: translateY(50%);
     color: white;
-    justify-content: center;
+    text-align: center;
 }
+
 .player-list h3 {
     font-size: 3vw;
-    justify-self: center;
     text-decoration: underline;
     margin-bottom: 0.5vw;
 }
-.player-list ul li {
+
+.player-name-container {
+    display: flex;
+    gap: 3vw;
+    padding: 1vw;
+    justify-content: center;
+    list-style: none;
+}
+
+.player-name {
     font-size: 2vw;
-    justify-self: left;
-    margin-right: 2vw;
+    animation: wiggle 2s infinite ease-in-out alternate;
+}
+
+@keyframes wiggle {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
 }
 
 .shuffle-warning {
