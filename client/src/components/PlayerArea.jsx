@@ -4,6 +4,7 @@ import nertsButton from "../assets/images/nerts_button.png";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase/config";
 import { useState, useEffect } from "react";
+import { useSocket } from "../context/SocketContext"; // ADD THIS
 
 function PlayerArea({
   corner,
@@ -18,7 +19,9 @@ function PlayerArea({
   const [username, setUsername] = useState("Player");
 
   const [profilePicIndex, setProfilePicIndex] = useState(0);
-
+  const { gameState } = useSocket(); // Get game state from context
+  const score = gameState?.players?.[playerId]?.score ?? 0; // Extract player's score
+  
   useEffect(() => {
     const fetchUserData = async () => {
       if (!playerId) return;
@@ -174,6 +177,7 @@ function PlayerArea({
           className="profile-pic"
         />
         <div className="username">{username}</div>
+        <div className="score">{score}</div> {/* 👈 LIVE SCORE HERE */}
       </div>
       </div>
     </div>
