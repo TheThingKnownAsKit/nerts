@@ -42,6 +42,10 @@ function Game() {
     navigate("/home");
   };
 
+  const goToRules = () => {
+    navigate("/rules");
+  };
+
   useEffect(() => {
     if (!socket) return;
 
@@ -324,6 +328,17 @@ function Game() {
   return (
     <div className="game-container">
       <CustomButton absolute className="left" text="Exit" onClick={goToHome} />
+      <div
+        className="help-button"
+        onClick={goToRules}
+        title="View Rules"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") goToRules();
+        }}
+      >
+        ?
+      </div>
 
       {!gameStarted && (
         <>

@@ -16,12 +16,6 @@
   outline: 3px solid transparent;
 }
 
-.custom-button.absolute {
-  position: absolute;
-  left: 1.5vw;
-  top: 1vw;
-}
-
 .custom-button:hover {
   outline: 3px solid black;
 }
@@ -30,4 +24,12 @@
 .custom-button:focus {
   outline: 3px solid blue;
   outline-offset: 2px;
+}
+
+.custom-button.absolute {
+  position: absolute;
+  top: 1vw;
+  left: 2vw;
+  margin-left: 0;
+  z-index: 10;
 }
