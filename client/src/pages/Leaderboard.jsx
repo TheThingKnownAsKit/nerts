@@ -44,9 +44,7 @@ function Leaderboard() {
               gamesWon: stats.wins ?? 0,
               gamesPlayed: stats.games_played ?? 0,
               winLoss:
-                stats.wins && stats.games_played
-                  ? stats.wins / Math.max(stats.gamesPlayed - stats.wins, 1)
-                  : 0,
+                stats.wins / Math.max(stats.gamesPlayed - stats.wins, 1) ?? 0,
             });
           }
         });
