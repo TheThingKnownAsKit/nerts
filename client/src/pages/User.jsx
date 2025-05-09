@@ -143,7 +143,7 @@ function User() {
           <div className="profile-pic-selection">
             <p>Select a profile picture:</p>
             <div className="profile-pic-grid">
-              {Array.from({ length: 5 }, (_, i) => (
+              {Array.from({ length: 10 }, (_, i) => (
                 <img
                   key={i}
                   src={`/icons/pic${i + 1}.png`}

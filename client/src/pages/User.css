@@ -77,34 +77,40 @@
 .username-input {
     padding: 10px;
     margin: 10px 0 20px;
-    width: 80%;
+    width: 30%;
     font-size: 1.1em;
+    text-align: center;
 }
 
 .profile-pic-selection {
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 }
 
 .profile-pic-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
-    gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(10vw, 1fr));
+    gap: 1vw;
     margin-top: 10px;
     max-width: 90%;
 }
 
 .profile-pic-option {
-    width: 60px;
-    height: 60px;
-    border: 2px solid transparent;
+    width: 9vw;
+    height: 9vw;
+    border: 5px solid transparent;
     border-radius: 50%;
     cursor: pointer;
     object-fit: cover;
     transition: border 0.3s;
+    box-sizing: border-box;
 }
 
 .profile-pic-option.selected {
-    border: 2px solid #fff;
+    border: 5px solid #fff;
 }
 
 .popup-buttons {

@@ -45,6 +45,7 @@ const RoundDisplay = ({ round, playerList, lobbyID, endGame }) => {
       }
     }
 
+    socket.emit("leftLobby", { userID, lobbyID });
     navigate("/Home"); // route to Home.jsx
   };
 
