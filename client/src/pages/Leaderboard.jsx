@@ -44,9 +44,7 @@ function Leaderboard() {
               gamesWon: stats.wins ?? 0,
               gamesPlayed: stats.games_played ?? 0,
               winLoss:
-                stats.wins && stats.games_played
-                  ? stats.wins / Math.max(stats.games_played - stats.wins, 1)
-                  : 0,
+                stats.wins / Math.max(stats.gamesPlayed - stats.wins, 1) ?? 0,
             });
           }
         });
@@ -78,7 +76,7 @@ function Leaderboard() {
 
   return (
     <div className="main centered">
-        <CustomButton back={true} absolute={true} text={"Back"} />
+      <CustomButton back={true} absolute={true} text={"Back"} />
       <UserBox />
       <SoundControl />
       <h3 className="leaderboard-title">RANKINGS</h3>
@@ -113,11 +111,13 @@ function LeaderboardSection({ title, data, statKey, format }) {
       <h2>{title}</h2>
       <ol>
         {data.map((user, i) => (
-            <li key={i} className="leaderboard-entry">
-                <span className="entry-name">{user.username}</span>
-                <span className="entry-dots"></span>
-                <span className="entry-value">{format ? format(user[statKey]) : user[statKey]}</span>
-            </li>
+          <li key={i} className="leaderboard-entry">
+            <span className="entry-name">{user.username}</span>
+            <span className="entry-dots"></span>
+            <span className="entry-value">
+              {format ? format(user[statKey]) : user[statKey]}
+            </span>
+          </li>
         ))}
       </ol>
     </div>

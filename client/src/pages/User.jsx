@@ -50,12 +50,12 @@ function User() {
           setEditedProfile(profileIndex);
           console.log("Profile picture index:", profileIndex);
         }
-        
+
         if (statsDoc.exists()) {
           console.log("Raw stats data:", statsDoc.data());
           setStats({
             cardsPlayed: statsDoc.data().cards_played || 0,
-            gamesPlayed: statsDoc.data().games_played || 0,
+            gamesPlayed: statsDoc.data().gamesPlayed || 0,
             gamesLost: statsDoc.data().losses || 0,
             nertsCalled: statsDoc.data().nerts_called || 0,
             timePlayed: statsDoc.data().time_played || 0,
@@ -87,7 +87,9 @@ function User() {
         className="user-edit"
         onClick={() => {
           setEditedUsername(username);
-          const picIndex = parseInt(selectedProfile.match(/pic(\d+)/)?.[1] || "0");
+          const picIndex = parseInt(
+            selectedProfile.match(/pic(\d+)/)?.[1] || "0"
+          );
           setEditedProfile(picIndex);
           setShowPopup(true);
         }}
@@ -154,7 +156,7 @@ function User() {
                   onClick={() => setEditedProfile(i + 1)}
                 />
               ))}
-            </div> 
+            </div>
           </div>
 
           <div className="popup-buttons">
@@ -163,7 +165,13 @@ function User() {
               onClick={async () => {
                 try {
                   const userRef = doc(db, "users", userID);
-                  const settingsRef = doc(db, "users", userID, "settings", "data");
+                  const settingsRef = doc(
+                    db,
+                    "users",
+                    userID,
+                    "settings",
+                    "data"
+                  );
 
                   await updateDoc(userRef, {
                     username: editedUsername,
@@ -185,7 +193,9 @@ function User() {
               text="Cancel"
               onClick={() => {
                 setEditedUsername(username); // Reset username field
-                setEditedProfile(parseInt(selectedProfile.match(/pic(\d+)/)?.[1] || "0"));
+                setEditedProfile(
+                  parseInt(selectedProfile.match(/pic(\d+)/)?.[1] || "0")
+                );
                 setShowPopup(false);
               }}
             />
