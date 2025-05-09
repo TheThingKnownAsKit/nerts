@@ -67,7 +67,7 @@ class GameManager {
 
         this.resetShuffleTimers(lobbyId); // Restart timers
       }, 10000);
-    }, 30000);
+    }, 35000);
   }
 }
 
