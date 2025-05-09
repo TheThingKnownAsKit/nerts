@@ -94,6 +94,10 @@ function Game() {
       lobbyId: lobbyID,
     };
 
+    // Update the number of nerts called in user statistics
+    const statsRef = doc(db, "users", userID, "statistics", "data");
+    updateDoc(statsRef, { nerts_called: increment(1) });
+
     socket.emit("callNerts", payload);
   };
 
