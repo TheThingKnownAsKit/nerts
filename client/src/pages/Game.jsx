@@ -37,8 +37,8 @@ function Game() {
     return userDoc.exists() ? userDoc.data().username : "Anonymous";
   };
 
-  const goToRules = () => {
-    navigate("/rules");
+  const goToHome = () => {
+    navigate("/home");
   };
 
   useEffect(() => {
@@ -322,7 +322,7 @@ function Game() {
 
   return (
     <div className="game-container">
-      <CustomButton absolute text="Rules" onClick={goToRules} />
+      <CustomButton absolute className="left" text="Exit" onClick={goToHome} />
 
       {!gameStarted && (
         <>
@@ -352,7 +352,6 @@ function Game() {
           </div>
         </>
       )}
-
       {gameStarted && (
         <>
           <CommonArea
@@ -365,9 +364,7 @@ function Game() {
           </div>
         </>
       )}
-
       {gameStarted && <>{createCards()}</>}
-
       {roundEnded && (
         <>
           <RoundDisplay
@@ -378,7 +375,6 @@ function Game() {
           />
         </>
       )}
-
       {popup && (
         <Popup
           title={popup.title}
