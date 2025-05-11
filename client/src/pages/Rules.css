@@ -1,24 +1,30 @@
 /* main container for the rules page */
+/* in Rules.css */
 .rules-container {
+  min-height: 100vh;
+  background: url("../assets/images/Game-board.png");
+  background-size: cover;
+
   color: #fff;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
   line-height: 1.5;
+  position: relative;
 }
 
 /* top right section of game instructions */
 .rules-top-right {
   position: absolute;
-  top: 2rem;
+  top: 0.5rem;
   right: 2rem;
   text-align: right;
-  max-width: 40vw;
+  max-width: 17vw;
 }
 
 /* bottom left section of game instructions */
 .rules-bottom-left {
   position: absolute;
-  bottom: 2rem;
+  bottom: 0.5rem;
   left: 2rem;
   text-align: left;
-  max-width: 40vw;
+  max-width: 17vw;
 }

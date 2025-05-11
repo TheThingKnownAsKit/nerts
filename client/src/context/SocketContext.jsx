@@ -25,7 +25,7 @@ export const SocketProvider = ({ children }) => {
   const initializeSocket = (uid) => {
     // Disconnect any existing socket if this function is called
     if (socket) {
-      socket.disconnect();
+      disconnectSocket();
     }
 
     // Find the backend socket server to connect to and create socket connection
@@ -59,8 +59,8 @@ export const SocketProvider = ({ children }) => {
   useEffect(() => {
     if (!socket) return;
 
-    const handleGameStateUpdate = ( gameState ) => {
-      setGameState( gameState );
+    const handleGameStateUpdate = (gameState) => {
+      setGameState(gameState);
       //console.log("Game state updated:", gameState, userID);
     };
 
@@ -74,7 +74,15 @@ export const SocketProvider = ({ children }) => {
   // Return provider values that can be used by children wrapped within SocketContext
   return (
     <SocketContext.Provider
-      value={{ socket, initializeSocket, disconnectSocket, gameState, userID, host, setHost }}
+      value={{
+        socket,
+        initializeSocket,
+        disconnectSocket,
+        gameState,
+        userID,
+        host,
+        setHost,
+      }}
     >
       {children}
     </SocketContext.Provider>

@@ -5,6 +5,9 @@ import { useSocket } from "../context/SocketContext.jsx";
 import { db } from "../firebase/config";
 import { doc, updateDoc, increment, getDoc } from "firebase/firestore";
 
+/**
+ * RoundDisplay shows the current round number or game over message, the player rankings based on scores, and a button to either start the next round or return home at game end.
+ **/
 const RoundDisplay = ({ round, playerList, lobbyID, endGame }) => {
   const { socket, gameState, userID, host } = useSocket();
   const navigate = useNavigate(); // for navigation
@@ -46,7 +49,7 @@ const RoundDisplay = ({ round, playerList, lobbyID, endGame }) => {
     }
 
     socket.emit("leftLobby", { userID, lobbyID });
-    
+
     navigate("/Home"); // route to Home.jsx
   };
 

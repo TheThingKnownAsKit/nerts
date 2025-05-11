@@ -9,6 +9,9 @@ import music_off from "../assets/images/music_off.png";
 import backgroundMusic from "../assets/sounds/background.mp3";
 import click from "../assets/sounds/click.mp3";
 
+/**
+ * SoundControl component provides toggles sound effects and background music.
+ */
 const SoundControl = () => {
   const [isSoundOn, setIsSoundOn] = useState(
     JSON.parse(localStorage.getItem("isSoundOn")) ?? true

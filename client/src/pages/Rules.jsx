@@ -1,11 +1,20 @@
 import React from "react";
 import CustomButton from "../components/CustomButton";
 import "./Rules.css";
+import Gameboard from "../assets/images/backgrounds/Game-board.png";
 
 /* displays the game instructions in two sections with a floating "Back" button*/
 function Rules() {
   return (
-    <div className="rules-container">
+    <div
+      className="rules-container"
+      style={{
+        backgroundImage: `url(${Gameboard})`,
+        backgroundSize: "cover",
+        minHeight: "100vh",
+        position: "relative",
+      }}
+    >
       {/* back button. used to navigate to previous page and places button in top left*/}
       <CustomButton back={true} absolute={true} text={"Back"} />
       {/* top right section of rules */}
@@ -15,7 +24,6 @@ function Rules() {
           until you run out or your Nerts pile is empty.
         </p>
         <p>
-          Once you've cleared your Nerts pile, call “Nerts!” to end the round.
           Points are tallied based on cards you played in the foundation minus
           leftover cards in your Nerts pile.
         </p>
