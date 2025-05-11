@@ -1,26 +1,29 @@
-import PlayerArea from "../components/PlayerArea.jsx";
-import CommonArea from "../components/CommonArea.jsx";
 import { useParams } from "react-router-dom";
 import { useSocket } from "../context/SocketContext.jsx";
 import { useEffect, useState } from "react";
-import Popup from "../components/Popup.jsx";
-import CustomButton from "../components/CustomButton.jsx";
-import RoundDisplay from "../components/RoundDisplay.jsx";
-import "./Game.css";
+
 import { db } from "../firebase/config";
 import { doc, updateDoc, increment, getDoc } from "firebase/firestore";
 import { useNavigate } from "react-router-dom";
+
+import Popup from "../components/Popup.jsx";
+import CustomButton from "../components/CustomButton.jsx";
+import RoundDisplay from "../components/RoundDisplay.jsx";
+import PlayerArea from "../components/PlayerArea.jsx";
+import CommonArea from "../components/CommonArea.jsx";
 
 // Sounds
 import soundManager from "../logic/soundManager.js";
 import flips from "../assets/sounds/flip_cards.mp3";
 import flip_one from "../assets/sounds/flip_card.mp3";
 
+import "./Game.css";
+
 function Game() {
   const navigate = useNavigate();
   const { lobbyID } = useParams();
   
-  const { socket, gameState, userID, host } = useSocket(); // Need this for database stuff
+  const { socket, gameState, userID, host } = useSocket();
   const [selectedCard, setSelectedCard] = useState(null);
   const [gameStarted, setGameStarted] = useState(false);
   const [popup, setPopup] = useState(null);
@@ -142,6 +145,11 @@ function Game() {
         // Update the number of cards played in user statistics
         const statsRef = doc(db, "users", userID, "statistics", "data");
         updateDoc(statsRef, { cards_played: increment(1) });
+
+        const warningEl = document.querySelector(".shuffle-warning");
+        if (warningEl) {
+          warningEl.classList.add("hidden");
+        }
 
         playPlay();
       }

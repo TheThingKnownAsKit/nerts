@@ -1,14 +1,16 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import Letters from "../components/Letters";
-import CustomTextInput from "../components/CustomTextInput";
-import CustomButton from "../components/CustomButton";
-import "./Landing.css";
 import { auth, db } from "../firebase/config";
 import { doc, setDoc, getDoc } from "firebase/firestore";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { useSocket } from "../context/SocketContext";
+
 import Popup from "../components/Popup.jsx";
+import Letters from "../components/Letters";
+import CustomTextInput from "../components/CustomTextInput";
+import CustomButton from "../components/CustomButton";
+
+import "./Landing.css";
 
 function Landing() {
   const navigate = useNavigate();

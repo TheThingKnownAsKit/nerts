@@ -70,7 +70,7 @@
     justify-content: space-between;
     align-items: baseline;
     padding: 2px 0;
-    font-family: monospace; /* ensures even spacing for dots */
+    font-family: monospace;
 }
 
 .entry-name {

@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import Letters from "../components/Letters";
 import UserBox from "../components/UserBox";
+
 import "./Home.css";
 
 // Sounds

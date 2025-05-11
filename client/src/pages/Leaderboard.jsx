@@ -1,11 +1,13 @@
 import { useEffect, useState } from "react";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore";
 import { db, auth } from "../firebase/config";
+import { useSocket } from "../context/SocketContext";
+
 import UserBox from "../components/UserBox";
 import CustomButton from "../components/CustomButton";
 import SoundControl from "../components/SoundControl";
+
 import "./Leaderboard.css";
-import { useSocket } from "../context/SocketContext";
 
 function Leaderboard() {
   const { userID } = useSocket();
@@ -44,7 +46,7 @@ function Leaderboard() {
               gamesWon: stats.wins ?? 0,
               gamesPlayed: stats.games_played ?? 0,
               winLoss:
-                stats.wins / Math.max(stats.gamesPlayed - stats.wins, 1) ?? 0,
+                stats.wins / Math.max(stats.gamesPlayed - stats.wins, 1),
             });
           }
         });

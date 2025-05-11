@@ -1,6 +1,5 @@
 import CustomButton from "../components/CustomButton";
 import SettingsBox from "../components/SettingsBox";
-import "./Settings.css";
 
 /**
  * settings page component

@@ -1,9 +1,12 @@
 import { useEffect, useState } from "react";
-import CustomButton from "../components/CustomButton";
-import profile from "/icons/pic0.png"; // default image
+import { useSocket } from "../context/SocketContext";
+
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { db } from "../firebase/config";
-import { useSocket } from "../context/SocketContext";
+
+import CustomButton from "../components/CustomButton";
+import profile from "/icons/pic0.png"; // default image
+
 import "./User.css";
 
 function User() {

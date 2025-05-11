@@ -1,14 +1,16 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { useSocket } from "../context/SocketContext";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
+import { auth, db } from "../firebase/config";
 import { useNavigate } from "react-router-dom";
+
 import Letters from "../components/Letters";
-import "./Signup.css";
 import CustomTextInput from "../components/CustomTextInput";
 import CustomButton from "../components/CustomButton";
-import { createUserWithEmailAndPassword } from "firebase/auth";
-import { auth, db } from "../firebase/config";
-import { doc, setDoc } from "firebase/firestore";
-import { useSocket } from "../context/SocketContext";
 import Popup from "../components/Popup.jsx";
+
+import "./Signup.css";
 
 function Signup() {
   const navigate = useNavigate();
