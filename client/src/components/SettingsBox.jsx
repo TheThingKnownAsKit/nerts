@@ -32,7 +32,6 @@ const SettingsBox = () => {
 
   //toggles for music, deck hotkey, colorblind palette
   const [music, setMusic] = useState(true);
-  const [deckHotkey, setDeckHotkey] = useState(true);
 
   const didMount = useRef(false);
   useEffect(() => {

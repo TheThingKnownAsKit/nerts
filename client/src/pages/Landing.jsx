@@ -66,7 +66,8 @@ function Landing() {
       return;
     }
 
-    // If this user has missing database information somehow, make it and initialize it to default values
+    // If this user has missing database information, make it and initialize it to default values
+    // This is important because Firestore does not enfoce uniformity, so changes can be made
     if (userCredential) {
       const uid = userCredential.user.uid;
       const userDoc = await getDoc(doc(db, "users", uid));

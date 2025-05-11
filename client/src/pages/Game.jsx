@@ -22,7 +22,7 @@ import "./Game.css";
 function Game() {
   const navigate = useNavigate();
   const { lobbyID } = useParams();
-  
+
   const { socket, gameState, userID, host } = useSocket();
   const [selectedCard, setSelectedCard] = useState(null);
   const [gameStarted, setGameStarted] = useState(false);
@@ -36,6 +36,7 @@ function Game() {
   const [gameEnded, setGameEnded] = useState("no");
 
   const fetchUsername = async (uid) => {
+    // Helper function to fetch the username of a player given uid
     const userDoc = await getDoc(doc(db, "users", uid));
     return userDoc.exists() ? userDoc.data().username : "Anonymous";
   };

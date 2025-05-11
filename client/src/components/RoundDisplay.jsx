@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import CustomButton from "./CustomButton";
 import { useSocket } from "../context/SocketContext.jsx";
 import { db } from "../firebase/config";
-import { doc, updateDoc, increment, getDoc } from "firebase/firestore";
+import { doc, updateDoc, increment } from "firebase/firestore";
 
 /**
  * RoundDisplay shows the current round number or game over message, the player rankings based on scores, and a button to either start the next round or return home at game end.
