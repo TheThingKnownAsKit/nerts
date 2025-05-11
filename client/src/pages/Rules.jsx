@@ -24,7 +24,6 @@ function Rules() {
           until you run out or your Nerts pile is empty.
         </p>
         <p>
-          Once you've cleared your Nerts pile, call “Nerts!” to end the round.
           Points are tallied based on cards you played in the foundation minus
           leftover cards in your Nerts pile.
         </p>
