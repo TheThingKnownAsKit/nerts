@@ -9,6 +9,9 @@ import tImg from "../assets/images/letters/T.png";
 import sImg from "../assets/images/letters/S.png";
 import exImg from "../assets/images/letters/!.png";
 
+/**
+ * Animated logo for login, signup, and home pages.
+ */
 const letters = ["N", "E", "R", "T", "S", "!"];
 const imageMap = {
   N: nImg,

@@ -6,6 +6,10 @@ import { db } from "../firebase/config";
 import { useState, useEffect } from "react";
 import { useSocket } from "../context/SocketContext"; // ADD THIS
 
+/**
+ * PlayerArea displays a single player’s zone: their Nerts pile, stock pile,
+ * work piles, and profile info (username, picture, score).
+ */
 function PlayerArea({
   corner,
   playerId,
@@ -21,7 +25,7 @@ function PlayerArea({
   const [profilePicIndex, setProfilePicIndex] = useState(0);
   const { gameState } = useSocket(); // Get game state from context
   const score = gameState?.players?.[playerId]?.score ?? 0; // Extract player's score
-  
+
   useEffect(() => {
     const fetchUserData = async () => {
       if (!playerId) return;
@@ -170,15 +174,15 @@ function PlayerArea({
 
       {/* Column 3: Profile */}
       <div className="right-column">
-      <div className="profile-info">
-        <img
-          src={`/icons/pic${profilePicIndex}.png`}
-          alt="profile"
-          className="profile-pic"
-        />
-        <div className="username">{username}</div>
-        <div className="score">{score}</div> {/* 👈 LIVE SCORE HERE */}
-      </div>
+        <div className="profile-info">
+          <img
+            src={`/icons/pic${profilePicIndex}.png`}
+            alt="profile"
+            className="profile-pic"
+          />
+          <div className="username">{username}</div>
+          <div className="score">{score}</div> {/* 👈 LIVE SCORE HERE */}
+        </div>
       </div>
     </div>
   );

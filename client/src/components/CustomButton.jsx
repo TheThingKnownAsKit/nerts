@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import soundManager from "../logic/soundManager.js";
 import click from "../assets/sounds/click.mp3";
 
+/** CustomButton renders a button used for back a page/exitting a page purposes. */
 const CustomButton = ({ onClick, text, absolute, back, className = "" }) => {
   const navigate = useNavigate();
   soundManager.loadSound("click", click);

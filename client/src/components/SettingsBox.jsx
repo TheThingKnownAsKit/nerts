@@ -21,6 +21,9 @@ const bgMap = {
   "#7209b7": purple,
 };
 
+/**
+ * SettingsBox component allows the user to customize: background color, sound effects volume, ackground music toggle.
+ */
 const SettingsBox = () => {
   const defaultColor = localStorage.getItem("bgColor") || "#00cc66";
   const [selectedColor, setSelectedColor] = useState(defaultColor);
@@ -93,14 +96,6 @@ const SettingsBox = () => {
       <div className="settings-item">
         <label>Music:</label>
         <button onClick={() => setMusic(!music)}>{music ? "ON" : "OFF"}</button>
-      </div>
-
-      {/* toggle button for tab as deck hotkey */}
-      <div className="settings-item">
-        <label>Tab for Deck Hotkey:</label>
-        <button onClick={() => setDeckHotkey(!deckHotkey)}>
-          {deckHotkey ? "ON" : "OFF"}
-        </button>
       </div>
     </div>
   );

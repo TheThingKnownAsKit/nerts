@@ -6,6 +6,10 @@ import React, { useEffect, useRef } from "react";
 import soundManager from "../logic/soundManager.js";
 import play from "../assets/sounds/play.mp3";
 
+/**
+ * CommonArea component displays the foundation piles where all players can
+ * play cards. It also plays a sound whenever a new card is added to any foundation pile.
+ */
 function CommonArea({ numberOfPlayers, foundation, onPlaySpotClick }) {
   const totalSpots = numberOfPlayers * 4;
 

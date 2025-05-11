@@ -5,6 +5,9 @@ import "./CustomTextInput.css";
 import soundManager from "../logic/soundManager.js";
 import click from "../assets/sounds/click.mp3";
 
+/**
+ * CustomTextInput renders an input field used for login/signup input as well as joining a lobby input.
+ */
 const CustomTextInput = ({
   value,
   onChange,

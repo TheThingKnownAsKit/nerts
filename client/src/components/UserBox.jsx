@@ -9,6 +9,9 @@ import { useSocket } from "../context/SocketContext";
 import soundManager from "../logic/soundManager";
 import click from "../assets/sounds/click.mp3";
 
+/**
+ * UserBox component displays the current user's profile picture and username. Clicking navigates to the user settings page.
+ */
 const UserBox = () => {
   const navigate = useNavigate();
   const { userID } = useSocket();

@@ -1,5 +1,6 @@
 import "./Card.css";
 
+//card component renders the playing card image
 const Card = ({
   suit,
   rank,
