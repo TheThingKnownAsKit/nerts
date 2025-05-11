@@ -1,4 +1,3 @@
-import Card from "../components/Card.jsx";
 import PlayerArea from "../components/PlayerArea.jsx";
 import CommonArea from "../components/CommonArea.jsx";
 import { useParams } from "react-router-dom";
@@ -20,6 +19,7 @@ import flip_one from "../assets/sounds/flip_card.mp3";
 function Game() {
   const navigate = useNavigate();
   const { lobbyID } = useParams();
+  
   const { socket, gameState, userID, host } = useSocket(); // Need this for database stuff
   const [selectedCard, setSelectedCard] = useState(null);
   const [gameStarted, setGameStarted] = useState(false);
