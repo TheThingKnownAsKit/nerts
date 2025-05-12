@@ -126,10 +126,6 @@ function User() {
             ).toFixed(2)}
           </span>
         </h3>
-        <h3 className="time-played">
-          Total Time Played:
-          <span className="total-tp">{stats.timePlayed}</span>
-        </h3>
       </div>
 
       {showPopup && (
