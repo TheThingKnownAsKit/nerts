@@ -4,7 +4,7 @@ import nertsButton from "../assets/images/nerts_button.png";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase/config";
 import { useState, useEffect } from "react";
-import { useSocket } from "../context/SocketContext"; // ADD THIS
+import { useSocket } from "../context/SocketContext";
 
 /**
  * PlayerArea displays a single player’s zone: their Nerts pile, stock pile,
@@ -181,7 +181,7 @@ function PlayerArea({
             className="profile-pic"
           />
           <div className="username">{username}</div>
-          <div className="score">{score}</div> {/* 👈 LIVE SCORE HERE */}
+          <div className="score">{score}</div>
         </div>
       </div>
     </div>

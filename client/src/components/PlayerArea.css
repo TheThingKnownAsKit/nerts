@@ -1,3 +1,14 @@
+.player-area {
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 0.5vw; /* space between columns */
+    max-width: 48vw;
+    max-height: 30vh;
+    color: white;
+}
+
 .nerts-pile {
     position: relative;
     width: 12vw;
@@ -5,13 +16,12 @@
     margin: 0.5vw;
     padding: 0.25vw;
 }
-
 /* Offset each card horizontally using --i */
 .nerts-pile .card {
     position: absolute;
     top: 50%;
-    left: calc(var(--i) * 0.6vw + 0.6vw); /* center horizontally */
-    z-index: var(--i); /* Optional: makes top card appear on top */
+    left: calc(var(--i) * 0.6vw + 0.6vw);
+    z-index: var(--i);
     transform: translateY(-50%);
 }
 .nerts-pile .card:hover {
@@ -35,18 +45,15 @@
     padding: 0.25vw;
     padding-top: 0.5vw;
 }
-
 .work-spot {
     position: relative;
     width: 5vw;
     height: 14vw;
 }
-
-/* Staggered card stacking */
 .work-spot .card {
     position: absolute;
     top: 0;
-    left: 50%; /* center horizontally */
+    left: 50%;
     transition: transform 0.2s;
     transform: translate(-50%, calc(var(--i) * 1.6vw));
 }
@@ -64,7 +71,6 @@
     align-items: center;
     justify-content: space-around;
 }
-
 .stock,
 .flipped {
     position: relative;
@@ -73,7 +79,6 @@
     width: 4vw;
     height: 6vw;
 }
-
 .stock-pile .card {
     position: absolute;
 }
@@ -89,23 +94,11 @@
     align-items: center;
     gap: 1vw;
 }
-
 .right-column {
     height: 14.5vw;
     max-width: 6vw;
     margin: 0.5vw;
     padding: 0.25vw 1vw;
-}
-
-.player-area {
-    position: absolute;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 0.5vw; /* space between columns */
-    max-width: 48vw;
-    max-height: 30vh;
-    color: white;
 }
 
 .player-area.tl {
@@ -124,7 +117,6 @@
     bottom: 5vw;
     right: 2vw;
 }
-
 .player-area.tm {
     top: 5vw;
     right: 26vw;
